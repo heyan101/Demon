@@ -1,12 +1,11 @@
-package demon.user.event;
+package demon.SDK.event.type;
 
 import java.util.Map;
 
-import demon.service.event.Event;
-import demon.service.event.EventType;
+import demon.SDK.classinfo.UserInfo;
+import demon.SDK.event.Event;
+import demon.SDK.event.EventType;
 import demon.service.http.Env;
-import demon.user.pojo.UserInfo;
-
 
 public class UserEvent extends Event {
 

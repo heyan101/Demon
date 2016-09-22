@@ -1,4 +1,4 @@
-package demon.user.pojo;
+package demon.SDK.classinfo;
 
 import java.sql.Timestamp;
 import java.util.HashMap;

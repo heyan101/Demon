@@ -1,4 +1,4 @@
-package demon.user.pojo;
+package demon.SDK.classinfo;
 
 //@javadoc
 import java.nio.ByteBuffer;

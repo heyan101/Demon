@@ -1,6 +1,4 @@
-package demon.user;
-
-//@javadoc
+package demon.SDK.stat;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,7 +10,7 @@ import demon.service.http.protocol.ErrTextFormat;
  * 实现ErrTextFormat接口<br>
  * 提供错误返回码，及其相应的解析文本
  * 
- * @author firewolf
+ * @author Demon
  *
  */
 public class UserRetStat implements ErrTextFormat {

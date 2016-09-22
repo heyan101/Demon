@@ -1,12 +1,12 @@
 package demon.user;
 
+import demon.SDK.classinfo.LoginInfo;
 import demon.exception.UnInitilized;
 import demon.service.http.ApiGateway;
 import demon.service.http.protocol.JsonProtocol;
 import demon.service.http.protocol.JsonReq;
 import demon.service.http.protocol.JsonResp;
 import demon.service.http.protocol.RetStat;
-import demon.user.pojo.LoginInfo;
 
 public class UserHttpApi {
 

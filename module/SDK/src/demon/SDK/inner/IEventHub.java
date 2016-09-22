@@ -3,7 +3,6 @@ package demon.SDK.inner;
 import demon.SDK.event.Event;
 import demon.SDK.event.EventType;
 import demon.SDK.event.IListener;
-import demon.service.http.Env;
 
 public interface IEventHub {
     public static final String name = "IEventHub";
@@ -25,6 +24,6 @@ public interface IEventHub {
     
     public void registListener(EventType eventType, IListener listener);
     public void registListener(EventType eventType, IListener listener, int priority);
-    public void dispatchEvent(EventType eventType, Event event, Env env);
+    public void dispatchEvent(EventType eventType, Event event);
 
 }

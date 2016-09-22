@@ -4,16 +4,17 @@ import java.sql.SQLException;
 
 import javax.security.auth.login.LoginException;
 
+import demon.SDK.classinfo.LoginInfo;
+import demon.SDK.classinfo.TokenInfo;
+import demon.SDK.classinfo.UserInfo;
+import demon.SDK.event.type.PostLoginEvent;
+import demon.SDK.event.type.PreLoginEvent;
+import demon.SDK.inner.IBeans;
+import demon.SDK.stat.UserRetStat;
 import demon.exception.LogicalException;
 import demon.exception.UnInitilized;
-import demon.service.event.EventHub;
 import demon.service.http.Env;
 import demon.service.http.protocol.RetStat;
-import demon.user.event.PostLoginEvent;
-import demon.user.event.PreLoginEvent;
-import demon.user.pojo.LoginInfo;
-import demon.user.pojo.TokenInfo;
-import demon.user.pojo.UserInfo;
 
 public class UserApi {
 	/**
@@ -23,17 +24,17 @@ public class UserApi {
     public static final String LOGINID_EMAIL = "email";
     public static final String LOGINID_PHONE = "phone";
     
-	protected EventHub eventHub;
+	protected IBeans beans;
 	protected UserModel userModel;
     
-    public UserApi(EventHub eventHub, UserModel userModel) {
-    	this.eventHub = eventHub;
+    public UserApi(IBeans beans, UserModel userModel) {
+    	this.beans = beans;
     	this.userModel = userModel;
     }
     
     private static UserApi userApi;
-    public static void init(EventHub eventHub, UserModel userModel) {
-        userApi = new UserApi(eventHub, userModel);
+    public static void init(IBeans beans, UserModel userModel) {
+        userApi = new UserApi(beans, userModel);
     }
     
     public static UserApi getInst() throws UnInitilized {
@@ -98,8 +99,7 @@ public class UserApi {
 			// 发送登录前事件
 			PreLoginEvent preLoginEvent = new PreLoginEvent(env, name,
 			        password, type, tokenAge);
-			this.eventHub.dispatchEvent(PreLoginEvent.Type.PRE_LOGIN,
-			        preLoginEvent);
+			this.beans.getEventHub().dispatchEvent(PreLoginEvent.Type.PRE_LOGIN, preLoginEvent);
 
 			if (!preLoginEvent.isContinue) {
 			    throw new LoginException(preLoginEvent.breakReason);
@@ -123,8 +123,7 @@ public class UserApi {
 		// 发送登录后事件
 		PostLoginEvent postLoginEvent = new PostLoginEvent(env, name,
                 password, type, tokenAge, logincalException, loginInfo);
-        this.eventHub.dispatchEvent(PostLoginEvent.Type.POST_LOGIN,
-                postLoginEvent);
+		this.beans.getEventHub().dispatchEvent(PostLoginEvent.Type.POST_LOGIN, postLoginEvent);
         
         if (postLoginEvent.loginInfo != null) {
             return postLoginEvent.loginInfo;

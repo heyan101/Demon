@@ -1,4 +1,4 @@
-package demon.user.pojo;
+package demon.SDK.classinfo;
 
 /**
  * 登录信息包括token信息以及用户信息

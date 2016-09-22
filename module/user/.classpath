@@ -2,9 +2,10 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/Server"/>
-	<classpathentry kind="lib" path="/Server/lib/servlet-api-3.1.jar"/>
-	<classpathentry kind="lib" path="/Server/lib/fastjson-1.2.6.jar"/>
-	<classpathentry kind="lib" path="/Server/lib/commons-codec-1.9.jar"/>
+	<classpathentry kind="lib" path="/dServer/lib/commons-codec-1.9.jar"/>
+	<classpathentry kind="lib" path="/dServer/lib/fastjson-1.2.6.jar"/>
+	<classpathentry kind="lib" path="/dServer/lib/servlet-api-3.1.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/dServer"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/SDK"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

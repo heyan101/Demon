@@ -1,10 +1,10 @@
-package demon.user.event;
+package demon.SDK.event.type;
 
+import demon.SDK.classinfo.LoginInfo;
+import demon.SDK.event.Event;
+import demon.SDK.event.EventType;
 import demon.exception.LogicalException;
-import demon.service.event.Event;
-import demon.service.event.EventType;
 import demon.service.http.Env;
-import demon.user.pojo.LoginInfo;
 
 /**
  * 登录前事件<br>

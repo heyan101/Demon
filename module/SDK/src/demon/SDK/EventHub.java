@@ -7,7 +7,6 @@ import demon.SDK.event.Event;
 import demon.SDK.event.EventType;
 import demon.SDK.event.IListener;
 import demon.SDK.inner.IEventHub;
-import demon.service.http.Env;
 import demon.service.log.Logger;
 
 public class EventHub implements IEventHub {
@@ -85,7 +84,7 @@ public class EventHub implements IEventHub {
      * @param eventType 事件类型
      * @param event 事件对象
      */
-    public void dispatchEvent(EventType eventType, Event event, Env env) {
+    public void dispatchEvent(EventType eventType, Event event) {
         ArrayList<CallbackItem> callbacks = this.eventTable.get(eventType);
         if (callbacks == null) {
             return;
@@ -94,7 +93,7 @@ public class EventHub implements IEventHub {
         for (int i = 0; i < callbacks.size(); i++) {
             CallbackItem cb = callbacks.get(i);
             try {
-                cb.listener.onEvent(eventType, event, env);
+                cb.listener.onEvent(eventType, event);
             } catch (Exception e) {
                 Logger.getInst().err("Dispatch event exception", e);
             }

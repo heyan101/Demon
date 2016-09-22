@@ -1,7 +1,5 @@
 package demon.SDK.event;
 
-import demon.service.http.Env;
-
 public class TestEvent {
 
 	public static class MyEvent extends Event {
@@ -14,7 +12,7 @@ public class TestEvent {
 	
 	public static class MyListener implements IListener {
 
-	    public void onEvent(EventType type, Event e, Env env) {
+	    public void onEvent(EventType type, Event e) {
 			MyEvent event = (MyEvent)e;
 			System.out.println(event.data);
 			System.out.println("fired");

@@ -8,9 +8,9 @@ import java.util.Map;
 
 import com.alibaba.fastjson.JSONObject;
 
+import demon.SDK.classinfo.TokenInfo;
+import demon.SDK.classinfo.UserInfo;
 import demon.service.db.MySql;
-import demon.user.pojo.TokenInfo;
-import demon.user.pojo.UserInfo;
 import demon.utils.Time;
 
 public class UserModel {
@@ -23,6 +23,7 @@ public class UserModel {
 	private static final String TABLE_TOKEN = "token";
 	private static final String TABLE_ID_CARD = "id_card";
 //	private static final String TABLE_USER_IMAGE = "user_image";
+	private static final String TABLE_USER_RECYCLE = "user_recycle";
 	
 	public UserModel(MySql mysql) throws SQLException {
 		this.mysql = mysql;
@@ -33,7 +34,7 @@ public class UserModel {
 	private void initTable() throws SQLException {
         Connection conn = this.mysql.getConnection();
         try {
-			String sql = "CREATE TABLE IF NOT EXISTS `" + TABLE_USER + "` ("
+			String sqlUser = "CREATE TABLE IF NOT EXISTS `" + TABLE_USER + "` ("
 				+ "`uid` bigint(11) NOT NULL AUTO_INCREMENT,"
 				+ "`name` varchar(20) DEFAULT NULL,"
 				+ "`phone` int(11) DEFAULT NULL,"
@@ -41,55 +42,55 @@ public class UserModel {
 				+ "`nick` varchar(64) DEFAULT NULL,"
 				+ "`password` varchar(20) NOT NULL,"
 				+ "`qq` int(13) DEFAULT NULL,"
-				+ "`type` int(1) NOT NULL DEFAULT 0,"
-				+ "`status` int(1) NOT NULL DEFAULT 0,"
+				+ "`type` int(1) NOT NULL DEFAULT 1,"
+				+ "`status` int(1) NOT NULL DEFAULT 1,"
 				+ "`exattr` varchar(10240) DEFAULT NULL,"
 				+ "`ctime` datetime NOT NULL,"
 				+ "`mtime` datetime DEFAULT NULL,"
 				+ "`load_time` datetime DEFAULT NULL,"
 				+ "PRIMARY KEY (`uid`)"
 	            + ") ENGINE=InnoDB DEFAULT CHARSET=utf8;";
-			conn.createStatement().executeUpdate(sql);
+			conn.createStatement().executeUpdate(sqlUser);
 			
-			sql = "CREATE TABLE IF NOT EXISTS `" + TABLE_LOGIN_ID + "` ("
-					+ "`uid` bigint(20) NOT NULL,"
-					+ "`type` tinyint(1) NOT NULL DEFAULT 0,"
-					+ "`value` varchar(64) NOT NULL DEFAULT 0"
-		            + ") ENGINE=InnoDB DEFAULT CHARSET=utf8;";
-				conn.createStatement().executeUpdate(sql);
+			String sqlLoginId = "CREATE TABLE IF NOT EXISTS `" + TABLE_LOGIN_ID + "` ("
+				+ "`uid` bigint(20) NOT NULL,"
+				+ "`type` varchar(16) NOT NULL,"
+				+ "`value` varchar(16) NOT NULL"
+	            + ") ENGINE=InnoDB DEFAULT CHARSET=utf8;";
+			conn.createStatement().executeUpdate(sqlLoginId);
 
-			sql = "CREATE TABLE IF NOT EXISTS `" + TABLE_ADDRESS + "` ("
-					+ "`uid` bigint(20) NOT NULL,"
-					+ "`address_1` varchar(255) NOT NULL,"
-					+ "`address_2` varchar(255) NOT NULL,"
-					+ "`address_3` varchar(255) NOT NULL,"
-					+ "`address_4` varchar(255) NOT NULL,"
-					+ "`address_5` varchar(255) NOT NULL"
-		            + ") ENGINE=InnoDB DEFAULT CHARSET=utf8;";
-				conn.createStatement().executeUpdate(sql);
+			String sqlAddress = "CREATE TABLE IF NOT EXISTS `" + TABLE_ADDRESS + "` ("
+				+ "`uid` bigint(20) NOT NULL,"
+				+ "`address_1` varchar(255) DEFAULT NULL,"
+				+ "`address_2` varchar(255) DEFAULT NULL,"
+				+ "`address_3` varchar(255) DEFAULT NULL,"
+				+ "`address_4` varchar(255) DEFAULT NULL,"
+				+ "`address_5` varchar(255) DEFAULT NULL"
+	            + ") ENGINE=InnoDB DEFAULT CHARSET=utf8;";
+			conn.createStatement().executeUpdate(sqlAddress);
 
-			sql = "CREATE TABLE IF NOT EXISTS `" + TABLE_TOKEN + "` ("
-                    + "`token` varchar(255) PRIMARY KEY,"
-                    + "`uid` bigint(20) UNSIGNED NOT NULL,"
-                    + "`expires` datetime NOT NULL,"
-                    + "`ctime` datetime NOT NULL,"
-                    + "`ip` varchar(64) NOT NULL,"
-                    + "`device` varchar(64) DEFAULT NULL"
-                    + ") ENGINE=InnoDB DEFAULT CHARSET=utf8;";
-            conn.createStatement().executeUpdate(sql);
+			String sqlToken = "CREATE TABLE IF NOT EXISTS `" + TABLE_TOKEN + "` ("
+                + "`token` varchar(128) PRIMARY KEY,"
+                + "`uid` bigint(20) UNSIGNED NOT NULL,"
+                + "`expires` datetime NOT NULL,"
+                + "`ctime` datetime NOT NULL,"
+                + "`ip` varchar(32) DEFAULT NULL,"
+                + "`device` varchar(8) DEFAULT NULL"
+                + ") ENGINE=InnoDB DEFAULT CHARSET=utf8;";
+            conn.createStatement().executeUpdate(sqlToken);
 
-            sql = "CREATE TABLE IF NOT EXISTS `" + TABLE_ID_CARD + "` ("
-                    + "`uid` bigint(20) UNSIGNED NOT NULL,"
-                    + "`age` int(3) DEFAULT NULL,"
-    				+ "`sex` tinyint(1) DEFAULT NULL,"
-    				+ "`city` varchar(32) DEFAULT NULL,"
-    				+ "`postcode` int(6) DEFAULT NULL,"
-    				+ "`true_name` varchar(32) NOT NULL,"
-    				+ "`card_code` varchar(20) NOT NULL,"
-    				+ "`card_positive_img` varchar(256) NOT NULL,"
-    				+ "`card_back_img` varchar(256) NOT NULL"
-                    + ") ENGINE=InnoDB DEFAULT CHARSET=utf8;";
-            conn.createStatement().executeUpdate(sql);
+            String sqlIdCard = "CREATE TABLE IF NOT EXISTS `" + TABLE_ID_CARD + "` ("
+                + "`uid` bigint(20) UNSIGNED NOT NULL,"
+                + "`age` int(3) DEFAULT NULL,"
+				+ "`sex` tinyint(1) DEFAULT NULL,"
+				+ "`city` varchar(32) DEFAULT NULL,"
+				+ "`postcode` int(6) DEFAULT NULL,"
+				+ "`true_name` varchar(32) NOT NULL,"
+				+ "`card_code` varchar(20) NOT NULL,"
+				+ "`card_positive_img` varchar(256) NOT NULL,"
+				+ "`card_back_img` varchar(256) NOT NULL"
+                + ") ENGINE=InnoDB DEFAULT CHARSET=utf8;";
+            conn.createStatement().executeUpdate(sqlIdCard);
 	            
 //			sql = "CREATE TABLE IF NOT EXISTS `" + TABLE_USER_IMAGE + "` ("
 //                + "`uid` bigint(20) NOT NULL,"
@@ -99,6 +100,24 @@ public class UserModel {
 //                + "KEY (`uid`)"
 //	            + ") ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 //            conn.createStatement().executeUpdate(sql);
+            
+            String sqlUserRecycle = "CREATE TABLE IF NOT EXISTS `" + TABLE_USER_RECYCLE + "` ("
+				+ "`uid` bigint(11) NOT NULL AUTO_INCREMENT,"
+				+ "`name` varchar(20) DEFAULT NULL,"
+				+ "`phone` int(11) DEFAULT NULL,"
+				+ "`email` varchar(64) DEFAULT NULL,"
+				+ "`nick` varchar(64) DEFAULT NULL,"
+				+ "`password` varchar(20) NOT NULL,"
+				+ "`qq` int(13) DEFAULT NULL,"
+				+ "`type` int(1) NOT NULL DEFAULT 1,"
+				+ "`status` int(1) NOT NULL DEFAULT 1,"
+				+ "`exattr` varchar(10240) DEFAULT NULL,"
+				+ "`ctime` datetime NOT NULL,"
+				+ "`mtime` datetime DEFAULT NULL,"
+				+ "`load_time` datetime DEFAULT NULL,"
+				+ "PRIMARY KEY (`uid`)"
+	            + ") ENGINE=InnoDB DEFAULT CHARSET=utf8;";
+			conn.createStatement().executeUpdate(sqlUserRecycle);
 				
 		} catch (SQLException e) {
 			throw new SQLException("SQL create failed...");
@@ -117,9 +136,9 @@ public class UserModel {
 		Connection conn = this.mysql.getConnection();
 		try {
 
-//            String sql = "SELECT `uid`,`phone`,`nickname`,`password`,`age`,`sex`,`email`,`qq`,`status`,`ctime`,`exattr`,`mtime`,`fsid`,`cid` FROM `" + TABLE_USER + "` WHERE `uid` = ?";
-			String sql = "SELECT * FROM `" + TABLE_USER + "` WHERE `uid` = ?";
-			PreparedStatement pstmt = conn.prepareStatement(sql);
+            String sqlGetUser = "SELECT `uid`,`phone`,`nickname`,`password`,`age`,`sex`,`email`,`qq`,`status`,"
+            		+ "`type`,`ctime`,`exattr`,`mtime`,`load_time` FROM `" + TABLE_USER + "` WHERE `uid` = ?";
+			PreparedStatement pstmt = conn.prepareStatement(sqlGetUser);
             pstmt.setLong(1, uid);
             ResultSet rs = pstmt.executeQuery();
 

@@ -13,6 +13,8 @@ public class GoodsModel {
     private static final String TABLE_GOODS_IMAGE = "goods_image";
     private static final String TABLE_GOODS_INFO = "goods_info";
     private static final String TABLE_GOODS_SKU = "goods_sku";
+    
+    private static final String TABLE_GOODS_HISTORY = "goods_history";
 
     public GoodsModel() throws Exception{
     	this.mysql = MySql.getInst(Init.MODULE_NAME);

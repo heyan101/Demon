@@ -41,10 +41,10 @@ public class SdkCenter {
             System.exit(-1);
         }
     }
-
+    // DEMON
     private static void addOuterInterface() {
         Sdk sdk = Sdk.sdk;
-//            sdk.mOuterInterface.add(IAcl.name);
+            sdk.mOuterInterface.add(IEventHub.name);
     }
 
     public static String ToString() {   // 此方法不许修改，如需重构请申请
@@ -104,14 +104,15 @@ public class SdkCenter {
 }
 
 // 内部获取对象实例的方法
-class Beans implements IBeans {      
-//    private IAdApi adApi = null;
-//    public IAdApi getAdApi() throws LogicalException {
-//        if (null == this.adApi) {
-//            this.adApi = (IAdApi) SdkCenter.getInst().queryInterface(IAdApi.name, SecurityKey.innerKey);
-//        }
-//        return this.adApi;
-//    }
+// DEMON
+class Beans implements IBeans {   
+	private IEventHub eventHub = null;
+    public IEventHub getEventHub() throws LogicalException {
+        if (null == this.eventHub) {
+            this.eventHub = (IEventHub) SdkCenter.getInst().queryInterface(IEventHub.name, SecurityKey.innerKey);
+        }
+        return this.eventHub;
+    }
 }
 
 class Sdk {
