@@ -1,0 +1,65 @@
+#header {
+    padding: 22px 0;
+    height: 44px;
+    zoom: 1; /* 缩放比例 */
+}
+
+.logo {
+    width: 1200px;
+    margin: 0 auto;
+    overflow: hidden; /* 不显示超过对象尺寸的内容 */
+}
+
+h1 a {
+    text-decoration: none; /* 取消链接下划线 */
+    color: #f40;
+}
+
+#content {
+    height: 600px;
+    width: 100%;
+    background-color: #FFAC28;
+}
+
+.content-layout {
+    height: 600px;
+    width: 1200px;
+    margin: 0 auto;
+    overflow: hidden;
+    position: relative;
+}
+
+.login-bg {
+    position: absolute;
+    background-position: left center;
+    top: 0px;
+    left: 0px;
+    width: 650px;
+    height: 600px;
+    background: url(../images/login-bg.jpg) no-repeat 0 0;
+}
+
+.login-bg-click a {
+    position: absolute;
+    width: 600px;
+    height: 550px;
+    left: 0px;
+    top: 10px;
+    color: #f40;
+    text-decoration: none;
+}
+
+a:-webkit-any-link {
+    color: -webkit-link;
+    text-decoration: underline;
+    cursor: auto;
+}
+
+.login-box-warp {
+    overflow: hidden;
+    position: absolute;
+    height: 450px;
+    width: 353px;
+    left: 900px;
+    background-color: #FFF7EA;
+}

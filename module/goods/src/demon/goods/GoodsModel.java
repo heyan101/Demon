@@ -14,7 +14,7 @@ public class GoodsModel {
     private static final String TABLE_GOODS_INFO = "goods_info";
     private static final String TABLE_GOODS_SKU = "goods_sku";
     
-    private static final String TABLE_GOODS_HISTORY = "goods_history";
+    private static final String TABLE_GOODS_RECYCLE = "goods_recycle";
 
     public GoodsModel() throws Exception{
     	this.mysql = MySql.getInst(Init.MODULE_NAME);
@@ -74,6 +74,22 @@ public class GoodsModel {
 			    + "PRIMARY KEY (`goods_sku_id`),"
 			    + ") ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 			conn.createStatement().executeQuery(sqlGoodsSku);
+			
+			String sqlGoodsRecycle = "CREATE TABLE IF NOT EXISTS `" + TABLE_GOODS_RECYCLE + "` ("
+			    + "`goods_id` bigint(20) NOT NULL AUTO_INCREMENT,"
+			    + "`brand_id` bigint(20) NOT NULL,"
+			    + "`classed_id` bigint(20) NOT NULL,"
+			    + "`name` varchar(64) NOT NULL,"
+			    + "`code` varchar(64) DEFAULT NULL,"
+			    + "`status` tinyint(1) NOT NULL DEFAULT '0',"
+			    + "`click` int(8) NOT NULL DEFAULT '0',"
+			    + "`sort` int(3) NOT NULL DEFAULT '0',"
+			    + "`exattr` varchar(1024) DEFAULT NULL,"
+			    + "`ctime` datetime NOT NULL,"
+			    + "`mtime` datetime NOT NULL,"
+			    + "PRIMARY KEY (`goods_id`),"
+			    + ") ENGINE=InnoDB DEFAULT CHARSET=utf8;";
+			conn.createStatement().executeQuery(sqlGoodsRecycle);
         } catch (SQLException e) {
             throw new SQLException("SQL create failed...");
         } finally {
