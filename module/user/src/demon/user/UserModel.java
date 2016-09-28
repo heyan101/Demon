@@ -10,10 +10,12 @@ import com.alibaba.fastjson.JSONObject;
 
 import demon.SDK.classinfo.TokenInfo;
 import demon.SDK.classinfo.UserInfo;
+import demon.SDK.inner.IUserApi;
 import demon.service.db.MySql;
 import demon.utils.Time;
+import demon.utils.XProperties;
 
-public class UserModel {
+public class UserModel implements IUserApi.IUserModel{
 
 	protected MySql mysql;
 	
@@ -128,6 +130,37 @@ public class UserModel {
 		}
 	}
 
+	public boolean createUser(UserInfo user) throws SQLException {
+        if (user == null) {
+            throw new IllegalArgumentException();
+        }
+
+        Connection conn = this.mysql.getConnection();
+        try {
+            String sql = "insert into `" + TABLE_USER + "` (`aid`,`name`,`nickName`,`email`,`phone`, `psw`,`order`,`status`,`ctime`,`exattr`,`fsid`,`cid`) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, user.aid);
+            pstmt.setString(2, user.name);
+            pstmt.setString(3, user.nickName);
+            pstmt.setString(4, user.email);
+            pstmt.setString(5, user.phone);
+            pstmt.setString(6, user.psw);
+            pstmt.setString(7, user.order);
+            pstmt.setInt(8, user.status);
+            pstmt.setLong(9, Time.currentTimeMillis());
+            pstmt.setString(10, JSONObject.toJSONString(user.attrs));
+            pstmt.setLong(11, user.fsid);
+            pstmt.setLong(12, user.cid);
+            
+            return pstmt.executeUpdate() == 1 ? true : false;
+
+        } finally {
+            if (conn != null) {
+                conn.close();
+            }
+        }
+    }
+	
 	@SuppressWarnings({ "unchecked", "unused" })
 	public UserInfo getUserInfoByUid(Long uid) throws SQLException {
 		if (uid <= 0) {
@@ -197,8 +230,8 @@ public class UserModel {
 	/**
 	 * 设置管理员默认密码
 	 */
-	public boolean setAdminDefaultInfo() throws SQLException {
-		Long uid = checkLoginId("admin");
+	public boolean setAdminDefaultInfo(XProperties properties) throws SQLException {
+		Long uid = checkLoginId("name", "admin");
 		if (uid < 1) {
 			Connection conn = this.mysql.getConnection();
 			try {
@@ -226,21 +259,26 @@ public class UserModel {
 	 * 验证登录 Id
 	 * @return 用户 uid
 	 */
-	public Long checkLoginId(String name) throws SQLException {
-		Connection conn = this.mysql.getConnection();
-		Long uid = -1L;
-		try {
-			String sql = "SELECT `uid` FROM `" + TABLE_USER + "` WHERE `phone` = ?;";
-			PreparedStatement pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, name);
-			ResultSet rs = pstmt.executeQuery();
-			
-            if (rs.next()) {
-                uid = rs.getLong(1);
-            }
+	public Long checkLoginId(String type, String value) throws SQLException {
+		if (null == type || value == null) {
+            throw new IllegalArgumentException();
+        }
+        Connection conn = null;
+        try {
+            conn = this.mysql.getConnection();
 
-            return uid;
-		} finally {
+            String sql = "SELECT `uid` FROM `login_id` WHERE `type` = ? and `value` = ?";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, type);
+            pstmt.setString(2, value);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                return rs.getLong(1);
+            }
+            return null;
+
+        } finally {
             if (conn != null) {
                 conn.close();
             }
@@ -251,9 +289,9 @@ public class UserModel {
         if (tokenInfo == null) {
             throw new IllegalArgumentException();
         }
-        Connection conn = this.mysql.getConnection();
+        Connection conn = null;
         try {
-
+            conn = this.mysql.getConnection();
             String sql = "INSERT INTO `token` (`token`, `uid`, `expires`, `ctime`, `ip`, `device`) "
                     + "VALUES (?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement pstmt = conn.prepareStatement(sql);

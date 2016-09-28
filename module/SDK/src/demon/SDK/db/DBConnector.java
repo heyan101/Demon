@@ -25,9 +25,7 @@ import demon.Config;
 import demon.exception.UnInitilized;
 import demon.service.db.MysqlConfig;
 import demon.service.db.PoolInfo;
-import demon.service.license.LicenseManager;
 import demon.utils.StringUtils;
-
 
 public class DBConnector {
 	
@@ -71,23 +69,23 @@ public class DBConnector {
 		
 		String dbUser_encrypted = Config.get(MysqlConfig.CONF_DEMON_MYSQL_USER);
     	String dbPwd_encrypted = Config.get(MysqlConfig.CONF_DEMON_MYSQL_PSW);
-    	String dbUser = "";
-    	String dbPwd = "";
+//    	String dbUser = "";
+//    	String dbPwd = "";
         
-        if (dbUser_encrypted != null && dbUser_encrypted.length() > 0 && dbPwd_encrypted != null && dbPwd_encrypted.length() > 0) {
-			dbUser = StringUtils.reverseString(dbUser_encrypted);
-			dbPwd = StringUtils.reverseString(dbPwd_encrypted);
-		}else {
-        	String info = Config.get(LicenseManager.CONF_DEMON_LICENSE);
-        	Pair<String, String> dbInfo = LicenseUtil.genDatabaseInfo(LicenseUtil.parseLicense(info).get(LicenseUtil.s_company).toString());
-            dbUser = dbInfo.getValue0();
-            dbPwd = dbInfo.getValue1();
-		}
+//        if (dbUser_encrypted != null && dbUser_encrypted.length() > 0 && dbPwd_encrypted != null && dbPwd_encrypted.length() > 0) {
+//			dbUser = StringUtils.reverseString(dbUser_encrypted);
+//			dbPwd = StringUtils.reverseString(dbPwd_encrypted);
+//		}else {
+//        	String info = Config.get(LicenseManager.CONF_DEMON_LICENSE);
+//        	Pair<String, String> dbInfo = LicenseUtil.genDatabaseInfo(LicenseUtil.parseLicense(info).get(LicenseUtil.s_company).toString());
+//            dbUser = dbInfo.getValue0();
+//            dbPwd = dbInfo.getValue1();
+//		}
         
 		PoolInfo pool = new PoolInfo(Config.get(MysqlConfig.CONF_DEMON_MYSQL_HOST),
         Integer.parseInt(Config.get(MysqlConfig.CONF_DEMON_MYSQL_PORT)),
-        dbUser,
-        dbPwd,
+        dbUser_encrypted,
+        dbPwd_encrypted,
         Config.get(MysqlConfig.CONF_DEMON_MYSQL_PARAMS),
         Integer.parseInt(Config.get(MysqlConfig.CONF_DEMON_MYSQL_POOL_MAX_ACTIVE)),
         Integer.parseInt(Config.get(MysqlConfig.CONF_DEMON_MYSQL_POOL_MAX_IDLE)),

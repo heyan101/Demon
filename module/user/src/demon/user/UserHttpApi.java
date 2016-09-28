@@ -51,12 +51,10 @@ public class UserHttpApi {
 	@ApiGateway.ApiMethod(protocol = JsonProtocol.class)
 	public JsonResp userRegister(JsonReq req) throws Exception {
 		String phone = req.paramGetString("phone", true);
-		String password = req.paramGetString("password", true);
-		String codes = req.paramGetString("codes", true);
+//		String password = req.paramGetString("password", true);
+//		String codes = req.paramGetString("codes", true);
 		
-		UserApi.checkAccount(UserApi.LOGINID_PHONE, phone);
-		
-		
+		this.userApi.checkAccount(UserApi.LOGINID_PHONE, phone);
 		
 		return null;
 	}
@@ -66,7 +64,7 @@ public class UserHttpApi {
 	@ApiGateway.ApiMethod(protocol = JsonProtocol.class)
 	public JsonResp phoneLogin(JsonReq req) throws Exception {
 		String phone = req.paramGetString("phone", true);
-		UserApi.checkAccount(UserApi.LOGINID_PHONE, phone);
+		this.userApi.checkAccount(UserApi.LOGINID_PHONE, phone);
 		
 //		JsonResp result = login(req, AuthApi.LOGINID_PHONE, phone);
 		

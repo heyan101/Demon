@@ -7,11 +7,11 @@ import java.util.Map;
 
 import com.alibaba.fastjson.JSONObject;
 
-import demon.Config;
 import demon.SDK.event.EventType;
 import demon.SDK.event.IListener;
 import demon.SDK.inner.IBeans;
 import demon.SDK.inner.IEventHub;
+import demon.SDK.inner.IUserApi;
 import demon.exception.LogicalException;
 import demon.service.http.ApiGateway;
 import demon.service.http.HttpServer;
@@ -44,11 +44,12 @@ public class SdkCenter {
     // DEMON
     private static void addOuterInterface() {
         Sdk sdk = Sdk.sdk;
-            sdk.mOuterInterface.add(IEventHub.name);
+        sdk.mOuterInterface.add(IEventHub.name);
+        sdk.mOuterInterface.add(IUserApi.name);
     }
 
     public static String ToString() {   // 此方法不许修改，如需重构请申请
-        return "demon2.0";
+        return "demon1.0";
     }
 
 	public Object queryInterface(String interfaceName, String securityKey) throws LogicalException {
@@ -57,21 +58,24 @@ public class SdkCenter {
 		}
 
 		String innerKey = SecurityKey.innerKey;
-		String outerKey = SecurityKey.outerKey;
+//		String outerKey = SecurityKey.outerKey;
 		
 //    		if (false == innerKey.equals(securityKey))
 //                throw new LogicalException("NOT SUPPORTED INTERFACE", interfaceName);
 
-		if (false == innerKey.equals(securityKey) && false == outerKey.equals(securityKey))
-		    throw new LogicalException("NOT SUPPORTED INTERFACE", interfaceName);
-
-		if (true == outerKey.equals(securityKey) && false == Sdk.sdk.mOuterInterface.contains(interfaceName))
+//		if (false == innerKey.equals(securityKey) && false == outerKey.equals(securityKey))
+//		    throw new LogicalException("NOT SUPPORTED INTERFACE", interfaceName);
+//
+//		if (true == outerKey.equals(securityKey) && false == Sdk.sdk.mOuterInterface.contains(interfaceName))
+//		    throw new LogicalException("NOT SUPPORTED INTERFACE", interfaceName);
+//
+		if (false == innerKey.equals(securityKey))
 		    throw new LogicalException("NOT SUPPORTED INTERFACE", interfaceName);
 
 		if (IBeans.name.equals(interfaceName)) {
 			return Sdk.sdk.mBeans;
 		}
-
+		
 		if (true == Sdk.sdk.mInterfacePool.containsKey(interfaceName))
 			return Sdk.sdk.mInterfacePool.get(interfaceName);
 
@@ -113,6 +117,14 @@ class Beans implements IBeans {
         }
         return this.eventHub;
     }
+    
+    private IUserApi userApi = null;
+    public IUserApi getUserApi() throws LogicalException {
+        if (null == this.userApi) {
+            this.userApi = (IUserApi) SdkCenter.getInst().queryInterface(IUserApi.name, SecurityKey.innerKey);
+        }
+        return this.userApi;
+    }
 }
 
 class Sdk {
@@ -124,17 +136,13 @@ class Sdk {
 }
 
 class SecurityKey {
-    public final static String innerKey = "demon2.0" + _inner("middle") + "P@ssw0rd";
-    public final static String outerKey = _outer();
-    
-    private static String _inner(String key) {
-        return "InnerKey";
-    }
-
-    private static String _outer() {
-        String license = Config.get("demon.license");
-        return LicenseUtil.genOuterSecurityKey(LicenseUtil.parseLicense(license).get(LicenseUtil.s_company).toString());
-    }
+    public final static String innerKey = "demon1.0InnerKeyP@ssw0rd";
+//    public final static String outerKey = _outer();
+//
+//    private static String _outer() {
+//        String license = Config.get("demon.license");
+//        return LicenseUtil.genOuterSecurityKey(LicenseUtil.parseLicense(license).get(LicenseUtil.s_company).toString());
+//    }
 }
 
 class LicenseUtil {

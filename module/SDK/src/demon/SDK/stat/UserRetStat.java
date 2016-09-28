@@ -80,7 +80,16 @@ public class UserRetStat implements ErrTextFormat {
      */
     public static final String ERR_ILLEGAL_EMAIL_ACCOUNT = "ERR_ILLEGAL_EMAIL_ACCOUNT";
     
+    /**
+     * 非法手机号
+     */
     public static final String ERR_ILLEGAL_PHONE_ACCOUNT = "ERR_ILLEGAL_PHONE_ACCOUNT";
+    
+    /**
+     * 错误码：非法密码
+     */
+    public static final String ERR_ILLEGAL_PASSWORD = "ERR_ILLEGAL_PASSWORD";
+    
     /**
      * 用户还未登录
      */
@@ -147,6 +156,7 @@ public class UserRetStat implements ErrTextFormat {
         ERR_TEXT.put(ERR_INVALID_VALIDATE_CODE, "验证码错误");
         ERR_TEXT.put(ERR_TOKEN_UID_MISMATCHING, "登录用户与创建新的token用户不相同");
         ERR_TEXT.put(ERR_ILLEGAL_PHONE_ACCOUNT, "非法手机号");
+        ERR_TEXT.put(ERR_ILLEGAL_PASSWORD, "非法密码");
         ERR_TEXT.put(ERR_SEND_CODE_FREQUENTLY, "发送验证码太频繁");
         ERR_TEXT.put(ERR_PHONE_ALREADY_BOUND, "手机号已经被绑定");
         ERR_TEXT.put(ERR_CODE, "验证码错误");

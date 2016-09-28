@@ -39,7 +39,7 @@ public class UserInfo {
 	 */
 	public int status;
 	/**
-	 * 用户类型:1-客户,2-商家,3-管理员
+	 * 用户类型:1-客户,2-管理员
 	 */
 	public int type;
 	/**
@@ -55,7 +55,7 @@ public class UserInfo {
      */
     public Timestamp mtime;
     /**
-     * 修改时间
+     * 最后一次登录时间
      */
     public Timestamp load_time;
     /**

@@ -115,19 +115,10 @@ public class LicenseManager {
     	}
     }
 
-    // 单位：GB
-    public Long getQuotaLimit() {
-    	return Long.parseLong(this.license.get(LicenseUtil.s_quotaLimit).toString());
-    }
-    public Long getUserLimit() {
-    	return Long.parseLong(this.license.get(LicenseUtil.s_userLimit).toString());
-    }
 }
 
 class LicenseUtil {
 	public static final String s_endDate = "endDate";
-	public static final String s_quotaLimit = "quotaLimit";
-	public static final String s_userLimit = "userLimit";
 	public static final String s_company = "company";
 	public static final String s_hardware = "hardware";
 	
@@ -136,10 +127,8 @@ class LicenseUtil {
         List<Object> list = (List<Object>) JSONObject.parse(StringUtils.getString(license));
         Map<String, Object> map = new HashMap<String, Object>();
         map.put(s_endDate, list.get(0));
-        map.put(s_quotaLimit, list.get(1));
-        map.put(s_userLimit, list.get(2));
-        map.put(s_company, list.get(3));
-        map.put(s_hardware, list.get(4));
+        map.put(s_company, list.get(1));
+        map.put(s_hardware, list.get(2));
         list.clear();
 
         return map;

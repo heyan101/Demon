@@ -31,7 +31,6 @@ public class ModuleMgr {
      * 插件的存放.class文件所在的目录名称
      */
     public static final String MODULE_BIN_DIR_NAME = "bin";
-    
     /**
      * demon基础插件所在目录
      */
@@ -41,46 +40,30 @@ public class ModuleMgr {
      * 第三方插件也可以放到基础插件目录
      */
     private static File thirdModulePath;
-    
-    /**
-     * 报表插件所在目录
-     */
-//    private static File reportsPath;
-    
     /**
      * 插件加载操作的状态标识
      */
     private static boolean loaded = false;
-    
     /**
      * 已经加载成功的插件
      */
     private static Set<String> loadedModules = new HashSet<String>();
-    
     /**
      * 加载失败的插件
      */
     private static Set<String> failedModules = new HashSet<String>();
-    
     /**
      * 忽略的目录，即不符合插件规范的，却又存在在加载目录的文件夹
      */
     private static Set<String> ignoredDirs = new HashSet<String>();
-    
     /**
      * 在基础插件目录的插件
      */
     public static Set<String> baseModules = new HashSet<String>();
-    
     /**
      * 在第三方插件目录的插件
      */
     public static Set<String> thirdModules = new HashSet<String>();
-    
-    /**
-     * 在报表插件目录的插件
-     */
-//    public static Set<String> reportsModules = new HashSet<String>();
     
     /**
      * 加载插件
@@ -93,7 +76,6 @@ public class ModuleMgr {
 
         loadModule(baseModulePath, baseModules);
         loadModule(thirdModulePath, thirdModules);
-//        loadModule(reportsPath, reportsModules);
         
         System.out.println();
         printResult("Ignored Dirs", ignoredDirs);

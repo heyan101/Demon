@@ -40,9 +40,9 @@ public class GoodsModel {
 			    + "`exattr` varchar(1024) DEFAULT NULL,"
 			    + "`ctime` datetime NOT NULL,"
 			    + "`mtime` datetime NOT NULL,"
-			    + "PRIMARY KEY (`goods_id`),"
+			    + "PRIMARY KEY (`goods_id`)"
 			    + ") ENGINE=InnoDB DEFAULT CHARSET=utf8;";
-			conn.createStatement().executeQuery(sqlGoods);
+            conn.createStatement().execute(sqlGoods);
 			
 			String sqlGoodsImage = "CREATE TABLE IF NOT EXISTS `" + TABLE_GOODS_IMAGE + "` ("
 			    + "`goods_id` bigint(20) NOT NULL,"
@@ -51,7 +51,7 @@ public class GoodsModel {
 			    + "`image_is_first` tinyint(1) NOT NULL DEFAULT '0',"
 			    + "`image_ctime` datetime NOT NULL"
 			    + ") ENGINE=InnoDB DEFAULT CHARSET=utf8;";
-			conn.createStatement().executeQuery(sqlGoodsImage);
+			conn.createStatement().execute(sqlGoodsImage);
 			
 			String sqlGoodsInfo = "CREATE TABLE IF NOT EXISTS `" + TABLE_GOODS_INFO + "` ("
 			    + "`goods_info_id` bigint(20) NOT NULL AUTO_INCREMENT,"
@@ -60,9 +60,9 @@ public class GoodsModel {
 			    + "`sku_option_id` bigint(20) NOT NULL,"
 			    + "`is_sku` tinyint(1) NOT NULL DEFAULT '0',"
 			    + "`goods_sku_id` bigint(20) NOT NULL,"
-			    + "PRIMARY KEY (`goods_info_id`),"
+			    + "PRIMARY KEY (`goods_info_id`)"
 			    + ") ENGINE=InnoDB DEFAULT CHARSET=utf8;";
-			conn.createStatement().executeQuery(sqlGoodsInfo);
+			conn.createStatement().execute(sqlGoodsInfo);
 			
 			String sqlGoodsSku = "CREATE TABLE IF NOT EXISTS `" + TABLE_GOODS_SKU + "` ("
 			    + "`goods_sku_id` bigint(20) NOT NULL AUTO_INCREMENT,"
@@ -71,9 +71,9 @@ public class GoodsModel {
 			    + "`price` decimal(10,4) NOT NULL,"
 			    + "`sku_code` varchar(64) NOT NULL,"
 			    + "`sku_ctime` datetime NOT NULL,"
-			    + "PRIMARY KEY (`goods_sku_id`),"
+			    + "PRIMARY KEY (`goods_sku_id`)"
 			    + ") ENGINE=InnoDB DEFAULT CHARSET=utf8;";
-			conn.createStatement().executeQuery(sqlGoodsSku);
+			conn.createStatement().execute(sqlGoodsSku);
 			
 			String sqlGoodsRecycle = "CREATE TABLE IF NOT EXISTS `" + TABLE_GOODS_RECYCLE + "` ("
 			    + "`goods_id` bigint(20) NOT NULL AUTO_INCREMENT,"
@@ -87,10 +87,11 @@ public class GoodsModel {
 			    + "`exattr` varchar(1024) DEFAULT NULL,"
 			    + "`ctime` datetime NOT NULL,"
 			    + "`mtime` datetime NOT NULL,"
-			    + "PRIMARY KEY (`goods_id`),"
+			    + "PRIMARY KEY (`goods_id`)"
 			    + ") ENGINE=InnoDB DEFAULT CHARSET=utf8;";
-			conn.createStatement().executeQuery(sqlGoodsRecycle);
+			conn.createStatement().execute(sqlGoodsRecycle);
         } catch (SQLException e) {
+            e.printStackTrace();
             throw new SQLException("SQL create failed...");
         } finally {
             if (conn != null) {
