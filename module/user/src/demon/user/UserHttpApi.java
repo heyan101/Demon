@@ -1,6 +1,8 @@
 package demon.user;
 
-import demon.SDK.classinfo.LoginInfo;
+import java.util.Map;
+
+import demon.SDK.demoinfo.LoginInfo;
 import demon.exception.UnInitilized;
 import demon.service.http.ApiGateway;
 import demon.service.http.protocol.JsonProtocol;
@@ -31,7 +33,7 @@ public class UserHttpApi {
 	/********************************************     对外接口               ********************************************/
 	
 	@ApiGateway.ApiMethod(protocol = JsonProtocol.class)
-	public JsonResp adminLogin(JsonReq req) throws Exception {
+	public JsonResp nameLogin(JsonReq req) throws Exception {
 		String name = req.paramGetString("name", true);
 		String password = req.paramGetString("password", true);
 		Long tokenAge = req.paramGetNumber("tokenAge", false, true);
@@ -47,14 +49,31 @@ public class UserHttpApi {
 	
 	/**
 	 * 用户注册
+	 * @param name 手机号
+	 * @param nick 昵称
+	 * @param email 邮箱
+	 * @param phone 手机号
+	 * @param password 密码
+	 * @param qq QQ
+	 * @param type 注册账号类型：手机号/用户名/邮箱
+	 * @param exattr 额外属性 
+	 * @param 
+	 * 
 	 */
 	@ApiGateway.ApiMethod(protocol = JsonProtocol.class)
 	public JsonResp userRegister(JsonReq req) throws Exception {
-		String phone = req.paramGetString("phone", true);
+		String name = req.paramGetString("name", false);
+		String email = req.paramGetString("eamil", false);
+		String phone = req.paramGetString("phone", false);
+		String type = req.paramGetString("type", true);
+		String password = req.paramGetString("password", true);
+		String qq = req.paramGetString("qq", false);
+		Map<String, Object> exattr = req.paramGetMap("exattr", false, String.class, Object.class, true);
+		
 //		String password = req.paramGetString("password", true);
 //		String codes = req.paramGetString("codes", true);
 		
-		this.userApi.checkAccount(UserApi.LOGINID_PHONE, phone);
+		UserApi.checkAccount(UserApi.LOGINID_PHONE, name);
 		
 		return null;
 	}

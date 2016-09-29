@@ -2,7 +2,7 @@ package demon.SDK.event.type;
 
 import java.util.Map;
 
-import demon.SDK.classinfo.UserInfo;
+import demon.SDK.demoinfo.UserInfo;
 import demon.SDK.event.Event;
 import demon.SDK.event.EventType;
 import demon.service.http.Env;
@@ -65,7 +65,7 @@ public class UserEvent extends Event {
 	     * url
 	     * 
 	     */
-	    REGISTER_USER,
+//	    REGISTER_USER,
         
         /**
          * 事件类型标识：重新设置密码之前<br>

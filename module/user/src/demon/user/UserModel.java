@@ -4,12 +4,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.Map;
 
 import com.alibaba.fastjson.JSONObject;
 
-import demon.SDK.classinfo.TokenInfo;
-import demon.SDK.classinfo.UserInfo;
+import demon.SDK.demoinfo.TokenInfo;
+import demon.SDK.demoinfo.UserInfo;
 import demon.SDK.inner.IUserApi;
 import demon.service.db.MySql;
 import demon.utils.Time;
@@ -43,7 +44,7 @@ public class UserModel implements IUserApi.IUserModel{
 				+ "`email` varchar(64) DEFAULT NULL,"
 				+ "`nick` varchar(64) DEFAULT NULL,"
 				+ "`password` varchar(20) NOT NULL,"
-				+ "`qq` int(13) DEFAULT NULL,"
+				+ "`qq` varchar(16) DEFAULT NULL,"
 				+ "`type` int(1) NOT NULL DEFAULT 1,"
 				+ "`status` int(1) NOT NULL DEFAULT 1,"
 				+ "`exattr` varchar(10240) DEFAULT NULL,"
@@ -137,23 +138,22 @@ public class UserModel implements IUserApi.IUserModel{
 
         Connection conn = this.mysql.getConnection();
         try {
-            String sql = "insert into `" + TABLE_USER + "` (`aid`,`name`,`nickName`,`email`,`phone`, `psw`,`order`,`status`,`ctime`,`exattr`,`fsid`,`cid`) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+            String sql = "insert into `" + TABLE_USER + "` "
+            		+ "(`name`,`phone`,`email`,`nick`,`password`, `qq`,`type`,`status`,`exattr`,`ctime`) "
+            		+ "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
             PreparedStatement pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, user.aid);
-            pstmt.setString(2, user.name);
-            pstmt.setString(3, user.nickName);
-            pstmt.setString(4, user.email);
-            pstmt.setString(5, user.phone);
-            pstmt.setString(6, user.psw);
-            pstmt.setString(7, user.order);
+            pstmt.setString(1, user.name);
+            pstmt.setString(2, user.phone);
+            pstmt.setString(3, user.email);
+            pstmt.setString(4, user.nick);
+            pstmt.setString(5, user.password);
+            pstmt.setString(6, user.qq);
+            pstmt.setInt(7, user.type);
             pstmt.setInt(8, user.status);
-            pstmt.setLong(9, Time.currentTimeMillis());
-            pstmt.setString(10, JSONObject.toJSONString(user.attrs));
-            pstmt.setLong(11, user.fsid);
-            pstmt.setLong(12, user.cid);
+            pstmt.setString(9, JSONObject.toJSONString(user.exattr));
+            pstmt.setTimestamp(10, new Timestamp(System.currentTimeMillis()));
             
             return pstmt.executeUpdate() == 1 ? true : false;
-
         } finally {
             if (conn != null) {
                 conn.close();
@@ -161,16 +161,16 @@ public class UserModel implements IUserApi.IUserModel{
         }
     }
 	
-	@SuppressWarnings({ "unchecked", "unused" })
+	@SuppressWarnings({ "unchecked" })
 	public UserInfo getUserInfoByUid(Long uid) throws SQLException {
 		if (uid <= 0) {
             throw new IllegalArgumentException();
         }
 		Connection conn = this.mysql.getConnection();
 		try {
-
-            String sqlGetUser = "SELECT `uid`,`phone`,`nickname`,`password`,`age`,`sex`,`email`,`qq`,`status`,"
-            		+ "`type`,`ctime`,`exattr`,`mtime`,`load_time` FROM `" + TABLE_USER + "` WHERE `uid` = ?";
+            String sqlGetUser = "SELECT `uid`,`name`,`phone`,`email`,`nick`,`password`, `qq`,`type`,`status`,`exattr`,"
+            		+ "`ctime`,`mtime`,`load_time` FROM `" + TABLE_USER + "` WHERE `uid` = ?";
+            
 			PreparedStatement pstmt = conn.prepareStatement(sqlGetUser);
             pstmt.setLong(1, uid);
             ResultSet rs = pstmt.executeQuery();
@@ -182,14 +182,11 @@ public class UserModel implements IUserApi.IUserModel{
                 if (null != attrStr) {
                 	exattr = JSONObject.parseObject(attrStr, Map.class);
                 }
-                
-//                user = new UserInfo(rs.getLong(1), rs.getString(2), rs.getString(3), rs.getString(4),
-//                        rs.getInt(5), rs.getInt(6), rs.getString(7), rs.getLong(8), rs.getInt(9), 
-//                        rs.getString(10), exattr, rs.getLong(12), rs.getLong(13));
+                user = new UserInfo(rs.getLong(1), rs.getString(2), rs.getString(3), rs.getString(4),
+                        rs.getString(5), rs.getString(6), rs.getString(7), rs.getInt(8), rs.getInt(9), 
+                        exattr, rs.getTimestamp(11), rs.getTimestamp(12), rs.getTimestamp(13));
             }
-
             return user;
-
         } finally {
             if (conn != null) {
                 conn.close();
@@ -197,36 +194,36 @@ public class UserModel implements IUserApi.IUserModel{
         }
 	}
 
-	@SuppressWarnings({ "unchecked", "unused" })
-	public UserInfo queryUserInfoByNamePassword(String name, String password) throws SQLException {
-		Connection conn = this.mysql.getConnection();
-		try {
-			String sql = "SELECT * FROM `" + TABLE_USER + "` WHERE `name` = ? and `password` = ?";
-			PreparedStatement pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, name);
-			pstmt.setString(2, password);
-			ResultSet rs = pstmt.executeQuery();
-			
-			UserInfo user = null;
-            if (rs.next()) {
-                String attrStr = rs.getString(11);
-                Map<String, Object> exattr = null;
-                if (null != attrStr) {
-                	exattr = JSONObject.parseObject(attrStr, Map.class);
-                }
-                
-//                user = new UserInfo(rs.getLong(1), rs.getString(2), rs.getString(3), rs.getString(4),
-//                        rs.getInt(5), rs.getInt(6), rs.getString(7), rs.getLong(8), rs.getInt(9), 
-//                        rs.getString(10), exattr, rs.getLong(12), rs.getLong(13));
-            }
-
-            return user;
-		} finally {
-            if (conn != null) {
-                conn.close();
-            }
-        }
-	}
+//	@SuppressWarnings({ "unchecked", "unused" })
+//	public UserInfo queryUserInfoByNamePassword(String name, String password) throws SQLException {
+//		Connection conn = this.mysql.getConnection();
+//		try {
+//			String sql = "SELECT * FROM `" + TABLE_USER + "` WHERE `name` = ? and `password` = ?";
+//			PreparedStatement pstmt = conn.prepareStatement(sql);
+//			pstmt.setString(1, name);
+//			pstmt.setString(2, password);
+//			ResultSet rs = pstmt.executeQuery();
+//			
+//			UserInfo user = null;
+//            if (rs.next()) {
+//                String attrStr = rs.getString(11);
+//                Map<String, Object> exattr = null;
+//                if (null != attrStr) {
+//                	exattr = JSONObject.parseObject(attrStr, Map.class);
+//                }
+//                
+////                user = new UserInfo(rs.getLong(1), rs.getString(2), rs.getString(3), rs.getString(4),
+////                        rs.getInt(5), rs.getInt(6), rs.getString(7), rs.getLong(8), rs.getInt(9), 
+////                        rs.getString(10), exattr, rs.getLong(12), rs.getLong(13));
+//            }
+//
+//            return user;
+//		} finally {
+//            if (conn != null) {
+//                conn.close();
+//            }
+//        }
+//	}
 	/**
 	 * 设置管理员默认密码
 	 */
@@ -272,12 +269,10 @@ public class UserModel implements IUserApi.IUserModel{
             pstmt.setString(1, type);
             pstmt.setString(2, value);
             ResultSet rs = pstmt.executeQuery();
-
             if (rs.next()) {
                 return rs.getLong(1);
             }
             return null;
-
         } finally {
             if (conn != null) {
                 conn.close();
@@ -293,21 +288,16 @@ public class UserModel implements IUserApi.IUserModel{
         try {
             conn = this.mysql.getConnection();
             String sql = "INSERT INTO `token` (`token`, `uid`, `expires`, `ctime`, `ip`, `device`) "
-                    + "VALUES (?, ?, ?, ?, ?, ?, ?)";
+                    + "VALUES (?, ?, ?, ?, ?, ?)";
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, tokenInfo.token);
             pstmt.setLong(2, tokenInfo.uid);
-            pstmt.setLong(3, tokenInfo.expires);
-            pstmt.setLong(4, tokenInfo.ctime);
+            pstmt.setTimestamp(3, tokenInfo.expires);
+            pstmt.setTimestamp(4, tokenInfo.ctime);
             pstmt.setString(5, tokenInfo.ip);
             pstmt.setString(6, tokenInfo.device);
             
-            int flag = pstmt.executeUpdate();
-
-            if (flag == 1) {
-                return true;
-            }
-            return false;
+            return pstmt.executeUpdate() == 1 ? true : false;
         } finally {
             if (conn != null) {
                 conn.close();
@@ -315,4 +305,44 @@ public class UserModel implements IUserApi.IUserModel{
         }
     }
 
+	public boolean setUserAttr(Long uid, String key, Object value) throws SQLException {
+		Connection conn = null;
+        try {
+            conn = this.mysql.getConnection();
+            String sql = "UPDATE `" + TABLE_USER + "` SET `?`=?,`mtime`=? WHERE `uid`=?";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, key);
+            pstmt.setObject(2, value);
+            pstmt.setTimestamp(3, new Timestamp(System.currentTimeMillis()));
+            pstmt.setLong(4, uid);
+            
+            return pstmt.executeUpdate() == 1 ? true : false;
+        } finally {
+            if (conn != null) {
+                conn.close();
+            }
+        }
+	}
+	
+	public boolean setUserAttr(UserInfo userInfo) throws SQLException {
+		Connection conn = null;
+        try {
+            conn = this.mysql.getConnection();
+            String sql = "UPDATE `" + TABLE_USER + "` SET `phone`,`email`,`nick`,`qq`,`exattr`,`mtime` WHERE `uid`=?";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, userInfo.phone);
+            pstmt.setString(2, userInfo.email);
+            pstmt.setString(3, userInfo.nick);
+            pstmt.setString(4, userInfo.qq);
+            pstmt.setString(5, JSONObject.toJSONString(userInfo.exattr));
+            pstmt.setTimestamp(6, userInfo.mtime);
+            pstmt.setLong(7, userInfo.uid);
+            
+            return pstmt.executeUpdate() == 1 ? true : false;
+        } finally {
+            if (conn != null) {
+                conn.close();
+            }
+        }
+	}
 }

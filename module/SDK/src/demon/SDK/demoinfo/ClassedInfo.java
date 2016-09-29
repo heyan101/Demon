@@ -1,4 +1,4 @@
-package demon.SDK.classinfo;
+package demon.SDK.demoinfo;
 
 /**
  * 商品类目属性

@@ -1,15 +1,12 @@
 package demon.initdata;
 
-import java.sql.SQLException;
 import java.util.Map;
 
 import com.alibaba.fastjson.JSONObject;
 
 import demon.SDK.SdkCenter;
-import demon.SDK.classinfo.UserInfo;
+import demon.SDK.demoinfo.UserInfo;
 import demon.SDK.inner.IBeans;
-import demon.XFC.util.SSHA;
-import demon.exception.LogicalException;
 import demon.service.http.Env;
 import demon.utils.XProperties;
 
@@ -27,7 +24,7 @@ public class Init {
 		
 	}
 
-    private static void initUser(Env env, XProperties properties, IBeans beans) throws SQLException, LogicalException {
+    private static void initUser(Env env, XProperties properties, IBeans beans) throws Exception {
         String _userNames = properties.getProperty("init.user");
         String[] names = _userNames.split(",");
         for (String name : names) {
@@ -41,17 +38,13 @@ public class Init {
             Map<String, Object> attrs = (Map<String, Object>) JSONObject.parse(attrStr);
             
             Long uid = beans.getUserApi().getUserModel().checkLoginId("name", name);
-            boolean newUser = false;
             if (null == uid) {
                 UserInfo user = beans.getUserApi().createUser(env, "name", name, password, attrs);
                 uid = user.uid;
-
-                newUser = true;
-
             } else {
                 Object status = attrs.get("status");
                 if (status != null) {
-                    userCore.setUserAttr(env, uid, "status", status);
+                    beans.getUserApi().setUserAttr(env, uid, "status", status);
                 }
             }
         }

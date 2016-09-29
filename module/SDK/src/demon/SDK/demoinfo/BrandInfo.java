@@ -1,4 +1,4 @@
-package demon.SDK.classinfo;
+package demon.SDK.demoinfo;
 
 import java.sql.Timestamp;
 

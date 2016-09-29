@@ -1,7 +1,8 @@
-package demon.SDK.classinfo;
+package demon.SDK.demoinfo;
 
 //@javadoc
 import java.nio.ByteBuffer;
+import java.sql.Timestamp;
 import java.util.UUID;
 
 import org.apache.commons.codec.binary.Base64;
@@ -22,11 +23,11 @@ public class TokenInfo {
 	/**
      * token的有效期限
      */
-	public long expires;
+	public Timestamp expires;
 	/**
      * 创建时间
      */
-	public long ctime;
+	public Timestamp ctime;
 	/**
      * 客户端IP
      */
@@ -36,7 +37,7 @@ public class TokenInfo {
      */
 	public String device;
 	
-	public TokenInfo(String token, long uid, long expires, long ctime, String ip) {
+	public TokenInfo(String token, long uid, Timestamp expires, Timestamp ctime, String ip) {
 		this.token = token;
 		this.uid = uid;
 		this.expires = expires;
@@ -44,7 +45,7 @@ public class TokenInfo {
 		this.ip = ip;
 	}
 	
-	public TokenInfo(String token, long uid, long expires, long ctime, String ip, String device) {
+	public TokenInfo(String token, long uid, Timestamp expires, Timestamp ctime, String ip, String device) {
         this.token = token;
         this.uid = uid;
         this.expires = expires;
@@ -62,7 +63,7 @@ public class TokenInfo {
 	 */
 	public static TokenInfo newToken(long uid, long age, String ip) {
 		long now = Time.currentTimeMillis();
-		return new TokenInfo(makeToken(), uid, now + age, now, ip);
+		return new TokenInfo(makeToken(), uid, new Timestamp(now + age), new Timestamp(now), ip);
 	}
 	/**
 	 * 新建token信息
@@ -75,7 +76,7 @@ public class TokenInfo {
 	 */
 	public static TokenInfo newToken(long uid, long age, String ip, String device) {
 	    long now = Time.currentTimeMillis();
-        return new TokenInfo(makeToken() + "@" + uid, uid, now + age, now, ip, device);
+        return new TokenInfo(makeToken() + "@" + uid, uid, new Timestamp(now + age), new Timestamp(now), ip, device);
     }
 	
 	/**

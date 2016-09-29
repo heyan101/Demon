@@ -1,4 +1,4 @@
-package demon.SDK.classinfo;
+package demon.SDK.demoinfo;
 
 import java.sql.Timestamp;
 import java.util.HashMap;
@@ -33,7 +33,7 @@ public class UserInfo {
 	/**
 	 * QQ 号
 	 */
-	public Long qq;
+	public String qq;
 	/**
 	 * 用户状态:1-正常,2-锁定,3-删除,4-未实名
 	 */
@@ -97,20 +97,17 @@ public class UserInfo {
 	/**
 	 * 用户基本信息
 	 */
-	public UserInfo(Long uid, String phone, String name, String nick, int age, int sex, String email, Long qq,
-			int status, int type, String city, Map<String, Object> exattr, Timestamp ctime, Timestamp mtime, Timestamp load_time) {
+	public UserInfo(Long uid, String name, String phone, String email, String nick, String password, String qq, int type, 
+			int status, Map<String, Object> exattr, Timestamp ctime, Timestamp mtime, Timestamp load_time) {
 		super();
 		this.uid = uid;
 		this.phone = phone;
 		this.name = name;
 		this.nick = nick;
-		this.age = age;
-		this.sex = sex;
 		this.email = email;
 		this.qq = qq;
 		this.status = status;
 		this.type = type;
-		this.city = city;
 		this.exattr = exattr;
 		this.ctime = ctime;
 		this.mtime = mtime;
@@ -120,26 +117,25 @@ public class UserInfo {
 	/**
 	 * 用户详细信息
 	 */
-	public UserInfo(Long uid, String phone, String name, String nick, int age, int sex, String email, Long qq,
-			int status, int type, String city, Map<String, Object> exattr, Timestamp ctime, Timestamp mtime, Timestamp load_time,
-			int postcode, String true_name, String card_code, String card_positive_img, String card_back_img) {
+	public UserInfo(Long uid, String name, String phone, String email, String nick, String password, String qq, int type, 
+			int status, Map<String, Object> exattr, Timestamp ctime, Timestamp mtime, Timestamp load_time, int age, 
+			int sex, int postcode, String true_name, String card_code, String card_positive_img, String card_back_img) {
 		super();
 		this.uid = uid;
 		this.phone = phone;
 		this.name = name;
 		this.nick = nick;
-		this.age = age;
-		this.sex = sex;
 		this.email = email;
 		this.qq = qq;
 		this.status = status;
 		this.type = type;
-		this.city = city;
 		this.exattr = exattr;
 		this.ctime = ctime;
 		this.mtime = mtime;
 		this.load_time = load_time;
 		
+		this.age = age;
+		this.sex = sex;
 		this.postcode = postcode;
 		this.true_name = true_name;
 		this.card_code = card_code;

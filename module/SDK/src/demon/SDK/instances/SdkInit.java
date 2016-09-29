@@ -9,6 +9,7 @@ public class SdkInit {
 		SdkCenter sdk = SdkCenter.getInst();
 		IBeans beans = (IBeans) SdkCenter.getInst().queryInterface(IBeans.name, SdkCenter.ToString() + "InnerKey" + Config.ToString());
 		
-//		sdk.addInterface(IAcl.name, new Acl(beans));
+		// 注册对外接口
+//		sdk.addInterface(IUser.name, new User(beans));
 	}
 }

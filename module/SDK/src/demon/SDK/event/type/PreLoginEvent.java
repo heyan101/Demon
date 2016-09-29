@@ -1,6 +1,6 @@
 package demon.SDK.event.type;
 
-import demon.SDK.classinfo.LoginInfo;
+import demon.SDK.demoinfo.LoginInfo;
 import demon.SDK.event.Event;
 import demon.SDK.event.EventType;
 import demon.exception.LogicalException;

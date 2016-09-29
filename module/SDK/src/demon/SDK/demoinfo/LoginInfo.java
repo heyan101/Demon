@@ -1,4 +1,4 @@
-package demon.SDK.classinfo;
+package demon.SDK.demoinfo;
 
 /**
  * 登录信息包括token信息以及用户信息
