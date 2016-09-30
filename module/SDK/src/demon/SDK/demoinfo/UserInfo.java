@@ -115,6 +115,21 @@ public class UserInfo {
 	}
 	
 	/**
+	 * 用户注册
+	 */
+	public UserInfo(String name, String phone, String email, String nick, String password, String qq, int type, 
+			Map<String, Object> exattr) {
+		super();
+		this.name = name;
+		this.phone = phone;
+		this.nick = nick;
+		this.email = email;
+		this.qq = qq;
+		this.type = type;
+		this.exattr = exattr;
+	}
+	
+	/**
 	 * 用户详细信息
 	 */
 	public UserInfo(Long uid, String name, String phone, String email, String nick, String password, String qq, int type, 

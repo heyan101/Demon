@@ -1,0 +1,81 @@
+package demon.auth;
+
+import javax.servlet.http.Cookie;
+
+import org.apache.commons.codec.binary.Base64;
+
+import demon.SDK.demoinfo.LoginInfo;
+import demon.SDK.inner.IBeans;
+import demon.SDK.stat.UserRetStat;
+import demon.exception.UnInitilized;
+import demon.service.http.ApiGateway;
+import demon.service.http.protocol.JsonProtocol;
+import demon.service.http.protocol.JsonReq;
+import demon.service.http.protocol.JsonResp;
+import demon.service.http.protocol.RetStat;
+
+public class AuthHttpApi {
+	private AuthApi authApi;
+	
+	private static AuthHttpApi authHttpApi;
+	private AuthHttpApi(AuthApi authApi) {
+		this.authApi = authApi;
+	}
+	
+	public static void init(AuthApi authApi) {
+		new AuthHttpApi(authApi);
+	}
+	
+	public static AuthHttpApi getInst() {
+		if (null == authHttpApi) {
+			new UnInitilized();
+		}
+		return authHttpApi;
+	}
+	
+	/********************************************     对外接口               ********************************************/
+	/**
+	 * 用户登录
+	 * @param account 手机号/用户名/邮箱
+	 * @param password 密码
+	 * @param type 账号类型：手机号/用户名/邮箱
+	 * @param tokenAge token 过期时间(单位：毫秒)
+	 * @param isCookie 是否写入cookie(0-no,1-yes)
+	 * @return
+	 * @throws Exception
+	 */
+	@ApiGateway.ApiMethod(protocol = JsonProtocol.class)
+	public JsonResp nameLogin(JsonReq req) throws Exception {
+		String account = req.paramGetString("name", true);
+		// Base64 encode
+		String password = req.paramGetString("password", true);
+		password = new String(Base64.decodeBase64(password));
+		String type = req.paramGetString("type", true);
+		Long tokenAge = req.paramGetNumber("tokenAge", false, true);
+		int isCookie = req.paramGetInteger("isCookie", false) == 1 ? 1 : 0;
+
+		JsonResp resp = new JsonResp(RetStat.OK);
+		LoginInfo loginInfo = null;
+		switch(type) {
+		case "name":
+		case "email":
+		case "phone":
+			AuthApi.checkAccount(type, account);
+			loginInfo = authApi.login(req.env, account, password, type, tokenAge);
+			break;
+		default:
+			resp.stat = UserRetStat.ERR_ILLEGAL_ACCOUNT_TYPE;
+		}
+		
+        resp.resultMap.put("token", loginInfo.tokenInfo.token);
+
+        Cookie cookie = new Cookie("token", loginInfo.tokenInfo.token);
+        cookie.setPath("/");
+        if ("yes".equals(isCookie)) {
+            cookie.setMaxAge((int) (loginInfo.tokenInfo.expires.getTime() - loginInfo.tokenInfo.ctime.getTime()));
+        }
+        resp.addCookie(cookie);
+        return resp;
+	}
+
+}

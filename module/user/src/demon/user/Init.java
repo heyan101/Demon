@@ -18,7 +18,7 @@ public class Init {
 		
 		// 设置管理员账号
 //		userModel.setAdminDefaultInfo(properties);
-		UserApi.defaultTokenAge = new TimeUnit(properties.getProperty(UserConfig.CONF_USER_TOKEN_AGE)).value.longValue();
+		
 		
 		IBeans beans = (IBeans) SdkCenter.getInst().queryInterface(IBeans.name, "demon1.0InnerKeyP@ssw0rd");
 		

@@ -38,8 +38,15 @@ public class Init {
             Map<String, Object> attrs = (Map<String, Object>) JSONObject.parse(attrStr);
             
             Long uid = beans.getUserApi().getUserModel().checkLoginId("name", name);
+            UserInfo user = new UserInfo();
+            user.name = name;
+            user.password = password;
+            user.nick = (String) attrs.get("nick");
+            user.email = (String) attrs.get("email");
+            user.status = (int) attrs.get("status");
+            user.type = (int) attrs.get("type");
             if (null == uid) {
-                UserInfo user = beans.getUserApi().createUser(env, "name", name, password, attrs);
+                user = beans.getUserApi().userRegister(env, user, "name");
                 uid = user.uid;
             } else {
                 Object status = attrs.get("status");

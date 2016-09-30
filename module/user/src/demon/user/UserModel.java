@@ -21,9 +21,7 @@ public class UserModel implements IUserApi.IUserModel{
 	protected MySql mysql;
 	
 	private static final String TABLE_USER = "user";
-	private static final String TABLE_LOGIN_ID = "login_id";
 	private static final String TABLE_ADDRESS = "address";
-	private static final String TABLE_TOKEN = "token";
 	private static final String TABLE_ID_CARD = "id_card";
 //	private static final String TABLE_USER_IMAGE = "user_image";
 	private static final String TABLE_USER_RECYCLE = "user_recycle";
@@ -54,13 +52,6 @@ public class UserModel implements IUserApi.IUserModel{
 				+ "PRIMARY KEY (`uid`)"
 	            + ") ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 			conn.createStatement().executeUpdate(sqlUser);
-			
-			String sqlLoginId = "CREATE TABLE IF NOT EXISTS `" + TABLE_LOGIN_ID + "` ("
-				+ "`uid` bigint(20) NOT NULL,"
-				+ "`type` varchar(16) NOT NULL,"
-				+ "`value` varchar(16) NOT NULL"
-	            + ") ENGINE=InnoDB DEFAULT CHARSET=utf8;";
-			conn.createStatement().executeUpdate(sqlLoginId);
 
 			String sqlAddress = "CREATE TABLE IF NOT EXISTS `" + TABLE_ADDRESS + "` ("
 				+ "`uid` bigint(20) NOT NULL,"
@@ -71,16 +62,6 @@ public class UserModel implements IUserApi.IUserModel{
 				+ "`address_5` varchar(255) DEFAULT NULL"
 	            + ") ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 			conn.createStatement().executeUpdate(sqlAddress);
-
-			String sqlToken = "CREATE TABLE IF NOT EXISTS `" + TABLE_TOKEN + "` ("
-                + "`token` varchar(128) PRIMARY KEY,"
-                + "`uid` bigint(20) UNSIGNED NOT NULL,"
-                + "`expires` datetime NOT NULL,"
-                + "`ctime` datetime NOT NULL,"
-                + "`ip` varchar(32) DEFAULT NULL,"
-                + "`device` varchar(8) DEFAULT NULL"
-                + ") ENGINE=InnoDB DEFAULT CHARSET=utf8;";
-            conn.createStatement().executeUpdate(sqlToken);
 
             String sqlIdCard = "CREATE TABLE IF NOT EXISTS `" + TABLE_ID_CARD + "` ("
                 + "`uid` bigint(20) UNSIGNED NOT NULL,"
@@ -121,7 +102,6 @@ public class UserModel implements IUserApi.IUserModel{
 				+ "PRIMARY KEY (`uid`)"
 	            + ") ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 			conn.createStatement().executeUpdate(sqlUserRecycle);
-				
 		} catch (SQLException e) {
 			throw new SQLException("SQL create failed...");
 		} finally {
@@ -224,86 +204,33 @@ public class UserModel implements IUserApi.IUserModel{
 //            }
 //        }
 //	}
-	/**
-	 * 设置管理员默认密码
-	 */
-	public boolean setAdminDefaultInfo(XProperties properties) throws SQLException {
-		Long uid = checkLoginId("name", "admin");
-		if (uid < 1) {
-			Connection conn = this.mysql.getConnection();
-			try {
-				String sql = "insert into `" + TABLE_USER + "` (`phone`,`nickName`,`email`,`password`,`uuid`,`ctime`) "
-						+ "values (?, ?, ?, ?, ?, ?);";
-				PreparedStatement ps = conn.prepareStatement(sql);
-				ps.setString(1, "admin");
-				ps.setString(2, "管理员");
-				ps.setString(3, "1764496637@qq.com");
-				ps.setString(4, "P@ssw0rd");
-				ps.setLong(5, 0);
-				ps.setLong(6, Time.currentTimeMillis());
-				
-				return ps.executeUpdate() == 1 ? true : false;
-			} finally {
-	            if (conn != null) {
-	                conn.close();
-	            }
-	        }
-		}
-		return false;
-	}
-
-	/**
-	 * 验证登录 Id
-	 * @return 用户 uid
-	 */
-	public Long checkLoginId(String type, String value) throws SQLException {
-		if (null == type || value == null) {
-            throw new IllegalArgumentException();
-        }
-        Connection conn = null;
-        try {
-            conn = this.mysql.getConnection();
-
-            String sql = "SELECT `uid` FROM `login_id` WHERE `type` = ? and `value` = ?";
-            PreparedStatement pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, type);
-            pstmt.setString(2, value);
-            ResultSet rs = pstmt.executeQuery();
-            if (rs.next()) {
-                return rs.getLong(1);
-            }
-            return null;
-        } finally {
-            if (conn != null) {
-                conn.close();
-            }
-        }
-	}
-	
-	public boolean addToken(TokenInfo tokenInfo) throws SQLException {
-        if (tokenInfo == null) {
-            throw new IllegalArgumentException();
-        }
-        Connection conn = null;
-        try {
-            conn = this.mysql.getConnection();
-            String sql = "INSERT INTO `token` (`token`, `uid`, `expires`, `ctime`, `ip`, `device`) "
-                    + "VALUES (?, ?, ?, ?, ?, ?)";
-            PreparedStatement pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, tokenInfo.token);
-            pstmt.setLong(2, tokenInfo.uid);
-            pstmt.setTimestamp(3, tokenInfo.expires);
-            pstmt.setTimestamp(4, tokenInfo.ctime);
-            pstmt.setString(5, tokenInfo.ip);
-            pstmt.setString(6, tokenInfo.device);
-            
-            return pstmt.executeUpdate() == 1 ? true : false;
-        } finally {
-            if (conn != null) {
-                conn.close();
-            }
-        }
-    }
+//	/**
+//	 * 设置管理员默认密码
+//	 */
+//	public boolean setAdminDefaultInfo(XProperties properties) throws SQLException {
+//		Long uid = checkLoginId("name", "admin");
+//		if (uid < 1) {
+//			Connection conn = this.mysql.getConnection();
+//			try {
+//				String sql = "insert into `" + TABLE_USER + "` (`phone`,`nickName`,`email`,`password`,`uuid`,`ctime`) "
+//						+ "values (?, ?, ?, ?, ?, ?);";
+//				PreparedStatement ps = conn.prepareStatement(sql);
+//				ps.setString(1, "admin");
+//				ps.setString(2, "管理员");
+//				ps.setString(3, "1764496637@qq.com");
+//				ps.setString(4, "P@ssw0rd");
+//				ps.setLong(5, 0);
+//				ps.setLong(6, Time.currentTimeMillis());
+//				
+//				return ps.executeUpdate() == 1 ? true : false;
+//			} finally {
+//	            if (conn != null) {
+//	                conn.close();
+//	            }
+//	        }
+//		}
+//		return false;
+//	}
 
 	public boolean setUserAttr(Long uid, String key, Object value) throws SQLException {
 		Connection conn = null;
@@ -339,6 +266,43 @@ public class UserModel implements IUserApi.IUserModel{
             pstmt.setLong(7, userInfo.uid);
             
             return pstmt.executeUpdate() == 1 ? true : false;
+        } finally {
+            if (conn != null) {
+                conn.close();
+            }
+        }
+	}
+
+	/**
+	 * 通过用户名查找用户
+	 * @param name
+	 * @param email
+	 * @param phone
+	 * @return
+	 * @throws SQLException 
+	 */
+	@SuppressWarnings("unchecked")
+	public UserInfo findUser(String name, String email, String phone) throws SQLException {
+		Connection conn = this.mysql.getConnection();
+		try {
+            String sqlGetUser = "SELECT `uid`,`name`,`phone`,`email`,`nick`,`password`, `qq`,`type`,`status`,`exattr`,"
+            		+ "`ctime`,`mtime`,`load_time` FROM `" + TABLE_USER + "` WHERE `uid` = ?";
+            
+			PreparedStatement pstmt = conn.prepareStatement(sqlGetUser);
+            ResultSet rs = pstmt.executeQuery();
+
+            UserInfo user = null;
+            if (rs.next()) {
+                String attrStr = rs.getString(11);
+                Map<String, Object> exattr = null;
+                if (null != attrStr) {
+                	exattr = JSONObject.parseObject(attrStr, Map.class);
+                }
+                user = new UserInfo(rs.getLong(1), rs.getString(2), rs.getString(3), rs.getString(4),
+                        rs.getString(5), rs.getString(6), rs.getString(7), rs.getInt(8), rs.getInt(9), 
+                        exattr, rs.getTimestamp(11), rs.getTimestamp(12), rs.getTimestamp(13));
+            }
+            return user;
         } finally {
             if (conn != null) {
                 conn.close();

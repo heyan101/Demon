@@ -2,7 +2,13 @@ package demon.user;
 
 import java.util.Map;
 
+import javax.servlet.http.Cookie;
+
+import org.apache.commons.codec.binary.Base64;
+
 import demon.SDK.demoinfo.LoginInfo;
+import demon.SDK.demoinfo.UserInfo;
+import demon.SDK.stat.UserRetStat;
 import demon.exception.UnInitilized;
 import demon.service.http.ApiGateway;
 import demon.service.http.protocol.JsonProtocol;
@@ -30,86 +36,42 @@ public class UserHttpApi {
 		return userHttpApi;
 	}
 	
-	/********************************************     对外接口               ********************************************/
 	
-	@ApiGateway.ApiMethod(protocol = JsonProtocol.class)
-	public JsonResp nameLogin(JsonReq req) throws Exception {
-		String name = req.paramGetString("name", true);
-		String password = req.paramGetString("password", true);
-		Long tokenAge = req.paramGetNumber("tokenAge", false, true);
-		
-		LoginInfo loginInfo = userApi.login(req.env, name, password, UserApi.LOGINID_PHONE, tokenAge);
-		req.env.sticker.put("uid", loginInfo.userInfo.uid);
-		req.env.sticker.put("account", loginInfo.userInfo);
-		JsonResp resp = new JsonResp(RetStat.OK);
-        resp.resultMap.put("token", loginInfo.tokenInfo.token);
-        
-		return resp;
-	}
 	
 	/**
 	 * 用户注册
 	 * @param name 手机号
-	 * @param nick 昵称
 	 * @param email 邮箱
 	 * @param phone 手机号
 	 * @param password 密码
+	 * @param nick 昵称
 	 * @param qq QQ
-	 * @param type 注册账号类型：手机号/用户名/邮箱
 	 * @param exattr 额外属性 
-	 * @param 
 	 * 
+	 * @return UserInfo
+	 * @exception ERR_ADD_LOGIN_ID_FAILED
 	 */
 	@ApiGateway.ApiMethod(protocol = JsonProtocol.class)
 	public JsonResp userRegister(JsonReq req) throws Exception {
 		String name = req.paramGetString("name", false);
 		String email = req.paramGetString("eamil", false);
 		String phone = req.paramGetString("phone", false);
-		String type = req.paramGetString("type", true);
 		String password = req.paramGetString("password", true);
+		password = new String(Base64.decodeBase64(password));
+		String nick = req.paramGetString("name", false);
 		String qq = req.paramGetString("qq", false);
 		Map<String, Object> exattr = req.paramGetMap("exattr", false, String.class, Object.class, true);
 		
-//		String password = req.paramGetString("password", true);
-//		String codes = req.paramGetString("codes", true);
+		JsonResp resp = new JsonResp(RetStat.OK);
+		UserInfo userInfo = new UserInfo(name, phone, email, nick, password, qq, UserConfig.defaultUserType, exattr);
+		userInfo = this.userApi.userRegister(req.env, userInfo);
+		if (userInfo == null) {
+			resp.stat = UserRetStat.ERR_ADD_LOGIN_ID_FAILED;
+		}
 		
-		UserApi.checkAccount(UserApi.LOGINID_PHONE, name);
-		
-		return null;
+        resp.resultMap.put("UserInfo", userInfo);
+		return resp;
 	}
-	/**
-	 * 用户登录(使用手机号)
-	 */
-	@ApiGateway.ApiMethod(protocol = JsonProtocol.class)
-	public JsonResp phoneLogin(JsonReq req) throws Exception {
-		String phone = req.paramGetString("phone", true);
-		this.userApi.checkAccount(UserApi.LOGINID_PHONE, phone);
-		
-//		JsonResp result = login(req, AuthApi.LOGINID_PHONE, phone);
-		
-		return null;
-	}
-	/**
-	 * 用户登录(使用邮箱)
-	 */
-	@ApiGateway.ApiMethod(protocol = JsonProtocol.class)
-	public JsonResp emailLogin(JsonReq req) throws Exception {
-		return null;
-	}
-//	private JsonResp login(JsonReq req, String type, String account) throws Exception {
-//        String password = req.paramGetString("password", true, false);
-//        Long tokenAge = req.paramGetNumber("tokenAge", false, true);
-//
-//        LoginInfo loginInfo = this.userApi.login(req.env, type, account, password, tokenAge);
-//
-//        req.env.sticker.put("uid", loginInfo.userInfo.uid);
-//        req.env.sticker.put("account", UserCoreApi.getAccount(loginInfo.userInfo));
-//
-//        JsonResp resp = new JsonResp(RetStat.OK);
-//        resp.resultMap.put("token", loginInfo.tokenInfo.token);
-//
-//        return resp;
-//    }
 	
 	/**
 	 * 获取用户信息

@@ -1,10 +1,9 @@
 package demon.user;
 
 public class UserConfig {
-
-	/**
-     * 配置项：token寿命
+	
+    /**
+     * 默认用户类型是 type=1(客户)
      */
-    public static final String CONF_USER_TOKEN_AGE = "user.tokenAge";
-
+    public static final int defaultUserType = 1;
 }

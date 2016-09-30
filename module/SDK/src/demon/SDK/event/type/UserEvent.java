@@ -42,31 +42,23 @@ public class UserEvent extends Event {
 	    POST_DELETE_USER,
 	    
 	    /**
-         * 事件类型标识：创建用户前<br>
+         * 事件类型标识：注册用户前<br>
          * 有效参数：<br>
          * type<br>
          * account<br>
          * attrs
          */
-	    PRE_CREATE_USER,
+	    PRE_REGISTER_USER,
 	    
 	    /**
-         * 事件类型标识：创建用户后
+         * 事件类型标识：注册用户后
          * 有效参数：<br>
          * user<br>
          * type<br>
          * account<br>
          */
-	    POST_CREATE_USER,
+	    POST_REGISTER_USER,
 	    
-	    /**
-	     * 事件类型标识：注册用户<br>
-	     * 有效参数：<br>
-	     * url
-	     * 
-	     */
-//	    REGISTER_USER,
-        
         /**
          * 事件类型标识：重新设置密码之前<br>
          * 有效参数<br>
