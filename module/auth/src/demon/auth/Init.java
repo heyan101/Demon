@@ -1,5 +1,9 @@
 package demon.auth;
 
+import demon.SDK.SdkCenter;
+import demon.SDK.http.AuthedJsonProtocol;
+import demon.SDK.inner.IBeans;
+import demon.service.db.MySql;
 import demon.utils.XProperties;
 import demon.utils.unit.TimeUnit;
 
@@ -12,6 +16,15 @@ public class Init {
 		
 		AuthConfig.defaultTokenAge = new TimeUnit(properties.getProperty(AuthConfig.CONF_USER_TOKEN_AGE)).value.longValue();
 		
+		IBeans beans = (IBeans) SdkCenter.getInst().queryInterface(IBeans.name, "demon1.0InnerKeyP@ssw0rd");
+		MySql mysql = MySql.getInst(MODULE_NAME);
+		
+		AuthModel authModel = new AuthModel(mysql);
+		AuthApi.init(beans, authModel);
+		AuthHttpApi.init(AuthApi.getInst());
+		
+		SdkCenter.getInst().registHttpApi(MODULE_NAME, AuthHttpApi.getInst());
+		
+		AuthedJsonProtocol.init();
 	}
-
 }

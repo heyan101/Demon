@@ -37,7 +37,7 @@ public class Init {
             @SuppressWarnings("unchecked")
             Map<String, Object> attrs = (Map<String, Object>) JSONObject.parse(attrStr);
             
-            Long uid = beans.getUserApi().getUserModel().checkLoginId("name", name);
+            Long uid = beans.getAuthApi().getAuthModel().checkLoginId("name", name);
             UserInfo user = new UserInfo();
             user.name = name;
             user.password = password;
@@ -46,7 +46,7 @@ public class Init {
             user.status = (int) attrs.get("status");
             user.type = (int) attrs.get("type");
             if (null == uid) {
-                user = beans.getUserApi().userRegister(env, user, "name");
+                user = beans.getUserApi().userRegister(env, user);
                 uid = user.uid;
             } else {
                 Object status = attrs.get("status");

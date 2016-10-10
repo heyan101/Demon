@@ -28,7 +28,8 @@ public class AuthModel implements IAuthApi.IAuthModel {
 			String sqlLoginId = "CREATE TABLE IF NOT EXISTS `" + TABLE_LOGIN_ID + "` ("
 				+ "`uid` bigint(20) NOT NULL,"
 				+ "`type` varchar(16) NOT NULL,"
-				+ "`value` varchar(16) NOT NULL"
+				+ "`value` varchar(16) NOT NULL,"
+				+ "UNIQUE KEY (`type`, `value`)\n"
 	            + ") ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 			conn.createStatement().executeUpdate(sqlLoginId);
 
@@ -51,33 +52,6 @@ public class AuthModel implements IAuthApi.IAuthModel {
 	}
 	
 	/**********************************************************************************************************/
-	/**
-	 * 验证登录 Id
-	 * @return 用户 uid
-	 */
-	public Long checkLoginId(String type, String value) throws SQLException {
-		if (null == type || value == null) {
-            throw new IllegalArgumentException();
-        }
-        Connection conn = null;
-        try {
-            conn = this.mysql.getConnection();
-
-            String sql = "SELECT `uid` FROM `" + TABLE_LOGIN_ID + "login_id` WHERE `type` = ? and `value` = ?";
-            PreparedStatement pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, type);
-            pstmt.setString(2, value);
-            ResultSet rs = pstmt.executeQuery();
-            if (rs.next()) {
-                return rs.getLong(1);
-            }
-            return null;
-        } finally {
-            if (conn != null) {
-                conn.close();
-            }
-        }
-	}
 	
 	public boolean addToken(TokenInfo tokenInfo) throws SQLException {
         if (tokenInfo == null) {
@@ -103,5 +77,83 @@ public class AuthModel implements IAuthApi.IAuthModel {
             }
         }
     }
+	
+	public TokenInfo getTokenInfo(String token) throws SQLException {
+        if (null == token) {
+            throw new IllegalArgumentException();
+        }
+        Connection conn = null;
+        try {
+        	conn = this.mysql.getConnection();
+
+            String sql = "SELECT `uid`, `expires` , `ctime`, `ip`, `device` FROM `token` WHERE `token` = ?";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, token);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                return new TokenInfo(token, rs.getLong(1), rs.getTimestamp(2), rs.getTimestamp(3), rs.getString(4), rs.getString(5));
+            }
+            return null;
+        } finally {
+            if (conn != null) {
+                conn.close();
+            }
+        }
+    }
+	
+	/****************************************************************************************/
+	
+	public boolean setLoginId(String type, String value, Long uid) throws SQLException {
+        if (null == type || value == null || null == uid) {
+            throw new IllegalArgumentException();
+        }
+        Connection conn = null;
+        try {
+        	conn = this.mysql.getConnection();
+
+            String sql = "INSERT INTO `login_id` (`type`, `value`, `uid`) VALUES (?, ?, ?) on duplicate key update `value` = ?;";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, type);
+            pstmt.setString(2, value);
+            pstmt.setLong(3, uid);
+            pstmt.setString(4, value);
+            pstmt.executeUpdate();
+
+            return true;
+        } finally {
+            if (conn != null) {
+                conn.close();
+            }
+        }
+    }
+	
+	/**
+	 * 验证登录 Id
+	 * @return 用户 uid
+	 */
+	public Long checkLoginId(String type, String value) throws SQLException {
+		if (null == type || value == null) {
+            throw new IllegalArgumentException();
+        }
+        Connection conn = null;
+        try {
+            conn = this.mysql.getConnection();
+
+            String sql = "SELECT `uid` FROM `" + TABLE_LOGIN_ID + "` WHERE `type` = ? and `value` = ?";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, type);
+            pstmt.setString(2, value);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return rs.getLong(1);
+            }
+            return null;
+        } finally {
+            if (conn != null) {
+                conn.close();
+            }
+        }
+	}
 	
 }

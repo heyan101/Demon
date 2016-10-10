@@ -7,5 +7,6 @@
 	<classpathentry kind="lib" path="/dServer/lib/servlet-api-3.1.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/dServer"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/SDK"/>
+	<classpathentry kind="lib" path="/dServer/lib/commons-lang-2.3.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -186,5 +186,13 @@ public class UserInfo {
         return exattr.get(key);
     }
 
+    public String getAccount() {
+        String account = this.name;
+        if (account == null) {
+            account = this.email;
+        }
+        
+        return String.format("%s(%s)", this.nick, account);
+    }
 	
 }

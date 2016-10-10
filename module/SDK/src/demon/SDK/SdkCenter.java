@@ -9,6 +9,7 @@ import com.alibaba.fastjson.JSONObject;
 
 import demon.SDK.event.EventType;
 import demon.SDK.event.IListener;
+import demon.SDK.inner.IAuthApi;
 import demon.SDK.inner.IBeans;
 import demon.SDK.inner.IEventHub;
 import demon.SDK.inner.IUserApi;
@@ -124,6 +125,14 @@ class Beans implements IBeans {
             this.userApi = (IUserApi) SdkCenter.getInst().queryInterface(IUserApi.name, SecurityKey.innerKey);
         }
         return this.userApi;
+    }
+    
+    private IAuthApi authApi = null;
+    public IAuthApi getAuthApi() throws LogicalException {
+    	if (null == this.authApi) {
+    		this.authApi = (IAuthApi) SdkCenter.getInst().queryInterface(IAuthApi.name, SecurityKey.innerKey);
+    	}
+    	return this.authApi;
     }
 }
 

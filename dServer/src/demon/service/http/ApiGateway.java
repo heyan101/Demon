@@ -30,7 +30,7 @@ public class ApiGateway extends HttpServlet {
 
     private static final long serialVersionUID = 1356174584786644793L;
 
-    public static final String SERVER_HEADER = "cServer/0.1";
+    public static final String SERVER_HEADER = "dServer/0.1";
     
     @Target(ElementType.METHOD)
 	@Retention(RetentionPolicy.RUNTIME)
@@ -198,13 +198,10 @@ public class ApiGateway extends HttpServlet {
 	private static String getApiName(Env env) {
 	    String path = env.request.getPathInfo().substring(1);
 	    int index = path.indexOf("/");
-//	    System.out.println("-----------------------1:"+path);
 	    if (-1 != index) {
 	        path = path.substring(0, index);
-//	        System.out.println("-----------------------2:"+path);
 	        return path;
 	    }
-//	    System.out.println("-----------------------3:"+path);
 	    return path;
 	}
 }

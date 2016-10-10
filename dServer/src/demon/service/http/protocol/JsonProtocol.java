@@ -23,7 +23,10 @@ public class JsonProtocol implements Protocol {
     public static final int PARSE_HTTP_PARAM = 0x00000002;
     public static final int PARSE_COOKIE = 0x00000004;
     public static final int BIN_RESPONSE = 0x00000008;
-    // public static final int ALLOW_ANONYMOUS = 0x00000010;
+    /**
+     * 跳过 token 验证
+     */
+     public static final int ALLOW_ANONYMOUS = 0x00000010;
 
     public static final int DEFAULT_OPT = PARSE_HTTP_PARAM | PARSE_COOKIE | PARSE_JSON;
     public static final int BIN_OPTION = JsonProtocol.PARSE_COOKIE 

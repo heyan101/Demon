@@ -3,22 +3,19 @@ package demon.user;
 import demon.SDK.SdkCenter;
 import demon.SDK.inner.IBeans;
 import demon.service.db.MySql;
-import demon.utils.XProperties;
-import demon.utils.unit.TimeUnit;
 
 public class Init {
 	
 	public static final String MODULE_NAME = "user";
 	
 	public static void init(String moduleDir) throws Exception {
-	    XProperties properties = new XProperties(MODULE_NAME, moduleDir);
+//	    XProperties properties = new XProperties(MODULE_NAME, moduleDir);
 	    
 		MySql mysql = MySql.getInst(MODULE_NAME);
 		UserModel userModel = new UserModel(mysql);
 		
 		// 设置管理员账号
 //		userModel.setAdminDefaultInfo(properties);
-		
 		
 		IBeans beans = (IBeans) SdkCenter.getInst().queryInterface(IBeans.name, "demon1.0InnerKeyP@ssw0rd");
 		

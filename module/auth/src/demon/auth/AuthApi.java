@@ -12,11 +12,13 @@ import demon.SDK.event.type.PostLoginEvent;
 import demon.SDK.event.type.PreLoginEvent;
 import demon.SDK.inner.IAuthApi;
 import demon.SDK.inner.IBeans;
+import demon.SDK.stat.AuthRetStat;
 import demon.SDK.stat.UserRetStat;
 import demon.exception.LogicalException;
 import demon.exception.UnInitilized;
 import demon.service.http.Env;
 import demon.service.http.protocol.RetStat;
+import demon.utils.Time;
 
 public class AuthApi implements IAuthApi {
 
@@ -32,9 +34,7 @@ public class AuthApi implements IAuthApi {
 	}
 	
 	public static void init(IBeans beans, AuthModel authModel) throws LogicalException {
-		if (null == authApi) {
-			new AuthApi(beans, authModel);
-		}
+		authApi = new AuthApi(beans, authModel);
 	}
 	
 	public static AuthApi getInst() throws UnInitilized {
@@ -49,6 +49,7 @@ public class AuthApi implements IAuthApi {
 	public IAuthModel getAuthModel() {
 		return this.authModel;
 	}
+	
 	/**
 	 * 用户登录
 	 * @param env
@@ -88,7 +89,6 @@ public class AuthApi implements IAuthApi {
                 loginInfo = preLoginEvent.loginInfo;
                 logincalException = preLoginEvent.logicalException;
             }
-			
 		} catch (LogicalException e) {
             logincalException = e;
         }
@@ -114,6 +114,9 @@ public class AuthApi implements IAuthApi {
 			throw new LogicalException(UserRetStat.ERR_NO_SUCH_ACCOUNT,
 					UserRetStat.getMsgByStat(UserRetStat.ERR_NO_SUCH_ACCOUNT, name));
 		}
+		
+		// check user status
+		
 		if (!user.password.equals(password)) {
 			throw new LogicalException(UserRetStat.ERR_INVALID_PASSWORD,
 					UserRetStat.getMsgByStat(UserRetStat.ERR_INVALID_PASSWORD, name));
@@ -128,33 +131,31 @@ public class AuthApi implements IAuthApi {
         return new LoginInfo(tokenInfo, user);
 	}
 	
-    public Long checkLoginId(String type, String value) throws SQLException {
-        return null;
-    }
+//    public Long checkLoginId(String type, String value) throws SQLException {
+//    	Long uid = this.authModel.checkLoginId(type, value);
+//        return uid;
+//    }
     
-    /**
-     * 检查登录账号
-     * 
-     * @param type 账号类型
-     * @param account 账号
-     * @return
-     * @throws LogicalException
-     */
-    public static boolean checkAccount(String type, String account) throws LogicalException {
-        if (!(AuthConfig.LOGINID_NAME.equals(type) || AuthConfig.LOGINID_PHONE.equals(type) || 
-        		AuthConfig.LOGINID_EMAIL.equals(type))) {
-            throw new LogicalException(UserRetStat.ERR_ILLEGAL_ACCOUNT_TYPE,
-                    UserRetStat.getMsgByStat(UserRetStat.ERR_ILLEGAL_ACCOUNT_TYPE, type));
+    public LoginInfo checkLogin(Env env, String token) throws SQLException, LogicalException {
+    	if (null == token) {
+            throw new IllegalArgumentException();
         }
-        if (AuthConfig.LOGINID_EMAIL.equals(type)&& !account.matches("^(\\w)+(\\.\\w+)*@(\\w)+((\\.\\w+)+)$")) {
-            throw new LogicalException(UserRetStat.ERR_ILLEGAL_EMAIL_ACCOUNT,
-                    UserRetStat.getMsgByStat(UserRetStat.ERR_ILLEGAL_EMAIL_ACCOUNT, account));
+    	
+    	// get from cache
+    	TokenInfo tokenInfo = this.authModel.getTokenInfo(token);
+        if (tokenInfo == null) {
+            throw new LogicalException(AuthRetStat.ERR_TOKEN_NOT_FOUND, token);
         }
-        if (AuthConfig.LOGINID_PHONE.equals(type)
-                && !account.matches("^1[3458][0-9]{9}")) {
-            throw new LogicalException(UserRetStat.ERR_ILLEGAL_PHONE_ACCOUNT,
-            		UserRetStat.getMsgByStat(UserRetStat.ERR_ILLEGAL_PHONE_ACCOUNT, account));
+        if (tokenInfo.expires.getTime() < Time.currentTimeMillis()) {
+            throw new LogicalException(AuthRetStat.ERR_TOKEN_EXPIRED, token);
         }
-        return true;
+
+        UserInfo userInfo = this.beans.getUserApi().getUserInfoByUid(tokenInfo.uid);
+
+        LoginInfo loginInfo = new LoginInfo(tokenInfo, userInfo);
+
+        env.logParam("auth_uid", userInfo.uid);
+        
+        return loginInfo;
     }
 }

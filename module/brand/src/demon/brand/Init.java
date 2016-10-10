@@ -1,6 +1,5 @@
 package demon.brand;
 
-import demon.utils.XProperties;
 
 public class Init {
 	

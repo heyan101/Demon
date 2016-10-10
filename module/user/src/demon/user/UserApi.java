@@ -12,8 +12,10 @@ import demon.exception.LogicalException;
 import demon.exception.UnInitilized;
 import demon.service.http.Env;
 import demon.utils.SSHA;
+import demon.utils.Time;
 
 public class UserApi implements IUserApi {
+	
 	protected IBeans beans;
 	protected UserModel userModel;
     
@@ -30,7 +32,7 @@ public class UserApi implements IUserApi {
     }
     
     public static UserApi getInst() throws UnInitilized {
-        if (userApi == null) {
+        if (null == userApi) {
             throw new UnInitilized();
         }
         return userApi;
@@ -55,6 +57,7 @@ public class UserApi implements IUserApi {
         if (result) {
         	userInfo = userModel.findUser(userInfo.name, userInfo.email, userInfo.phone);
         	// login_id
+        	beans.getAuthApi().getAuthModel().setLoginId("name", userInfo.name, userInfo.uid);
         } else {
         	return null;
         }
@@ -118,4 +121,42 @@ public class UserApi implements IUserApi {
 		UserInfo userInfo = userModel.getUserInfoByUid(uid);
 		return userInfo;
 	}
+	
+	/**
+     * 检查用户状态
+     * 
+     * @param user 用户信息
+     * @throws LogicalException
+     * @throws SQLException 
+     */
+    public void checkUserStatus(Env env, UserInfo user) throws Exception {
+        
+        unLockForWrongPsw(env, user);
+        
+        int status = user.status;
+        switch (status) {
+        case UserConfig.STATUS_NORMAL :
+            break;
+        case UserConfig.STATUS_NO_REALNAME :
+        	break;
+        case UserConfig.STATUS_LOCK :
+            throw new LogicalException(UserRetStat.ERR_USER_LOCKED, "" + user.uid);
+        }
+    }
+    
+    /**
+     * 解锁密码错误的用户
+     * 
+     * @param env
+     * @param user
+     * @throws SQLException
+     * @throws LogicalException
+     */
+    public void unLockForWrongPsw(Env env, UserInfo user) throws SQLException, LogicalException {
+        Object obj = user.getAttr(UserConfig.LOCK_PSW);
+        if (obj != null && Time.currentTimeMillis() > Long.parseLong(obj.toString())) {
+            user.delAttr(UserConfig.LOCK_PSW);
+            setUserAttr(env, user.uid, UserConfig.USER_ATTR_STATUS, UserConfig.STATUS_NORMAL);
+        }
+    }
 }

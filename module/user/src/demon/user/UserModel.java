@@ -7,14 +7,13 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Map;
 
+import org.apache.commons.lang.StringEscapeUtils;
+
 import com.alibaba.fastjson.JSONObject;
 
-import demon.SDK.demoinfo.TokenInfo;
 import demon.SDK.demoinfo.UserInfo;
 import demon.SDK.inner.IUserApi;
 import demon.service.db.MySql;
-import demon.utils.Time;
-import demon.utils.XProperties;
 
 public class UserModel implements IUserApi.IUserModel{
 
@@ -41,7 +40,7 @@ public class UserModel implements IUserApi.IUserModel{
 				+ "`phone` int(11) DEFAULT NULL,"
 				+ "`email` varchar(64) DEFAULT NULL,"
 				+ "`nick` varchar(64) DEFAULT NULL,"
-				+ "`password` varchar(20) NOT NULL,"
+				+ "`password` varchar(255) NOT NULL,"
 				+ "`qq` varchar(16) DEFAULT NULL,"
 				+ "`type` int(1) NOT NULL DEFAULT 1,"
 				+ "`status` int(1) NOT NULL DEFAULT 1,"
@@ -91,7 +90,7 @@ public class UserModel implements IUserApi.IUserModel{
 				+ "`phone` int(11) DEFAULT NULL,"
 				+ "`email` varchar(64) DEFAULT NULL,"
 				+ "`nick` varchar(64) DEFAULT NULL,"
-				+ "`password` varchar(20) NOT NULL,"
+				+ "`password` varchar(255) NOT NULL,"
 				+ "`qq` int(13) DEFAULT NULL,"
 				+ "`type` int(1) NOT NULL DEFAULT 1,"
 				+ "`status` int(1) NOT NULL DEFAULT 1,"
@@ -118,7 +117,7 @@ public class UserModel implements IUserApi.IUserModel{
 
         Connection conn = this.mysql.getConnection();
         try {
-            String sql = "insert into `" + TABLE_USER + "` "
+            String sql = "INSERT INTO `" + TABLE_USER + "` "
             		+ "(`name`,`phone`,`email`,`nick`,`password`, `qq`,`type`,`status`,`exattr`,`ctime`) "
             		+ "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
             PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -141,7 +140,6 @@ public class UserModel implements IUserApi.IUserModel{
         }
     }
 	
-	@SuppressWarnings({ "unchecked" })
 	public UserInfo getUserInfoByUid(Long uid) throws SQLException {
 		if (uid <= 0) {
             throw new IllegalArgumentException();
@@ -154,19 +152,8 @@ public class UserModel implements IUserApi.IUserModel{
 			PreparedStatement pstmt = conn.prepareStatement(sqlGetUser);
             pstmt.setLong(1, uid);
             ResultSet rs = pstmt.executeQuery();
-
-            UserInfo user = null;
-            if (rs.next()) {
-                String attrStr = rs.getString(11);
-                Map<String, Object> exattr = null;
-                if (null != attrStr) {
-                	exattr = JSONObject.parseObject(attrStr, Map.class);
-                }
-                user = new UserInfo(rs.getLong(1), rs.getString(2), rs.getString(3), rs.getString(4),
-                        rs.getString(5), rs.getString(6), rs.getString(7), rs.getInt(8), rs.getInt(9), 
-                        exattr, rs.getTimestamp(11), rs.getTimestamp(12), rs.getTimestamp(13));
-            }
-            return user;
+            
+            return parseUser(rs);
         } finally {
             if (conn != null) {
                 conn.close();
@@ -236,12 +223,11 @@ public class UserModel implements IUserApi.IUserModel{
 		Connection conn = null;
         try {
             conn = this.mysql.getConnection();
-            String sql = "UPDATE `" + TABLE_USER + "` SET `?`=?,`mtime`=? WHERE `uid`=?";
+            String sql = String.format("UPDATE `%s` SET `%s`=?,`mtime`=? WHERE `uid`=?", TABLE_USER, key);
             PreparedStatement pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, key);
-            pstmt.setObject(2, value);
-            pstmt.setTimestamp(3, new Timestamp(System.currentTimeMillis()));
-            pstmt.setLong(4, uid);
+            pstmt.setObject(1, value);
+            pstmt.setTimestamp(2, new Timestamp(System.currentTimeMillis()));
+            pstmt.setLong(3, uid);
             
             return pstmt.executeUpdate() == 1 ? true : false;
         } finally {
@@ -274,39 +260,57 @@ public class UserModel implements IUserApi.IUserModel{
 	}
 
 	/**
-	 * 通过用户名查找用户
+	 * 通过用户名/邮箱/手机号查找用户
 	 * @param name
 	 * @param email
 	 * @param phone
 	 * @return
 	 * @throws SQLException 
 	 */
-	@SuppressWarnings("unchecked")
 	public UserInfo findUser(String name, String email, String phone) throws SQLException {
+		if (null == name && email == null && phone == null) {
+            throw new IllegalArgumentException();
+        }
 		Connection conn = this.mysql.getConnection();
 		try {
-            String sqlGetUser = "SELECT `uid`,`name`,`phone`,`email`,`nick`,`password`, `qq`,`type`,`status`,`exattr`,"
-            		+ "`ctime`,`mtime`,`load_time` FROM `" + TABLE_USER + "` WHERE `uid` = ?";
+			String factors = "";
+            if (null != name) {
+                factors += " `name` = '" + StringEscapeUtils.escapeSql(name) + "' ";
+            }
+            if (null != email) {
+                factors = String.format("%s%s `email` = '%s'", factors, (factors.length() > 0 ? " or " : ""), StringEscapeUtils.escapeSql(email));
+            }
+            if (null != phone) {
+                factors = String.format("%s%s `phone` = '%s'", factors, (factors.length() > 0 ? " or " : ""), StringEscapeUtils.escapeSql(phone));
+            }
             
+            String sqlGetUser = "SELECT `uid`,`name`,`phone`,`email`,`nick`,`password`, `qq`,`type`,`status`,`exattr`,"
+            		+ "`ctime`,`mtime`,`load_time` FROM `" + TABLE_USER + "` ";
+            sqlGetUser = String.format("%s%s%s", sqlGetUser, (factors.length() > 0 ? "where" : ""), factors);
 			PreparedStatement pstmt = conn.prepareStatement(sqlGetUser);
             ResultSet rs = pstmt.executeQuery();
 
-            UserInfo user = null;
-            if (rs.next()) {
-                String attrStr = rs.getString(11);
-                Map<String, Object> exattr = null;
-                if (null != attrStr) {
-                	exattr = JSONObject.parseObject(attrStr, Map.class);
-                }
-                user = new UserInfo(rs.getLong(1), rs.getString(2), rs.getString(3), rs.getString(4),
-                        rs.getString(5), rs.getString(6), rs.getString(7), rs.getInt(8), rs.getInt(9), 
-                        exattr, rs.getTimestamp(11), rs.getTimestamp(12), rs.getTimestamp(13));
-            }
-            return user;
+            return parseUser(rs);
         } finally {
-            if (conn != null) {
+        	if (null != conn) {
                 conn.close();
             }
         }
 	}
+	
+	@SuppressWarnings("unchecked")
+    private UserInfo parseUser(ResultSet rs) throws SQLException {
+        UserInfo user = null;
+        if (rs.next()) {
+            String attrStr = rs.getString(10);
+            Map<String, Object> exattr = null;
+            if (null != attrStr) {
+                exattr = JSONObject.parseObject(attrStr, Map.class);
+            }
+            user = new UserInfo(rs.getLong(1), rs.getString(2), rs.getString(3), rs.getString(4),
+                    rs.getString(5), rs.getString(6), rs.getString(7), rs.getInt(8), rs.getInt(9), 
+                    exattr, rs.getTimestamp(11), rs.getTimestamp(12), rs.getTimestamp(13));
+        }
+        return user;
+    }
 }

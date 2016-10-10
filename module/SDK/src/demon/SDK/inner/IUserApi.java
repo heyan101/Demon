@@ -2,7 +2,6 @@ package demon.SDK.inner;
 
 import java.sql.SQLException;
 
-import demon.SDK.demoinfo.LoginInfo;
 import demon.SDK.demoinfo.UserInfo;
 import demon.exception.LogicalException;
 import demon.service.http.Env;
@@ -22,6 +21,33 @@ public interface IUserApi {
      * @throws SQLException 
      */
     public void setUserAttr(Env env, Long uid, String key, Object value)throws LogicalException, SQLException;
+    /**
+     * 用户注册
+     * @param env
+     * @param userInfo 用户信息
+     * @return
+     * @throws Exception
+     */
+    public UserInfo userRegister(Env env, UserInfo userInfo) throws Exception;
+    public UserInfo getUserInfoByUid(Long uid) throws SQLException;
+    public void setUserAttr(Env env, UserInfo userInfo) throws LogicalException, SQLException;
+    /**
+     * 检查用户状态
+     * 
+     * @param user 用户信息
+     * @throws LogicalException
+     * @throws SQLException 
+     */
+    public void checkUserStatus(Env env, UserInfo user) throws Exception;
+    /**
+     * 解锁密码错误的用户,判断用户锁定的时间来解锁
+     * 
+     * @param env
+     * @param user
+     * @throws SQLException
+     * @throws LogicalException
+     */
+    public void unLockForWrongPsw(Env env, UserInfo user) throws SQLException, LogicalException;
     
     
     public IUserModel getUserModel();
