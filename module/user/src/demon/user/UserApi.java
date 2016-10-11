@@ -1,5 +1,6 @@
 package demon.user;
 
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 
 import demon.SDK.SdkCenter;
@@ -43,8 +44,12 @@ public class UserApi implements IUserApi {
         return this.userModel;
     }
     
-    /**********************************************************************************************/
-    public UserInfo userRegister(Env env, UserInfo userInfo) throws Exception {
+    /**
+     * @throws LogicalException 
+     * @throws NoSuchAlgorithmException 
+     * @throws SQLException 
+     * @throws Exception ********************************************************************************************/
+    public UserInfo userRegister(Env env, UserInfo userInfo) throws LogicalException, NoSuchAlgorithmException, SQLException  {
         // check username and password
         UserApi.checkPasswordIsLegal(userInfo.password);
         // sha1
@@ -72,9 +77,10 @@ public class UserApi implements IUserApi {
      * 验证密码有效性
      * @param password
      * @return
+     * @throws LogicalException 
      * @throws Exception
      */
-    public static boolean checkPasswordIsLegal(String password) throws Exception {
+    public static boolean checkPasswordIsLegal(String password) throws LogicalException  {
         if(password == null || password.length() == 0 || password.matches("[u4e00-u9fa5]"))
             throw new LogicalException(UserRetStat.ERR_ILLEGAL_PASSWORD, "illegal password :" + password);
         return true;
@@ -129,7 +135,7 @@ public class UserApi implements IUserApi {
      * @throws LogicalException
      * @throws SQLException 
      */
-    public void checkUserStatus(Env env, UserInfo user) throws Exception {
+    public void checkUserStatus(Env env, UserInfo user) throws SQLException, LogicalException {
         
         unLockForWrongPsw(env, user);
         

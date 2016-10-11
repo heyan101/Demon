@@ -1,5 +1,5 @@
 
-DEMON_ADDR = "http://192.168.1.117:8080"
+DEMON_ADDR = "http://192.168.1.76:8080"
 DEMON_TIMEOUT = 10000
 
 DEVICE_NAME = "api-tester"

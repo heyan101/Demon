@@ -2,8 +2,6 @@ package demon.auth;
 
 import javax.servlet.http.Cookie;
 
-import org.apache.commons.codec.binary.Base64;
-
 import demon.SDK.demoinfo.LoginInfo;
 import demon.SDK.stat.UserRetStat;
 import demon.exception.UnInitilized;
@@ -22,7 +20,7 @@ public class AuthHttpApi {
 	}
 	
 	public static void init(AuthApi authApi) {
-		new AuthHttpApi(authApi);
+		authHttpApi = new AuthHttpApi(authApi);
 	}
 	
 	public static AuthHttpApi getInst() {
@@ -39,23 +37,21 @@ public class AuthHttpApi {
 	 * @param password 密码
 	 * @param type 账号类型：手机号/用户名/邮箱
 	 * @param tokenAge token 过期时间(单位：毫秒)
-	 * @param isCookie 是否写入cookie(0-no,1-yes)
+	 * @param isCookie 是否写入cookie(no,yes)
 	 * @return
 	 * @throws Exception
 	 */
 	@ApiGateway.ApiMethod(protocol = JsonProtocol.class)
 	public JsonResp login(JsonReq req) throws Exception {
 		String account = req.paramGetString("name", true);
-		// Base64 encode
 		String password = req.paramGetString("password", true);
-		password = new String(Base64.decodeBase64(password));
 		String type = req.paramGetString("type", true);
 		Long tokenAge = req.paramGetNumber("tokenAge", false, true);
-		int isCookie = req.paramGetInteger("isCookie", false) == 1 ? 1 : 0;
-
+		String isCookie = req.paramGetString("isCookie", false);
+		
 		JsonResp resp = new JsonResp(RetStat.OK);
 		// 非法账号类型
-		if (!type.equals("name")|| !type.equals("email") || !type.equals("phone")) {
+		if (!type.equals("name") && !type.equals("email") && !type.equals("phone")) {
 			resp.stat = UserRetStat.ERR_ILLEGAL_ACCOUNT_TYPE;
 			return resp;
 		}

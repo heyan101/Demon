@@ -10,6 +10,7 @@ import demon.SDK.http.AuthedJsonReq;
 import demon.SDK.stat.UserRetStat;
 import demon.exception.UnInitilized;
 import demon.service.http.ApiGateway;
+import demon.service.http.protocol.JsonProtocol;
 import demon.service.http.protocol.JsonResp;
 import demon.service.http.protocol.RetStat;
 
@@ -48,7 +49,7 @@ public class UserHttpApi {
 	 * @return UserInfo
 	 * @exception ERR_ADD_LOGIN_ID_FAILED
 	 */
-	@ApiGateway.ApiMethod(protocol = AuthedJsonProtocol.class)
+	@ApiGateway.ApiMethod(protocol = JsonProtocol.class)
 	public JsonResp userRegister(AuthedJsonReq req) throws Exception {
 		String name = req.paramGetString("name", false);
 		String email = req.paramGetString("eamil", false);

@@ -1,14 +1,14 @@
-#coding:utf-8
-# Created: 09/24/2014
+# coding:utf-8
 
 import util
+
 
 class AuthApi(util.ApiBase):
 
     MODULE_NAME = "auth"
     URL_PREFIX = "api"
 
-    def login(self, account, password, type='name', **kwparams):
+    def login(self, account, password, type, **kwparams):
         return self._invoke("login", "", True, name=account, password=password, type=type, **kwparams)
 
     def checkLogin(self, token):

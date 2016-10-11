@@ -51,6 +51,10 @@ def json_invoke_with_header(server_addr, module_name, url_prefix, method_name, t
     else:
         post_body = json.dumps(kwargs)
 
+    print('url========', url)
+    print('post_body==', post_body)
+    print('headers====', headers)
+
     req = urllib2.Request(url, post_body, headers)
     _print_curl_cmd(url, post_body, headers)
     try:

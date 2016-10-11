@@ -1,6 +1,9 @@
 package demon.auth;
 
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
+import java.text.ParseException;
 
 import javax.security.auth.login.LoginException;
 
@@ -108,16 +111,16 @@ public class AuthApi implements IAuthApi {
 		
 	}
 
-	private LoginInfo login(Env env, Long uid, String name, String password, String type, Long tokenAge) throws SQLException, LogicalException {
+	private LoginInfo login(Env env, Long uid, String name, String password, String type, Long tokenAge) throws SQLException, LogicalException, NoSuchAlgorithmException, UnsupportedEncodingException, ParseException {
 		UserInfo user = this.beans.getUserApi().getUserModel().getUserInfoByUid(uid);
 		if (user == null) {
 			throw new LogicalException(UserRetStat.ERR_NO_SUCH_ACCOUNT,
 					UserRetStat.getMsgByStat(UserRetStat.ERR_NO_SUCH_ACCOUNT, name));
 		}
-		
 		// check user status
+		beans.getUserApi().checkUserStatus(env, user);
 		
-		if (!user.password.equals(password)) {
+		if (!AuthUtils.checkPassword(user, password)) {
 			throw new LogicalException(UserRetStat.ERR_INVALID_PASSWORD,
 					UserRetStat.getMsgByStat(UserRetStat.ERR_INVALID_PASSWORD, name));
 		}

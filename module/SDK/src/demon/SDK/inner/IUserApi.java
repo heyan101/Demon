@@ -1,5 +1,6 @@
 package demon.SDK.inner;
 
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 
 import demon.SDK.demoinfo.UserInfo;
@@ -28,7 +29,7 @@ public interface IUserApi {
      * @return
      * @throws Exception
      */
-    public UserInfo userRegister(Env env, UserInfo userInfo) throws Exception;
+    public UserInfo userRegister(Env env, UserInfo userInfo) throws LogicalException, NoSuchAlgorithmException, SQLException;
     public UserInfo getUserInfoByUid(Long uid) throws SQLException;
     public void setUserAttr(Env env, UserInfo userInfo) throws LogicalException, SQLException;
     /**
@@ -38,7 +39,7 @@ public interface IUserApi {
      * @throws LogicalException
      * @throws SQLException 
      */
-    public void checkUserStatus(Env env, UserInfo user) throws Exception;
+    public void checkUserStatus(Env env, UserInfo user) throws SQLException, LogicalException;
     /**
      * 解锁密码错误的用户,判断用户锁定的时间来解锁
      * 

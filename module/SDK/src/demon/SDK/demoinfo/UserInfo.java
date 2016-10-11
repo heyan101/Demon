@@ -104,6 +104,7 @@ public class UserInfo {
 		this.phone = phone;
 		this.name = name;
 		this.nick = nick;
+		this.password = password;
 		this.email = email;
 		this.qq = qq;
 		this.status = status;

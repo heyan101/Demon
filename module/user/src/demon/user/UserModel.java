@@ -284,7 +284,7 @@ public class UserModel implements IUserApi.IUserModel{
                 factors = String.format("%s%s `phone` = '%s'", factors, (factors.length() > 0 ? " or " : ""), StringEscapeUtils.escapeSql(phone));
             }
             
-            String sqlGetUser = "SELECT `uid`,`name`,`phone`,`email`,`nick`,`password`, `qq`,`type`,`status`,`exattr`,"
+            String sqlGetUser = "SELECT `uid`,`name`,`phone`,`email`,`nick`,`password`,`qq`,`type`,`status`,`exattr`,"
             		+ "`ctime`,`mtime`,`load_time` FROM `" + TABLE_USER + "` ";
             sqlGetUser = String.format("%s%s%s", sqlGetUser, (factors.length() > 0 ? "where" : ""), factors);
 			PreparedStatement pstmt = conn.prepareStatement(sqlGetUser);
