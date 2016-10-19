@@ -1,7 +1,3 @@
-//
-// @author Jacky
-//
-
 package demon.service.http;
 
 import java.net.URISyntaxException;
@@ -268,12 +264,6 @@ public class HttpServer {
                     "org.eclipse.jetty.annotations.AnnotationConfiguration");
             context.setAttribute("org.eclipse.jetty.server.webapp.ContainerIncludeJarPattern",
                     ".*/[^/]*servlet-api-[^/]*\\.jar$|.*/javax.servlet.jsp.jstl-.*\\.jar$|.*/[^/]*taglibs.*\\.jar$");
-            
-//            String welcomPage = Config.get(HttpConfig.CONF_DEMON_HTTP_WEB_WELCOM_PAGE);
-//            if (null != welcomPage) {
-//                String[] files = new String[]{welcomPage};
-//                context.setWelcomeFiles(files);
-//            }
 
             handlers.add(context);
         }
@@ -291,7 +281,6 @@ public class HttpServer {
 	}
 	
 	public static void startService() throws Exception {
-
 	    addJspPaths();
 	    
 		ContextHandlerCollection contexts = new ContextHandlerCollection();
@@ -305,5 +294,4 @@ public class HttpServer {
 	public static void join() throws InterruptedException {
 		jettyServer.join();
 	}
-	
 }

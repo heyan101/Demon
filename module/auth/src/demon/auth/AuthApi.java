@@ -53,16 +53,6 @@ public class AuthApi implements IAuthApi {
 		return this.authModel;
 	}
 	
-	/**
-	 * 用户登录
-	 * @param env
-	 * @param account
-	 * @param password
-	 * @param type 账号类型
-	 * @param tokenAge
-	 * @return
-	 * @throws Exception
-	 */
 	public LoginInfo login(Env env, String account, String password, String type, Long tokenAge) throws Exception {
 		if (tokenAge == null) {
             tokenAge = (long) AuthConfig.defaultTokenAge;
@@ -108,7 +98,6 @@ public class AuthApi implements IAuthApi {
             throw new LogicalException(RetStat.ERR_SERVER_EXCEPTION,
                     "Logical exception not set.");
         }
-		
 	}
 
 	private LoginInfo login(Env env, Long uid, String name, String password, String type, Long tokenAge) throws SQLException, LogicalException, NoSuchAlgorithmException, UnsupportedEncodingException, ParseException {
@@ -138,13 +127,12 @@ public class AuthApi implements IAuthApi {
 //    	Long uid = this.authModel.checkLoginId(type, value);
 //        return uid;
 //    }
-    
+
     public LoginInfo checkLogin(Env env, String token) throws SQLException, LogicalException {
     	if (null == token) {
             throw new IllegalArgumentException();
         }
     	
-    	// get from cache
     	TokenInfo tokenInfo = this.authModel.getTokenInfo(token);
         if (tokenInfo == null) {
             throw new LogicalException(AuthRetStat.ERR_TOKEN_NOT_FOUND, token);
@@ -161,4 +149,26 @@ public class AuthApi implements IAuthApi {
         
         return loginInfo;
     }
+    
+	public TokenInfo forkToken(Env env, String token, Long tokenAge) throws SQLException, LogicalException {
+		if (null == token) {
+            throw new IllegalArgumentException();
+        }
+		if (tokenAge == null) {
+            tokenAge = (long) AuthConfig.defaultTokenAge;
+        }
+		
+		TokenInfo tokenInfo = this.authModel.getTokenInfo(token);
+        if (tokenInfo == null) {
+            throw new LogicalException(AuthRetStat.ERR_TOKEN_NOT_FOUND, token);
+        }
+        
+        tokenInfo = TokenInfo.newToken(tokenInfo.uid, tokenAge, tokenInfo.ip, tokenInfo.device);
+        return tokenInfo;
+	}
+	
+	public void logout(Env env, String token) {
+		// TODO Auto-generated method stub
+		
+	}
 }

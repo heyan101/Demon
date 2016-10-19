@@ -3,6 +3,7 @@ package demon.auth;
 import javax.servlet.http.Cookie;
 
 import demon.SDK.demoinfo.LoginInfo;
+import demon.SDK.stat.AuthRetStat;
 import demon.SDK.stat.UserRetStat;
 import demon.exception.UnInitilized;
 import demon.service.http.ApiGateway;
@@ -33,12 +34,37 @@ public class AuthHttpApi {
 	/********************************************     对外接口               ********************************************/
 	/**
 	 * 用户登录
-	 * @param account 手机号/用户名/邮箱
-	 * @param password 密码
-	 * @param type 账号类型：手机号/用户名/邮箱
-	 * @param tokenAge token 过期时间(单位：毫秒)
-	 * @param isCookie 是否写入cookie(no,yes)
-	 * @return
+	 * @param account 
+	 * <blockquote>
+     * 		类型：字符串<br/>
+     * 		描述：手机号/用户名/邮箱<br/>
+     * 		必需：YES
+     * </blockquote>
+	 * @param password 
+	 * <blockquote>
+     * 		类型：字符串<br/>
+     * 		描述：密码<br/>
+     * 		必需：YES
+     * </blockquote>
+	 * @param type 
+	 * <blockquote>
+     * 		类型：字符串<br/>
+     * 		描述：账号类型：手机号(phone)/用户名(name)/邮箱(email)<br/>
+     * 		必需：YES
+     * </blockquote>
+	 * @param tokenAge 
+	 * <blockquote>
+     * 		类型：整形<br/>
+     * 		描述：token 过期时间(单位：毫秒)<br/>
+     * 		必需：NO
+     * </blockquote>
+	 * @param isCookie 
+	 * <blockquote>
+     * 		类型：字符串<br/>
+     * 		描述：是否写入cookie(no,yes)<br/>
+     * 		必需：NO
+     * </blockquote>
+	 * @return UserInfo
 	 * @throws Exception
 	 */
 	@ApiGateway.ApiMethod(protocol = JsonProtocol.class)
@@ -48,6 +74,7 @@ public class AuthHttpApi {
 		String type = req.paramGetString("type", true);
 		Long tokenAge = req.paramGetNumber("tokenAge", false, true);
 		String isCookie = req.paramGetString("isCookie", false);
+		isCookie = null == isCookie ? "yes" : isCookie;
 		
 		JsonResp resp = new JsonResp(RetStat.OK);
 		// 非法账号类型
@@ -72,4 +99,76 @@ public class AuthHttpApi {
         return resp;
 	}
 
+	/**
+	 * 验证用户是否已登录
+	 * @param token
+	 * <blockquote>
+     * 		类型：字符串<br/>
+     * 		描述：token<br/>
+     * 		必需：YES
+     * </blockquote>
+	 * @return rest token的剩余时间，单位毫秒
+	 * @throws Exception
+	 */
+	@ApiGateway.ApiMethod(protocol = JsonProtocol.class)
+	public JsonResp checkLogin(JsonReq req) throws Exception{
+		JsonResp resp = new JsonResp(RetStat.OK);
+		String token = req.paramGetString("token", true);
+		if (token == null || token.length() < 1) {
+			resp.stat = AuthRetStat.ERR_TOKEN_NOT_FOUND;
+		}
+		
+		authApi.checkLogin(req.env, token);
+		
+		return resp;
+	}
+	
+	/**
+	 * 重新 fork 一个新的 token
+	 * @param token
+	 * <blockquote>
+     * 		类型：字符串<br/>
+     * 		描述：token<br/>
+     * 		必需：YES
+     * </blockquote>
+	 * @param tokenAge 
+	 * <blockquote>
+     * 		类型：整数<br/>
+     * 		描述：新建token的寿命，单位毫秒<br/>
+     * 		必需：NO
+     * </blockquote>
+	 * @return new token
+	 * @throws Exception
+	 */
+	@ApiGateway.ApiMethod(protocol = JsonProtocol.class)
+	public JsonResp forkToken(JsonReq req) throws Exception{
+		String token = req.paramGetString("token", true);
+		Long tokenAge = req.paramGetNumber("tokenAge", false, true);
+		
+		authApi.forkToken(req.env, token, tokenAge);
+		
+		JsonResp resp = new JsonResp(RetStat.OK);
+		return resp;
+	}
+	
+	/**
+	 * 退出登录
+	 * @param token
+	 * <blockquote>
+     * 		类型：字符串<br/>
+     * 		描述：token<br/>
+     * 		必需：YES
+     * </blockquote>
+	 * @return
+	 * @throws Exception
+	 */
+	@ApiGateway.ApiMethod(protocol = JsonProtocol.class)
+	public JsonResp logout(JsonReq req) throws Exception{
+		String token = req.paramGetString("token", true);
+		
+		authApi.logout(req.env, token);
+		
+		JsonResp resp = new JsonResp(RetStat.OK);
+		return resp;
+	}
 }
