@@ -7,7 +7,9 @@ import org.apache.commons.codec.binary.Base64;
 import demon.SDK.demoinfo.UserInfo;
 import demon.SDK.http.AuthedJsonProtocol;
 import demon.SDK.http.AuthedJsonReq;
+import demon.SDK.stat.AclRetStat;
 import demon.SDK.stat.UserRetStat;
+import demon.exception.LogicalException;
 import demon.exception.UnInitilized;
 import demon.service.http.ApiGateway;
 import demon.service.http.protocol.JsonProtocol;
@@ -34,18 +36,58 @@ public class UserHttpApi {
 		return userHttpApi;
 	}
 	
-	
-	
+	/*************************************************************************************************/
 	/**
 	 * 用户注册
-	 * @param name 用户名
-	 * @param email 邮箱
-	 * @param phone 手机号
-	 * @param password 密码
-	 * @param nick 昵称
-	 * @param qq QQ
-	 * @param exattr 额外属性 
 	 * 
+	 * @param token
+	 * <blockquote>
+     * 		类型：String<br/>
+     * 		描述：token<br/>
+     * 		必需：YES
+     * </blockquote>
+	 * @param name
+	 * <blockquote>
+     * 		类型：字符串<br/>
+     * 		描述：用户名<br/>
+     * 		必需：NO
+     * </blockquote>
+	 * @param email
+	 * <blockquote>
+     * 		类型：字符串<br/>
+     * 		描述：邮箱<br/>
+     * 		必需：NO
+     * </blockquote>
+	 * @param phone
+	 * <blockquote>
+     * 		类型：字符串<br/>
+     * 		描述：手机号<br/>
+     * 		必需：NO
+     * </blockquote>
+	 * @param password 
+	 * <blockquote>
+     * 		类型：字符串<br/>
+     * 		描述：密码<br/>
+     * 		必需：YES
+     * </blockquote>
+	 * @param nick 
+	 * <blockquote>
+     * 		类型：字符串<br/>
+     * 		描述：昵称<br/>
+     * 		必需：NO
+     * </blockquote>
+	 * @param qq 
+	 * <blockquote>
+     * 		类型：字符串<br/>
+     * 		描述：QQ<br/>
+     * 		必需：NO
+     * </blockquote>
+	 * @param exattr 
+	 * <blockquote>
+     * 		类型：Map<br/>
+     * 		描述：额外属性<br/>
+     * 		必需：NO
+     * </blockquote> 
 	 * @return UserInfo
 	 * @exception ERR_ADD_LOGIN_ID_FAILED
 	 */
@@ -72,14 +114,49 @@ public class UserHttpApi {
 	}
 	
 	/**
-	 * 获取用户信息
+	 * 通过 uid 获取用户信息
+	 * 
+	 * @param token
+	 * <blockquote>
+     * 		类型：String<br/>
+     * 		描述：token<br/>
+     * 		必需：YES
+     * </blockquote>
+	 * @param uid
+	 * <blockquote>
+     * 		类型：整形<br/>
+     * 		描述：用户 uid<br/>
+     * 		必需：YES
+     * </blockquote> 
+     * @exception ERR_USER_NOT_FOUND,ERR_ACL_NOT_GET_USERINFO
 	 */
 	@ApiGateway.ApiMethod(protocol = AuthedJsonProtocol.class)
 	public JsonResp getUserInfo(AuthedJsonReq req) throws Exception {
-		return null;
+		Long uid = req.paramGetNumber("uid", true, true);
+		if (uid == null || uid.longValue() < 1) {
+			throw new LogicalException(UserRetStat.ERR_USER_NOT_FOUND, "uid == null || uid < 1");
+		}
+		// 只有管理员和用户自己可以查看用户信息，其他人没有权限
+		if (2 != req.loginInfo.userInfo.type || uid.longValue() != req.loginInfo.userInfo.uid.longValue()) {
+			throw new LogicalException(AclRetStat.ERR_ACL_NOT_GET_USERINFO, 
+					AclRetStat.getMsgByStat(AclRetStat.ERR_ACL_NOT_GET_USERINFO, String.valueOf(uid)));
+		}
+		
+		UserInfo userInfo = this.userApi.getUserInfoByUid(uid);
+		JsonResp resp = new JsonResp(RetStat.OK);
+
+		resp.resultMap.put("UserInfo", userInfo);
+		return resp;
 	}
 	/**
 	 * 设置用户信息
+	 * 
+	 * @param token
+	 * <blockquote>
+     * 		类型：String<br/>
+     * 		描述：token<br/>
+     * 		必需：YES
+     * </blockquote>
 	 */
 	@ApiGateway.ApiMethod(protocol = AuthedJsonProtocol.class)
 	public JsonResp setUserInfo(AuthedJsonReq req) throws Exception {
@@ -87,6 +164,13 @@ public class UserHttpApi {
 	}
 	/**
 	 * 更新用户昵称
+	 * 
+	 * @param token
+	 * <blockquote>
+     * 		类型：String<br/>
+     * 		描述：token<br/>
+     * 		必需：YES
+     * </blockquote>
 	 */
 	@ApiGateway.ApiMethod(protocol = AuthedJsonProtocol.class)
 	public JsonResp updateNickName(AuthedJsonReq req) throws Exception {
@@ -94,6 +178,13 @@ public class UserHttpApi {
 	}
 	/**
 	 * 更新密码
+	 * 
+	 * @param token
+	 * <blockquote>
+     * 		类型：String<br/>
+     * 		描述：token<br/>
+     * 		必需：YES
+     * </blockquote>
 	 */
 	@ApiGateway.ApiMethod(protocol = AuthedJsonProtocol.class)
 	public JsonResp updatePassword(AuthedJsonReq req) throws Exception {
@@ -101,6 +192,13 @@ public class UserHttpApi {
 	}
 	/**
 	 * 找回密码
+	 * 
+	 * @param token
+	 * <blockquote>
+     * 		类型：String<br/>
+     * 		描述：token<br/>
+     * 		必需：YES
+     * </blockquote>
 	 */
 	@ApiGateway.ApiMethod(protocol = AuthedJsonProtocol.class)
 	public JsonResp retrievePassword(AuthedJsonReq req) throws Exception {
@@ -108,6 +206,13 @@ public class UserHttpApi {
 	}
 	/**
 	 * 添加用户收货地址
+	 * 
+	 * @param token
+	 * <blockquote>
+     * 		类型：String<br/>
+     * 		描述：token<br/>
+     * 		必需：YES
+     * </blockquote>
 	 */
 	@ApiGateway.ApiMethod(protocol = AuthedJsonProtocol.class)
 	public JsonResp addDeliveryAddress(AuthedJsonReq req) throws Exception {
@@ -115,6 +220,13 @@ public class UserHttpApi {
 	}
 	/**
 	 * 修改用户收货地址
+	 * 
+	 * @param token
+	 * <blockquote>
+     * 		类型：String<br/>
+     * 		描述：token<br/>
+     * 		必需：YES
+     * </blockquote>
 	 */
 	@ApiGateway.ApiMethod(protocol = AuthedJsonProtocol.class)
 	public JsonResp updateDeliveryAddress(AuthedJsonReq req) throws Exception {
@@ -122,6 +234,13 @@ public class UserHttpApi {
 	}
 	/**
 	 * 获取用户收货地址
+	 * 
+	 * @param token
+	 * <blockquote>
+     * 		类型：String<br/>
+     * 		描述：token<br/>
+     * 		必需：YES
+     * </blockquote>
 	 */
 	@ApiGateway.ApiMethod(protocol = AuthedJsonProtocol.class)
 	public JsonResp getDeliveryAddress(AuthedJsonReq req) throws Exception {

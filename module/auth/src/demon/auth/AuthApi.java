@@ -53,7 +53,8 @@ public class AuthApi implements IAuthApi {
 		return this.authModel;
 	}
 	
-	public LoginInfo login(Env env, String account, String password, String type, Long tokenAge) throws Exception {
+	public LoginInfo login(Env env, String account, String password, String type, Long tokenAge) 
+			throws LoginException, SQLException, NoSuchAlgorithmException, UnsupportedEncodingException, ParseException, LogicalException {
 		if (tokenAge == null) {
             tokenAge = (long) AuthConfig.defaultTokenAge;
         }
@@ -167,8 +168,15 @@ public class AuthApi implements IAuthApi {
         return tokenInfo;
 	}
 	
-	public void logout(Env env, String token) {
-		// TODO Auto-generated method stub
+	public boolean logout(Env env, String token) throws SQLException, LogicalException {
+		if (null == token) {
+            throw new IllegalArgumentException();
+        }
+		TokenInfo tokenInfo = this.authModel.getTokenInfo(token);
+		if (tokenInfo == null) {
+            throw new LogicalException(AuthRetStat.ERR_TOKEN_NOT_FOUND, token);
+        }
 		
+		return this.authModel.deleteToken(tokenInfo.token);
 	}
 }

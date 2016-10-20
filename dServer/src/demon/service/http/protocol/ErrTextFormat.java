@@ -4,9 +4,6 @@ import demon.service.http.Env;
 
 /**
  * 错误码解析器
- * 
- * @author firewolf
- *
  */
 public interface ErrTextFormat {
 	/**

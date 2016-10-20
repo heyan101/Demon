@@ -30,9 +30,6 @@ public class ErrTextFormatter {
             }
             formats.put(module, format);
             errTextFormats.put(stat, formats);
-//            String str = format.getErrText(new Env(""), stat);
-//            str = "<tr><td colspan=\"1\" class=\"confluenceTd\">" + stat + "</td><td colspan=\"1\" class=\"confluenceTd\">" + str + "</td></tr>";
-//            System.out.println(str);
         }
     }
     

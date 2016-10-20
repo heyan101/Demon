@@ -92,8 +92,7 @@ public class ModuleMgr {
      * @return
      * @throws Exception
      */
-    private static boolean loadModule(File moduleRootPath, Set<String> modules) throws Exception {
-        
+    private static boolean loadModule(File moduleRootPath, Set<String> modules) throws Exception {        
         if (null == moduleRootPath) {
             return false;
         }

@@ -3,7 +3,8 @@ package demon.auth;
 import javax.servlet.http.Cookie;
 
 import demon.SDK.demoinfo.LoginInfo;
-import demon.SDK.stat.AuthRetStat;
+import demon.SDK.http.AuthedJsonProtocol;
+import demon.SDK.http.AuthedJsonReq;
 import demon.SDK.stat.UserRetStat;
 import demon.exception.UnInitilized;
 import demon.service.http.ApiGateway;
@@ -11,6 +12,7 @@ import demon.service.http.protocol.JsonProtocol;
 import demon.service.http.protocol.JsonReq;
 import demon.service.http.protocol.JsonResp;
 import demon.service.http.protocol.RetStat;
+import demon.utils.Time;
 
 public class AuthHttpApi {
 	private AuthApi authApi;
@@ -34,6 +36,13 @@ public class AuthHttpApi {
 	/********************************************     对外接口               ********************************************/
 	/**
 	 * 用户登录
+	 * 
+	 * @param token
+	 * <blockquote>
+     * 		类型：String<br/>
+     * 		描述：token<br/>
+     * 		必需：YES
+     * </blockquote>
 	 * @param account 
 	 * <blockquote>
      * 		类型：字符串<br/>
@@ -65,7 +74,6 @@ public class AuthHttpApi {
      * 		必需：NO
      * </blockquote>
 	 * @return UserInfo
-	 * @throws Exception
 	 */
 	@ApiGateway.ApiMethod(protocol = JsonProtocol.class)
 	public JsonResp login(JsonReq req) throws Exception {
@@ -101,6 +109,7 @@ public class AuthHttpApi {
 
 	/**
 	 * 验证用户是否已登录
+	 * 
 	 * @param token
 	 * <blockquote>
      * 		类型：字符串<br/>
@@ -108,23 +117,19 @@ public class AuthHttpApi {
      * 		必需：YES
      * </blockquote>
 	 * @return rest token的剩余时间，单位毫秒
-	 * @throws Exception
 	 */
-	@ApiGateway.ApiMethod(protocol = JsonProtocol.class)
-	public JsonResp checkLogin(JsonReq req) throws Exception{
+	@ApiGateway.ApiMethod(protocol = AuthedJsonProtocol.class)
+	public JsonResp checkLogin(AuthedJsonReq req) throws Exception{
 		JsonResp resp = new JsonResp(RetStat.OK);
-		String token = req.paramGetString("token", true);
-		if (token == null || token.length() < 1) {
-			resp.stat = AuthRetStat.ERR_TOKEN_NOT_FOUND;
-		}
-		
-		authApi.checkLogin(req.env, token);
-		
-		return resp;
+        Long rest = req.loginInfo.tokenInfo.expires.getTime() - Time.currentTimeMillis();
+        resp.resultMap.put("rest", rest);
+
+        return resp;
 	}
 	
 	/**
 	 * 重新 fork 一个新的 token
+	 * 
 	 * @param token
 	 * <blockquote>
      * 		类型：字符串<br/>
@@ -138,7 +143,6 @@ public class AuthHttpApi {
      * 		必需：NO
      * </blockquote>
 	 * @return new token
-	 * @throws Exception
 	 */
 	@ApiGateway.ApiMethod(protocol = JsonProtocol.class)
 	public JsonResp forkToken(JsonReq req) throws Exception{
@@ -153,6 +157,7 @@ public class AuthHttpApi {
 	
 	/**
 	 * 退出登录
+	 * 
 	 * @param token
 	 * <blockquote>
      * 		类型：字符串<br/>
@@ -160,7 +165,6 @@ public class AuthHttpApi {
      * 		必需：YES
      * </blockquote>
 	 * @return
-	 * @throws Exception
 	 */
 	@ApiGateway.ApiMethod(protocol = JsonProtocol.class)
 	public JsonResp logout(JsonReq req) throws Exception{

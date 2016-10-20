@@ -52,7 +52,6 @@ public class AuthModel implements IAuthApi.IAuthModel {
 	}
 	
 	/**********************************************************************************************************/
-	
 	public boolean addToken(TokenInfo tokenInfo) throws SQLException {
         if (tokenInfo == null) {
             throw new IllegalArgumentException();
@@ -102,6 +101,24 @@ public class AuthModel implements IAuthApi.IAuthModel {
         }
     }
 	
+	public boolean deleteToken(String token) throws SQLException {
+		if (null == token) {
+            throw new IllegalArgumentException();
+        }
+		Connection conn = null;
+		try {
+			conn = this.mysql.getConnection();
+			
+			String sql = "DELETE FROM `" + TABLE_TOKEN + "` WHERE `token` = ?";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, token);
+            return pstmt.executeUpdate() == 1 ? true : false;
+		} finally {
+            if (conn != null) {
+                conn.close();
+            }
+        }
+	}
 	/****************************************************************************************/
 	
 	public boolean setLoginId(String type, String value, Long uid) throws SQLException {
@@ -155,5 +172,5 @@ public class AuthModel implements IAuthApi.IAuthModel {
             }
         }
 	}
-	
+
 }

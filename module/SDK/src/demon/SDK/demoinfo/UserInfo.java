@@ -39,7 +39,7 @@ public class UserInfo {
 	 */
 	public int status;
 	/**
-	 * 用户类型:1-客户,2-管理员
+	 * 用户类型:1-客户,2-超级管理员
 	 */
 	public int type;
 	/**
