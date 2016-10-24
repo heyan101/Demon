@@ -1,4 +1,4 @@
-package demon.utils;
+package dmodule.utils;
 
 /**
  * XSS : 跨站脚本攻击缩写

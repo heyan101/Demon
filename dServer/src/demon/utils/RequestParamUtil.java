@@ -1,4 +1,4 @@
-package demon.utils;
+package dmodule.utils;
 
 import java.util.List;
 import java.util.Map;

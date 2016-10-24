@@ -1,4 +1,4 @@
-package demon.service.http;
+package dmodule.service.http;
 
 import java.io.IOException;
 import java.util.Map;
@@ -6,12 +6,12 @@ import java.util.Map;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 
-import demon.service.http.protocol.JsonProtocol;
-import demon.service.http.protocol.JsonReq;
-import demon.service.http.protocol.JsonResp;
-import demon.service.http.protocol.RetStat;
-import demon.service.log.Logger;
-import demon.utils.ServletUtil;
+import dmodule.service.http.protocol.JsonProtocol;
+import dmodule.service.http.protocol.JsonReq;
+import dmodule.service.http.protocol.JsonResp;
+import dmodule.service.http.protocol.RetStat;
+import dmodule.service.log.Logger;
+import dmodule.utils.ServletUtil;
 
 class TestApiGateway {
 

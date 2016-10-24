@@ -1,4 +1,4 @@
-package demon.utils;
+package dmodule.utils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -7,7 +7,7 @@ import java.io.InputStream;
 import java.util.Properties;
 import java.util.Set;
 
-import demon.Config;
+import dmodule.Config;
 
 public class XProperties {
 

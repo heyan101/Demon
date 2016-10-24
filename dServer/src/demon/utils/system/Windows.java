@@ -1,4 +1,4 @@
-package demon.utils.system;
+package dmodule.utils.system;
 
 import java.io.BufferedReader;
 import java.io.File;

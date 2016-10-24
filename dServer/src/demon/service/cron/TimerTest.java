@@ -1,4 +1,4 @@
-package demon.service.cron;
+package dmodule.service.cron;
 
 import java.util.TimerTask;
 
@@ -47,7 +47,7 @@ public class TimerTest {
     
 //    public static MySql getMySql() {
 //        try {
-//            String mysqlConfFile = "/etc/demon/server.properties";
+//            String mysqlConfFile = "/etc/dmodule/server.properties";
 //            System.out.println("Using " + mysqlConfFile + " for db config");
 //            
 //            Config.init(mysqlConfFile);

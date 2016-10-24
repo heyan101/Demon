@@ -1,4 +1,4 @@
-package demon.utils;
+package dmodule.utils;
 
 import java.nio.ByteBuffer;
 import java.util.UUID;

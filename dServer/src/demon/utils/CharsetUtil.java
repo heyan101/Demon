@@ -1,4 +1,4 @@
-package demon.utils;
+package dmodule.utils;
 
 import org.mozilla.intl.chardet.nsDetector;
 import org.mozilla.intl.chardet.nsICharsetDetectionObserver;

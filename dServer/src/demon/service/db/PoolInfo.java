@@ -1,4 +1,4 @@
-package demon.service.db;
+package dmodule.service.db;
 
 //@javadoc
 

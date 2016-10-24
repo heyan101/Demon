@@ -1,9 +1,9 @@
-package demon.service.log;
+package dmodule.service.log;
 
 import java.io.File;
 import java.util.Date;
 
-import demon.utils.Time;
+import dmodule.utils.Time;
 
 public class TestLogger {
 

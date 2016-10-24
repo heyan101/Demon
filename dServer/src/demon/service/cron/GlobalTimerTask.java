@@ -1,14 +1,14 @@
-package demon.service.cron;
+package dmodule.service.cron;
 
 // @javadoc
 
 import java.sql.SQLException;
 import java.util.TimerTask;
 
-import demon.exception.UnInitilized;
-import demon.service.cron.CronModel.CronTask;
-import demon.service.db.MySql;
-import demon.utils.Time;
+import dmodule.exception.UnInitilized;
+import dmodule.service.cron.CronModel.CronTask;
+import dmodule.service.db.MySql;
+import dmodule.utils.Time;
 
 public abstract class GlobalTimerTask extends TimerTask{
 
@@ -81,7 +81,7 @@ public abstract class GlobalTimerTask extends TimerTask{
             return _cronModel.AddCronTask(cronTask);
         }
         
-        // Task is cancel or task is already run by other demon
+        // Task is cancel or task is already run by other dmodule
         // 0.9 is nothing but for time adjustment
         if (cronTask.status == STATUS_CANCELED ||
             cronTask.lastRunTm + period * 0.9 > now) {

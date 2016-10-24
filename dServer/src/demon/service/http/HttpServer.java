@@ -1,4 +1,4 @@
-package demon.service.http;
+package dmodule.service.http;
 
 import java.net.URISyntaxException;
 import java.util.EnumSet;
@@ -34,9 +34,9 @@ import org.eclipse.jetty.util.ssl.SslContextFactory;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
 import org.eclipse.jetty.webapp.Configuration.ClassList;
 
-import demon.Config;
-import demon.ModuleMgr;
-import demon.exception.UnInitilized;
+import dmodule.Config;
+import dmodule.ModuleMgr;
+import dmodule.exception.UnInitilized;
 
 import org.eclipse.jetty.webapp.WebAppContext;
 

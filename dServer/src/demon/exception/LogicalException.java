@@ -1,4 +1,4 @@
-package demon.exception;
+package dmodule.exception;
 
 //@javadoc 逻辑错误异常类
 

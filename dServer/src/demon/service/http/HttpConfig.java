@@ -1,24 +1,24 @@
-package demon.service.http;
+package dmodule.service.http;
 
-import demon.Config;
+import dmodule.Config;
 
 public class HttpConfig {
 
-    public static final String CONF_DEMON_HTTP_HOST = "demon.http.host";
-    public static final String CONF_DEMON_HTTP_PORT = "demon.http.port";
+    public static final String CONF_DEMON_HTTP_HOST = "dmodule.http.host";
+    public static final String CONF_DEMON_HTTP_PORT = "dmodule.http.port";
 
-    public static final String CONF_DEMON_HTTP_WEB_CONTEXT_PATH = "demon.http.webContextPath";
-    public static final String CONF_DEMON_HTTP_WEB_WELCOM_PAGE = "demon.http.webWelcomePage";
+    public static final String CONF_DEMON_HTTP_WEB_CONTEXT_PATH = "dmodule.http.webContextPath";
+    public static final String CONF_DEMON_HTTP_WEB_WELCOM_PAGE = "dmodule.http.webWelcomePage";
 
-    public static final String CONF_DEMON_HTTPS_PORT = "demon.http.ssl.port";
-    public static final String CONF_DEMON_HTTPS_KEY_PATH = "demon.http.ssl.kspath";
-    public static final String CONF_DEMON_HTTPS_KEY_PWD = "demon.http.ssl.kspwd";
+    public static final String CONF_DEMON_HTTPS_PORT = "dmodule.http.ssl.port";
+    public static final String CONF_DEMON_HTTPS_KEY_PATH = "dmodule.http.ssl.kspath";
+    public static final String CONF_DEMON_HTTPS_KEY_PWD = "dmodule.http.ssl.kspwd";
 
-    public static final String CONF_DEMON_THREAD_MAX = "demon.http.thread.max";
-    public static final String CONF_DEMON_THREAD_MIN = "demon.http.thread.min";
-    public static final String CONF_DEMON_THREAD_IDLE = "demon.http.thread.idleTimeout";
+    public static final String CONF_DEMON_THREAD_MAX = "dmodule.http.thread.max";
+    public static final String CONF_DEMON_THREAD_MIN = "dmodule.http.thread.min";
+    public static final String CONF_DEMON_THREAD_IDLE = "dmodule.http.thread.idleTimeout";
     
-    public static final String CONF_DEMON_IO_TIMEOUT = "demon.http.io.timeout";
+    public static final String CONF_DEMON_IO_TIMEOUT = "dmodule.http.io.timeout";
     
     public static HttpServer.ServerConfig load() {
         HttpServer.ServerConfig conf = new HttpServer.ServerConfig();

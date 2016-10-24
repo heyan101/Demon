@@ -1,4 +1,4 @@
-package demon;
+package dmodule;
 
 import java.io.File;
 import java.lang.reflect.Method;
@@ -11,7 +11,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-import demon.utils.XProperties;
+import dmodule.utils.XProperties;
 
 /**
  * 插件管理器
@@ -172,12 +172,12 @@ public class ModuleMgr {
         }
 
         try {
-            Class<?> cls = classLoader.loadClass(String.format("demon.%s.Init",
+            Class<?> cls = classLoader.loadClass(String.format("dmodule.%s.Init",
                     moduleName));
             Method method = cls.getMethod("init", String.class);
             method.invoke(null, modulePath.getAbsolutePath());
         } catch (ClassNotFoundException | NoSuchMethodException e) {
-            System.err.println(String.format("Invalid module '%s', demon.%s.Init.init not found.", moduleName, moduleName));
+            System.err.println(String.format("Invalid module '%s', dmodule.%s.Init.init not found.", moduleName, moduleName));
             failedModules.add(moduleName);
             return false;
         }

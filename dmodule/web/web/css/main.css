@@ -1,0 +1,33 @@
+body, button, input, select, textarea {
+    font: 12px/1.5 tahoma,arial,'Hiragino Sans GB',\5b8b\4f53,sans-serif;
+    color: #666;
+}
+
+/* 防止因为浏览器的默认边距对布局产生影响 */
+blockquote, body, button, code, dd, div, dl, dt, fieldset, form, h1, h2, h3, h4, h5, h6, input, legend,
+li, ol, p, pre, td, textarea, th, ul, content, header {
+    margin: 0;
+    padding: 0;
+}
+
+div, header, content, ul, menu {
+    display: block;
+}
+
+ol, ul {
+    list-style-type: none;
+    list-style-position: initial;
+    list-style-image: initial;
+}
+
+li {
+    display: list-item;
+    text-align: -webkit-match-parent;
+    list-style: none;
+}
+
+a:-webkit-any-link {
+    color: -webkit-link;
+    text-decoration: none;
+    cursor: auto;
+}

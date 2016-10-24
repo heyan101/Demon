@@ -1,4 +1,4 @@
-package demon.exception;
+package dmodule.exception;
 
 //@javadoc
 

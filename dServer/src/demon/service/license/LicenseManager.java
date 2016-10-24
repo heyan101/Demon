@@ -1,4 +1,4 @@
-package demon.service.license;
+package dmodule.service.license;
 
 import java.util.HashMap;
 import java.util.List;
@@ -6,15 +6,15 @@ import java.util.Map;
 
 import com.alibaba.fastjson.JSONObject;
 
-import demon.exception.UnInitilized;
-import demon.service.log.Logger;
-import demon.utils.StringUtils;
-import demon.utils.system.OS;
-import demon.utils.unit.TimeUnit;
+import dmodule.exception.UnInitilized;
+import dmodule.service.log.Logger;
+import dmodule.utils.StringUtils;
+import dmodule.utils.system.OS;
+import dmodule.utils.unit.TimeUnit;
 
 public class LicenseManager {
 
-    public static final String CONF_DEMON_LICENSE = "demon.license";
+    public static final String CONF_DEMON_LICENSE = "dmodule.license";
     private Logger logger;
     private Map<String, Object> license;
 
@@ -64,7 +64,7 @@ public class LicenseManager {
 //         Map<String, Object> map = parseLicense(l);
 //         System.out.println("expires: " + new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date((Long)map.get("expires"))));
 //         System.out.println("user: " + map.get("users_max"));
-//         System.out.println("space: " + new demon.utils.unit.BitUnit(map.get("space").toString()).toStrWithUnit());
+//         System.out.println("space: " + new dmodule.utils.unit.BitUnit(map.get("space").toString()).toStrWithUnit());
 //    }
 
     public boolean validateLocal() {

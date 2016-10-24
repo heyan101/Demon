@@ -1,4 +1,4 @@
-package demon.utils;
+package dmodule.utils;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
