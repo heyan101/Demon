@@ -9,11 +9,11 @@ import dmodule.SDK.event.type.UserEvent;
 import dmodule.SDK.inner.IBeans;
 import dmodule.SDK.inner.IUserApi;
 import dmodule.SDK.stat.UserRetStat;
-import dmodule.exception.LogicalException;
-import dmodule.exception.UnInitilized;
-import dmodule.service.http.Env;
-import dmodule.utils.SSHA;
-import dmodule.utils.Time;
+import demon.exception.LogicalException;
+import demon.exception.UnInitilized;
+import demon.service.http.Env;
+import demon.utils.SSHA;
+import demon.utils.Time;
 
 public class UserApi implements IUserApi {
 	

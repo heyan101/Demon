@@ -1,4 +1,4 @@
-package dmodule.service.log;
+package demon.service.log;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -8,8 +8,8 @@ import java.io.StringWriter;
 import java.lang.management.ManagementFactory;
 import java.util.Date;
 
-import dmodule.exception.UnInitilized;
-import dmodule.utils.Time;
+import demon.exception.UnInitilized;
+import demon.utils.Time;
 
 class FileLogger {
 	

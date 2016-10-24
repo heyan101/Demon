@@ -7,7 +7,7 @@ import dmodule.SDK.event.Event;
 import dmodule.SDK.event.EventType;
 import dmodule.SDK.event.IListener;
 import dmodule.SDK.inner.IEventHub;
-import dmodule.service.log.Logger;
+import demon.service.log.Logger;
 
 public class EventHub implements IEventHub {
 

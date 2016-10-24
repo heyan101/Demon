@@ -2,9 +2,7 @@ package demon.web.event;
 
 import dmodule.SDK.event.Event;
 import dmodule.SDK.event.EventType;
-import dmodule.service.http.Env;
-
-//@javadoc
+import demon.service.http.Env;
 
 import java.util.LinkedList;
 import java.util.List;

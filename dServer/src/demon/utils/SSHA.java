@@ -1,4 +1,4 @@
-package dmodule.utils;
+package demon.utils;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;

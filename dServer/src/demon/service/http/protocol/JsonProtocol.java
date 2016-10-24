@@ -1,4 +1,4 @@
-package dmodule.service.http.protocol;
+package demon.service.http.protocol;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -12,10 +12,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.alibaba.fastjson.JSONObject;
 
-import dmodule.exception.LogicalException;
-import dmodule.exception.ReadPostException;
-import dmodule.service.http.Env;
-import dmodule.utils.ServletUtil;
+import demon.exception.LogicalException;
+import demon.exception.ReadPostException;
+import demon.service.http.Env;
+import demon.utils.ServletUtil;
 
 public class JsonProtocol implements Protocol {
 

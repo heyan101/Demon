@@ -13,7 +13,7 @@ import com.alibaba.fastjson.JSONObject;
 
 import dmodule.SDK.demoinfo.UserInfo;
 import dmodule.SDK.inner.IUserApi;
-import dmodule.service.db.MySql;
+import demon.service.db.MySql;
 
 public class UserModel implements IUserApi.IUserModel{
 

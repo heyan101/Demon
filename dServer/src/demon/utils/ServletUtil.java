@@ -1,4 +1,4 @@
-package dmodule.utils;
+package demon.utils;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,7 +25,7 @@ import org.eclipse.jetty.util.MultiMap;
 import org.eclipse.jetty.util.UrlEncoded;
 import org.javatuples.Pair;
 
-import dmodule.exception.ReadPostException;
+import demon.exception.ReadPostException;
 
 public class ServletUtil {
 

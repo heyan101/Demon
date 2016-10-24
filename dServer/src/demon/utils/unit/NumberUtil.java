@@ -1,4 +1,4 @@
-package dmodule.utils.unit;
+package demon.utils.unit;
 
 public abstract class NumberUtil {
     

@@ -1,4 +1,4 @@
-package dmodule.utils;
+package demon.utils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -23,8 +23,8 @@ import org.apache.commons.codec.digest.DigestUtils;
 
 import com.alibaba.fastjson.JSONObject;
 
-import dmodule.exception.LogicalException;
-import dmodule.service.http.protocol.RetStat;
+import demon.exception.LogicalException;
+import demon.service.http.protocol.RetStat;
 
 /**
  * 

@@ -1,4 +1,4 @@
-package dmodule.service.db;
+package demon.service.db;
 //
 //import java.sql.Connection;
 //import java.sql.PreparedStatement;
@@ -8,7 +8,7 @@ package dmodule.service.db;
 //public class TestMySql {
 //
 //	public static void main(String[] args) throws Exception {
-//		MySql.init("jdbc:mysql://localhost", "3306", "", "dmodule", "root", "root", "5", "100", "30", "1000", "180");
+//		MySql.init("jdbc:mysql://localhost", "3306", "", "demon", "root", "root", "5", "100", "30", "1000", "180");
 //		
 //		MySql mysql = MySql.getInst("module_test");
 //		

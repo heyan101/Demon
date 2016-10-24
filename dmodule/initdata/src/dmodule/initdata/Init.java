@@ -7,8 +7,8 @@ import com.alibaba.fastjson.JSONObject;
 import dmodule.SDK.SdkCenter;
 import dmodule.SDK.demoinfo.UserInfo;
 import dmodule.SDK.inner.IBeans;
-import dmodule.service.http.Env;
-import dmodule.utils.XProperties;
+import demon.service.http.Env;
+import demon.utils.XProperties;
 
 public class Init {
 	

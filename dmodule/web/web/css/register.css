@@ -38,6 +38,16 @@ body {
     z-index: 0;
 }
 
+/* html5/css3 实现输入框提示信息 */
+input::-webkit-input-placeholder {
+color: #999;
+-webkit-transition: color.5s;
+}
+input:focus::-webkit-input-placeholder, input:hover::-webkit-input-placeholder {
+color: #c2c2c2;
+-webkit-transition: color.5s;
+}
+
 .form-item-account {
     z-index: 13;
 }
@@ -50,16 +60,8 @@ body {
     padding-left: 20px;
 }
 
-txt {
-    position: absolute;
-    z-index: 2;
-    line-height: 46px;
-    margin-left: 7px;
-    margin-top: 2px!important;
-    font-size: 14px;
-    font-family: "Microsoft YaHei", "Hiragino Sans GB";
-    color: rgb(204, 204, 204);
-    display: inline;
+label {
+    cursor: default;
 }
 
 .form-item .field {
@@ -72,6 +74,24 @@ txt {
     padding-top: 16px;
 }
 
+input:not([type]), input[type="email" i], input[type="number" i], input[type="password" i],
+input[type="tel" i], input[type="url" i], input[type="text" i] {
+    padding: 1px 0px;
+}
+
 button, input, select, textarea {
     outline: 0;
+}
+
+.form-item .i-status {
+    position: absolute;
+    display: none;
+    width: 16px;
+    height: 16px;
+    top: 20px;
+    right: 20px;
+}
+
+em, i, u {
+    font-style: normal;
 }

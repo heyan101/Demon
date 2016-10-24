@@ -3,9 +3,9 @@ package dmodule.auth;
 import dmodule.SDK.SdkCenter;
 import dmodule.SDK.http.AuthedJsonProtocol;
 import dmodule.SDK.inner.IBeans;
-import dmodule.service.db.MySql;
-import dmodule.utils.XProperties;
-import dmodule.utils.unit.TimeUnit;
+import demon.service.db.MySql;
+import demon.utils.XProperties;
+import demon.utils.unit.TimeUnit;
 
 public class Init {
 	

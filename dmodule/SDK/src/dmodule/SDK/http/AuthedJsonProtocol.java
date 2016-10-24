@@ -2,7 +2,6 @@ package dmodule.SDK.http;
 
 import java.lang.reflect.Method;
 
-import dmodule.Config;
 import dmodule.SDK.SdkCenter;
 import dmodule.SDK.demoinfo.LoginInfo;
 import dmodule.SDK.demoinfo.UserInfo;
@@ -10,12 +9,13 @@ import dmodule.SDK.event.type.PostCheckLoginEvent;
 import dmodule.SDK.event.type.PreCheckLoginEvent;
 import dmodule.SDK.inner.IAuthApi;
 import dmodule.SDK.inner.IEventHub;
-import dmodule.exception.LogicalException;
-import dmodule.service.http.Env;
-import dmodule.service.http.protocol.JsonProtocol;
-import dmodule.service.http.protocol.JsonResp;
-import dmodule.service.http.protocol.RetStat;
 
+import demon.Config;
+import demon.exception.LogicalException;
+import demon.service.http.Env;
+import demon.service.http.protocol.JsonProtocol;
+import demon.service.http.protocol.JsonResp;
+import demon.service.http.protocol.RetStat;
 
 public class AuthedJsonProtocol extends JsonProtocol {
 

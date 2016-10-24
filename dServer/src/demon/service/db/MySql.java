@@ -1,4 +1,4 @@
-package dmodule.service.db;
+package demon.service.db;
 
 //@javadoc
 
@@ -17,7 +17,7 @@ import org.apache.commons.dbcp2.PoolableConnectionFactory;
 import org.apache.commons.dbcp2.PoolingDataSource;
 import org.apache.commons.pool2.impl.GenericObjectPool;
 
-import dmodule.exception.UnInitilized;
+import demon.exception.UnInitilized;
 
 public class MySql {
 
@@ -38,7 +38,7 @@ public class MySql {
     
     private static DataSource dataSourceWithBinlog;
 //    private static DataSource dataSourceWithoutBinlog;
-//    private static final String DB_STD = "dmodule";
+//    private static final String DB_STD = "demon";
     
     /**
      * 获取有binlog的数据库的连接池

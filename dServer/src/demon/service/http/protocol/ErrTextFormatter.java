@@ -1,4 +1,4 @@
-package dmodule.service.http.protocol;
+package demon.service.http.protocol;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import dmodule.service.http.Env;
+import demon.service.http.Env;
 
 public class ErrTextFormatter {
 

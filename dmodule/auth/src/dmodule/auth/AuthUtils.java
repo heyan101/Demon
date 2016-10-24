@@ -7,9 +7,9 @@ import java.text.ParseException;
 
 import dmodule.SDK.demoinfo.UserInfo;
 import dmodule.SDK.stat.AuthRetStat;
-import dmodule.exception.LogicalException;
-import dmodule.utils.SSHA;
-import dmodule.utils.XCodeUtil;
+import demon.exception.LogicalException;
+import demon.utils.SSHA;
+import demon.utils.XCodeUtil;
 
 public class AuthUtils {
 

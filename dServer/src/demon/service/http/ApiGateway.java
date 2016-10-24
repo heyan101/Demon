@@ -1,4 +1,4 @@
-package dmodule.service.http;
+package demon.service.http;
 
 import java.io.IOException;
 import java.lang.annotation.Annotation;
@@ -14,12 +14,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import dmodule.service.http.protocol.DefaultProtocol;
-import dmodule.service.http.protocol.ErrTextFormatter;
-import dmodule.service.http.protocol.Protocol;
-import dmodule.service.http.protocol.RetStat;
-import dmodule.service.log.Logger;
-import dmodule.utils.ServletUtil;
+import demon.service.http.protocol.DefaultProtocol;
+import demon.service.http.protocol.ErrTextFormatter;
+import demon.service.http.protocol.Protocol;
+import demon.service.http.protocol.RetStat;
+import demon.service.log.Logger;
+import demon.utils.ServletUtil;
 
 /**
  * Api 接口的网关，HttpServlet 的实现类

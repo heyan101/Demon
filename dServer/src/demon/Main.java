@@ -1,18 +1,18 @@
-package dmodule;
+package demon;
 
 import java.lang.management.ManagementFactory;
 import java.sql.SQLException;
 
-import dmodule.service.cron.GlobalTimerTask;
-import dmodule.service.db.MySql;
-import dmodule.service.db.MysqlConfig;
-import dmodule.service.db.PoolInfo;
-import dmodule.service.http.HttpConfig;
-import dmodule.service.http.HttpServer;
-import dmodule.service.http.protocol.ErrTextFormatter;
-import dmodule.service.http.protocol.RetStat;
-import dmodule.service.log.LogConfig;
-import dmodule.service.log.Logger;
+import demon.service.cron.GlobalTimerTask;
+import demon.service.db.MySql;
+import demon.service.db.MysqlConfig;
+import demon.service.db.PoolInfo;
+import demon.service.http.HttpConfig;
+import demon.service.http.HttpServer;
+import demon.service.http.protocol.ErrTextFormatter;
+import demon.service.http.protocol.RetStat;
+import demon.service.log.LogConfig;
+import demon.service.log.Logger;
 
 public class Main {
 

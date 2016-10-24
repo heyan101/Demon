@@ -1,4 +1,4 @@
-package dmodule.utils;
+package demon.utils;
 
 // @javadoc
 

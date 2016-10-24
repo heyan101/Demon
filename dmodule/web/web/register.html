@@ -74,50 +74,58 @@
                 <form action id="form-register" method="post" novalidate="novalidate">
                     <div class="form-item form-item-account">
                         <label>用户名</label>
-                        <txt style="position: absolute; z-index: 2; line-height: 46px; margin-left: 20px; margin-top: 1px; font-size: 14px;
-                            font-family: &quot;Microsoft YaHei&quot;, &quot;Hiragino Sans GB&quot;; color: rgb(204, 204, 204);
-                            display: inline;">您的账户名和登录名</txt>
-                        <input type="text" id="form-account" name="regName" class="field" autocomplete="off" maxlength="20" placeholder=" "
-                        default="<i class=&quot;i-def&quot;></i>支持中文、字母、数字、“-”“_”的组合，4-20个字符" aria-required="true" aria-invalid="false">
+                        <input type="text" id="form-account" name="regName" class="field" autocomplete="off" maxlength="20"
+                            placeholder="您的账户名和登录名" default="<i class=&quot;i-def&quot;></i>支持中文、字母、数字、“-”“_”的组合，4-20个字符"aria-required="true" aria-invalid="false">
+                        <i class="i-status"></i>
                     </div>
                     <div class="input-tip"><span></span></div>
                     <div class="form-item form-item-pwd">
                         <label>设置密码</label>
-                        <txt>建议至少使用两种字符组合</txt>
-                        <input type="password" name="pwd" id="form-pwd" class="field" maxlength="20" placeholder=" "
+                        <input type="password" name="pwd" id="form-pwd" class="field" maxlength="20"
+                            placeholder="建议至少使用两种字符组合"
                             default="<i class=i-def></i>建议使用字母、数字和符号两种及以上的组合，6-20个字符">
+                        <i class="i-status"></i>
                     </div>
                     <div class="input-tip"><span></span></div>
                     <div class="form-item form-item-pwdrepeat">
                         <label>确认密码</label>
-                        <txt>请再次输入密码</txt>
-                        <input type="password" name="pwdRepeat" id="form-equalTopwd" class="field" placeholder=" " maxlength="20"
-                            default="<i class=&quot;i-def&quot;></i>请再次输入密码">
+                        <input type="password" name="pwdRepeat" id="form-equalTopwd" class="field" placeholder="请再次输入密码"
+                            maxlength="20" default="<i class=&quot;i-def&quot;></i>请再次输入密码">
+                        <i class="i-status"></i>
                     </div>
                     <div class="input-tip"><span></span></div>
                     <div class="form-item form-item-phone">
                         <label>手机号</label>
-                        <txt>建议使用常用手机</txt>
-                        <input type="text" id="form-phone" name="phone" class="field" placeholder=" " autocomplete="off" maxlength="11"
-                            default="<i class=&quot;i-def&quot;></i>完成验证后，可以使用该手机登录和找回密码" aria-required="true"
-                            aria-invalid="true">
+                        <input type="text" id="form-phone" name="phone" class="field" placeholder="建议使用常用手机"
+                            autocomplete="off" maxlength="11"
+                            default="<i class=&quot;i-def&quot;></i>完成验证后，可以使用该手机登录和找回密码"
+                            aria-required="true" aria-invalid="true">
+                        <i class="i-status"></i>
                     </div>
                     <div class="input-tip"><span></span></div>
                     <div class="form-item form-item-email">
                         <label>邮箱</label>
-                        <txt>建议使用常用邮箱</txt>
-                        <input type="text" name="email" id="form-email" class="field" autocomplete="off" placeholder=" "
+                        <input type="text" name="email" id="form-email" class="field" autocomplete="off"
+                            placeholder="建议使用常用邮箱"
                             default="<i class=&quot;i-def&quot;></i>完成验证后，你可以用该邮箱登录和找回密码">
+                        <i class="i-status"></i>
                     </div>
                     <div class="input-tip"><span></span></div>
                     <div class="form-item form-item-authcode">
                         <label>验证码</label>
-                        <txt>请输入验证码</txt>
+                        <input type="text" autocomplete="off" name="authcode" id="authCode" maxlength="6"
+                            class="field form-authcode" placeholder="请输入验证码"
+                            default="<i class=&quot;i-def&quot;></i>看不清？点击图片更换验证码">
+                        <img class="img-code" title="换一换" id="imgAuthCode" ver_colorofnoisepoint="#888888">
+                        <i class="i-status"></i>
                     </div>
                     <div class="input-tip"><span></span></div>
                     <div class="form-item form-item-phonecode">
                         <label>手机验证码</label>
-                        <txt>请输入手机验证码</txt>
+                        <input type="text" name="mobile-code" maxlength="6" id="phone-code" class="field phonecode"
+                            placeholder="请输入手机验证码" autocomplete="off">
+                        <button id="getPhoneCode" class="btn-phonecode" type="button">获取验证码</button>
+                        <i class="i-status"></i>
                     </div>
                     <div class="input-tip"><span></span></div>
                     <div class="form-agreen">

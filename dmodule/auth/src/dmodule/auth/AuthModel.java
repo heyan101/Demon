@@ -7,7 +7,7 @@ import java.sql.SQLException;
 
 import dmodule.SDK.demoinfo.TokenInfo;
 import dmodule.SDK.inner.IAuthApi;
-import dmodule.service.db.MySql;
+import demon.service.db.MySql;
 
 public class AuthModel implements IAuthApi.IAuthModel {
 	

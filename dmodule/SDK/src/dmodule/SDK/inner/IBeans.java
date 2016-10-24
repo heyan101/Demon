@@ -1,6 +1,6 @@
 package dmodule.SDK.inner;
 
-import dmodule.exception.LogicalException;
+import demon.exception.LogicalException;
 
 public interface IBeans {
 	public static final String name = "IBeans";

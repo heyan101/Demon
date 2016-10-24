@@ -9,9 +9,8 @@ import javax.security.auth.login.LoginException;
 
 import dmodule.SDK.demoinfo.LoginInfo;
 import dmodule.SDK.demoinfo.TokenInfo;
-import dmodule.exception.LogicalException;
-import dmodule.service.http.Env;
-
+import demon.exception.LogicalException;
+import demon.service.http.Env;
 
 public interface IAuthApi {
 

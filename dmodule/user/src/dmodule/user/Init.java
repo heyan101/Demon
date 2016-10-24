@@ -2,7 +2,7 @@ package dmodule.user;
 
 import dmodule.SDK.SdkCenter;
 import dmodule.SDK.inner.IBeans;
-import dmodule.service.db.MySql;
+import demon.service.db.MySql;
 
 public class Init {
 	

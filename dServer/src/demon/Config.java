@@ -1,4 +1,4 @@
-package dmodule;
+package demon;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -10,8 +10,8 @@ import java.util.Properties;
  */
 public class Config {
 
-    public static final String CONF_DEMON_MODULE_DIR = "dmodule.module.dir";
-    public static final String CONF_DEMON_MODULE_DIR_THIRD = "dmodule.module.dir.third";
+    public static final String CONF_DEMON_MODULE_DIR = "demon.module.dir";
+    public static final String CONF_DEMON_MODULE_DIR_THIRD = "demon.module.dir.third";
     
     private static Properties prop = null;
     private static String configDir = null;

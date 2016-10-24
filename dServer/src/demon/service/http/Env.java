@@ -1,4 +1,4 @@
-package dmodule.service.http;
+package demon.service.http;
 
 //@javadoc
 
@@ -12,8 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.codec.binary.Base64;
 
-import dmodule.exception.UnInitilized;
-import dmodule.service.log.Logger;
+import demon.exception.UnInitilized;
+import demon.service.log.Logger;
 
 public class Env {
 	

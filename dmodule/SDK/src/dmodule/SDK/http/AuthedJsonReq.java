@@ -1,8 +1,8 @@
 package dmodule.SDK.http;
 
 import dmodule.SDK.demoinfo.LoginInfo;
-import dmodule.service.http.Env;
-import dmodule.service.http.protocol.JsonReq;
+import demon.service.http.Env;
+import demon.service.http.protocol.JsonReq;
 
 // zzy TODO: 这个类的位置可能还会换
 public class AuthedJsonReq extends JsonReq {

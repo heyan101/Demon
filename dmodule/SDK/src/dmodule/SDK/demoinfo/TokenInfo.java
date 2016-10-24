@@ -1,13 +1,12 @@
 package dmodule.SDK.demoinfo;
 
-//@javadoc
 import java.nio.ByteBuffer;
 import java.sql.Timestamp;
 import java.util.UUID;
 
 import org.apache.commons.codec.binary.Base64;
 
-import dmodule.utils.Time;
+import demon.utils.Time;
 
 public class TokenInfo {
     

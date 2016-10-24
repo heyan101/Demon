@@ -1,11 +1,11 @@
-package dmodule.service.cron;
+package demon.service.cron;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import dmodule.service.db.MySql;
+import demon.service.db.MySql;
 
 public class CronModel {
     

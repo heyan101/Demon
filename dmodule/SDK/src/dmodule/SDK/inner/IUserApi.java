@@ -4,8 +4,8 @@ import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 
 import dmodule.SDK.demoinfo.UserInfo;
-import dmodule.exception.LogicalException;
-import dmodule.service.http.Env;
+import demon.exception.LogicalException;
+import demon.service.http.Env;
 
 public interface IUserApi {
 	

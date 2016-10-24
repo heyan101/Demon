@@ -3,7 +3,7 @@ package dmodule.brand;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import dmodule.service.db.MySql;
+import demon.service.db.MySql;
 
 public class BrandModel {
 

@@ -22,15 +22,15 @@ import org.apache.commons.codec.binary.Base64;
 
 import com.alibaba.fastjson.JSONObject;
 
+import demon.Config;
+import demon.exception.LogicalException;
+import demon.service.http.Env;
+import demon.service.http.HttpConfig;
+import demon.utils.ByteArrayBuffer;
+import demon.utils.ServletUtil;
 import demon.web.event.PreRedirectEvent;
-import dmodule.Config;
 import dmodule.SDK.SdkCenter;
 import dmodule.SDK.inner.IEventHub;
-import dmodule.exception.LogicalException;
-import dmodule.service.http.Env;
-import dmodule.service.http.HttpConfig;
-import dmodule.utils.ByteArrayBuffer;
-import dmodule.utils.ServletUtil;
 
 public class Redirection {
 

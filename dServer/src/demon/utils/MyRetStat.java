@@ -1,10 +1,10 @@
-package dmodule.utils;
+package demon.utils;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import dmodule.service.http.Env;
-import dmodule.service.http.protocol.ErrTextFormat;
+import demon.service.http.Env;
+import demon.service.http.protocol.ErrTextFormat;
 
 public class MyRetStat implements ErrTextFormat {
 

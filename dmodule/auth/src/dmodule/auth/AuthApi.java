@@ -17,11 +17,11 @@ import dmodule.SDK.inner.IAuthApi;
 import dmodule.SDK.inner.IBeans;
 import dmodule.SDK.stat.AuthRetStat;
 import dmodule.SDK.stat.UserRetStat;
-import dmodule.exception.LogicalException;
-import dmodule.exception.UnInitilized;
-import dmodule.service.http.Env;
-import dmodule.service.http.protocol.RetStat;
-import dmodule.utils.Time;
+import demon.exception.LogicalException;
+import demon.exception.UnInitilized;
+import demon.service.http.Env;
+import demon.service.http.protocol.RetStat;
+import demon.utils.Time;
 
 public class AuthApi implements IAuthApi {
 

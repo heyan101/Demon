@@ -5,9 +5,8 @@ import java.util.Map;
 import dmodule.SDK.demoinfo.LoginInfo;
 import dmodule.SDK.event.Event;
 import dmodule.SDK.event.EventType;
-import dmodule.exception.LogicalException;
-import dmodule.service.http.Env;
-
+import demon.exception.LogicalException;
+import demon.service.http.Env;
 
 public class PostCheckLoginEvent extends Event{
 	 public static enum Type implements EventType {

@@ -1,6 +1,6 @@
-package dmodule.exception;
+package demon.exception;
 
-import dmodule.service.http.protocol.RetStat;
+import demon.service.http.protocol.RetStat;
 
 /**
  * 参数错误异常

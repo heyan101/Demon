@@ -21,11 +21,11 @@ import org.javatuples.Pair;
 
 import com.alibaba.fastjson.JSONObject;
 
-import dmodule.Config;
-import dmodule.exception.UnInitilized;
-import dmodule.service.db.MysqlConfig;
-import dmodule.service.db.PoolInfo;
-import dmodule.utils.StringUtils;
+import demon.Config;
+import demon.exception.UnInitilized;
+import demon.service.db.MysqlConfig;
+import demon.service.db.PoolInfo;
+import demon.utils.StringUtils;
 
 public class DBConnector {
 	

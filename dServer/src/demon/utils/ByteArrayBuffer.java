@@ -29,7 +29,7 @@
  *
  */
 
-package dmodule.utils;
+package demon.utils;
 
 // TODO 使用自带的 java.nio.ByteBuffer ？
 

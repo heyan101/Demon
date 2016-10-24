@@ -1,4 +1,4 @@
-package dmodule.service.http.protocol;
+package demon.service.http.protocol;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,8 +7,8 @@ import java.util.Map;
 
 import com.alibaba.fastjson.JSONArray;
 
-import dmodule.exception.ParamException;
-import dmodule.service.http.Env;
+import demon.exception.ParamException;
+import demon.service.http.Env;
 
 public class JsonReq {
     public Env env;

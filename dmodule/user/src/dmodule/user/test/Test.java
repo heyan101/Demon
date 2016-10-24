@@ -7,9 +7,9 @@ import java.util.Date;
 
 import org.apache.commons.codec.binary.Base64;
 
-import dmodule.utils.SSHA;
-import dmodule.utils.Time;
-import dmodule.utils.unit.TimeUnit;
+import demon.utils.SSHA;
+import demon.utils.Time;
+import demon.utils.unit.TimeUnit;
 
 public class Test {
 
