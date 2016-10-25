@@ -1,4 +1,4 @@
-package demon.web.event;
+package dmodule.web.event;
 
 import dmodule.SDK.event.Event;
 import dmodule.SDK.event.EventType;

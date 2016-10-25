@@ -1,0 +1,77 @@
+.sprite {
+    background-image: url(spritesheet.png);
+    background-repeat: no-repeat;
+    display: block;
+}
+
+.sprite-error-mini-shixin {
+    width: 18px;
+    height: 18px;
+    background-position: -5px -5px;
+}
+
+.sprite-gantan-huangse {
+    width: 18px;
+    height: 18px;
+    background-position: -33px -5px;
+}
+
+.sprite-gantan-huise {
+    width: 18px;
+    height: 18px;
+    background-position: -61px -5px;
+}
+
+.sprite-jaintou-shang {
+    width: 18px;
+    height: 18px;
+    background-position: -5px -33px;
+}
+
+.sprite-jiantou-xia {
+    width: 18px;
+    height: 18px;
+    background-position: -33px -33px;
+}
+
+.sprite-ok-mini {
+    width: 18px;
+    height: 18px;
+    background-position: -61px -33px;
+}
+
+.sprite-qiang {
+    width: 18px;
+    height: 18px;
+    background-position: -5px -61px;
+}
+
+.sprite-ruo {
+    width: 18px;
+    height: 18px;
+    background-position: -33px -61px;
+}
+
+.sprite-stop-kongxin {
+    width: 18px;
+    height: 18px;
+    background-position: -61px -61px;
+}
+
+.sprite-stop-shixin {
+    width: 18px;
+    height: 18px;
+    background-position: -89px -5px;
+}
+
+.sprite-yanjing {
+    width: 18px;
+    height: 18px;
+    background-position: -89px -33px;
+}
+
+.sprite-zhong {
+    width: 18px;
+    height: 18px;
+    background-position: -89px -61px;
+}

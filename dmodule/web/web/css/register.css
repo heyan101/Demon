@@ -1,5 +1,5 @@
 body {
-    font-size: 14px;
+    font-size: 16px;
 }
 
 .content {
@@ -11,6 +11,11 @@ body {
 .main {
     margin: 50px auto 60px;
     width: 830px;
+}
+
+.main-l {
+    width: 400px;
+    float: left;
 }
 
 .clearfix:after {
@@ -83,6 +88,11 @@ button, input, select, textarea {
     outline: 0;
 }
 
+.form-item-valid .i-status {
+    display: block;
+    background-position: 0 -117px;
+}
+
 .form-item .i-status {
     position: absolute;
     display: none;
@@ -92,6 +102,50 @@ button, input, select, textarea {
     right: 20px;
 }
 
+.i-status {
+    background: url(../images/icon.png) no-repeat;
+}
+
 em, i, u {
     font-style: normal;
+}
+
+.form-item .img-code {
+    position: absolute;
+    right: 3px;
+    top: 3px;
+    width: 110px;
+    height: 46px;
+    cursor: pointer;
+}
+
+.btn-phonecode {
+    position: absolute;
+    right: 3px;
+    top: 3px;
+    width: 110px;
+    height: 46px;
+    border: none;
+    background: #f2f2f2;
+    color: #333;
+    padding: 0;
+}
+
+.btn-register {
+    width: 100%;
+    height: 54px;
+    color: #fff;
+    background: #F22E00;
+    border: 0;
+    font-size: 16px;
+    font-family: "Microsoft YaHei","Hiragino Sans GB";
+}
+
+/* 注册页面右边的广告位 */
+.main-r {
+    float: left;
+    margin-left: 104px;
+    height: 677px;
+    padding-left: 90px;
+    border-left: solid 1px #e6e6e6;
 }

@@ -172,7 +172,7 @@ public class ModuleMgr {
         }
 
         try {
-            Class<?> cls = classLoader.loadClass(String.format("demon.%s.Init",
+            Class<?> cls = classLoader.loadClass(String.format("dmodule.%s.Init",
                     moduleName));
             Method method = cls.getMethod("init", String.class);
             method.invoke(null, modulePath.getAbsolutePath());

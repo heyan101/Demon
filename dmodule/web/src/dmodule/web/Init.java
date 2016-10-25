@@ -1,4 +1,4 @@
-package demon.web;
+package dmodule.web;
 
 import demon.Config;
 import demon.service.http.ApiGateway;

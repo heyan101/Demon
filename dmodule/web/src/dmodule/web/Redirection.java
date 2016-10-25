@@ -1,4 +1,4 @@
-package demon.web;
+package dmodule.web;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -28,9 +28,9 @@ import demon.service.http.Env;
 import demon.service.http.HttpConfig;
 import demon.utils.ByteArrayBuffer;
 import demon.utils.ServletUtil;
-import demon.web.event.PreRedirectEvent;
 import dmodule.SDK.SdkCenter;
 import dmodule.SDK.inner.IEventHub;
+import dmodule.web.event.PreRedirectEvent;
 
 public class Redirection {
 

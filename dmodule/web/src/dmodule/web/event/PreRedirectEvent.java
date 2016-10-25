@@ -1,4 +1,4 @@
-package demon.web.event;
+package dmodule.web.event;
 
 import java.util.Map;
 

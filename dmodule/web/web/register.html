@@ -4,7 +4,7 @@
     <title>Demon - 购物商城</title>
     <meta charset="utf-8">
     <link rel="stylesheet" type="text/css" href="css/main.css">
-    <link rel="stylesheet" type="text/css" href="css/global.css">
+    <link rel="stylesheet" type="text/css" href="css/navigation.css">
     <link rel="stylesheet" type="text/css" href="css/register.css">
     <link rel="stylesheet" type="text/css" href="css/temp.css">
 </head>
@@ -71,11 +71,12 @@
     <content class="content">
         <div class="main clearfix">
             <div class="main-l">
-                <form action id="form-register" method="post" novalidate="novalidate">
+                <form id="form-register" method="post" novalidate="novalidate" onsubmit="return false;">
                     <div class="form-item form-item-account">
                         <label>用户名</label>
-                        <input type="text" id="form-account" name="regName" class="field" autocomplete="off" maxlength="20"
-                            placeholder="您的账户名和登录名" default="<i class=&quot;i-def&quot;></i>支持中文、字母、数字、“-”“_”的组合，4-20个字符"aria-required="true" aria-invalid="false">
+                        <input type="text" id="form-account" name="reg-name" class="field" autocomplete="off" maxlength="20"
+                            placeholder="您的账户名和登录名" default="<i class=&quot;i-def&quot;></i>支持中文、字母、数字、“-”“_”的组合，4-20个字符"
+                            aria-required="true" aria-invalid="false">
                         <i class="i-status"></i>
                     </div>
                     <div class="input-tip"><span></span></div>
@@ -113,7 +114,7 @@
                     <div class="input-tip"><span></span></div>
                     <div class="form-item form-item-authcode">
                         <label>验证码</label>
-                        <input type="text" autocomplete="off" name="authcode" id="authCode" maxlength="6"
+                        <input type="text" autocomplete="off" name="authcode" id="auth-code" maxlength="6"
                             class="field form-authcode" placeholder="请输入验证码"
                             default="<i class=&quot;i-def&quot;></i>看不清？点击图片更换验证码">
                         <img class="img-code" title="换一换" id="imgAuthCode" ver_colorofnoisepoint="#888888">
@@ -135,10 +136,11 @@
                     </div>
                     <div class="input-tip"><span></span></div>
                     <div class="form-submit">
-                        <button type="submit" id="submit">立即注册</button>
+                        <button type="submit" id="submit" class="btn-register">立即注册</button>
                     </div>
                 </form>
             </div>
+
             <div class="main-r">
 
             </div>
@@ -146,10 +148,6 @@
 
     </content>
     <!-- end content -->
-
-
-
-
 
 <script type="text/javascript" src="static/scripts/jquery-3.1.1.min.js"></script>
 </body>

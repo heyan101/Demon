@@ -31,3 +31,8 @@ a:-webkit-any-link {
     text-decoration: none;
     cursor: auto;
 }
+
+img {
+    border: 0;
+    vertical-align: middle;
+}

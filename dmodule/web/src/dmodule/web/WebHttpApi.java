@@ -1,4 +1,4 @@
-package demon.web;
+package dmodule.web;
 
 import java.util.List;
 

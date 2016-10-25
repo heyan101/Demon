@@ -13,6 +13,7 @@ import demon.exception.LogicalException;
 import demon.exception.UnInitilized;
 import demon.service.http.ApiGateway;
 import demon.service.http.protocol.JsonProtocol;
+import demon.service.http.protocol.JsonReq;
 import demon.service.http.protocol.JsonResp;
 import demon.service.http.protocol.RetStat;
 
@@ -148,104 +149,128 @@ public class UserHttpApi {
 		resp.resultMap.put("UserInfo", userInfo);
 		return resp;
 	}
+	
 	/**
-	 * 设置用户信息
-	 * 
-	 * @param token
+	 * 判断用户名是否有效及是否已被注册
+	 * @param username
 	 * <blockquote>
      * 		类型：String<br/>
-     * 		描述：token<br/>
+     * 		描述：已存在用户名或者将要注册用户名<br/>
      * 		必需：YES
      * </blockquote>
+	 * @return
+	 * @throws Exception
 	 */
-	@ApiGateway.ApiMethod(protocol = AuthedJsonProtocol.class)
-	public JsonResp setUserInfo(AuthedJsonReq req) throws Exception {
-		return null;
+	@ApiGateway.ApiMethod(protocol = JsonProtocol.class)
+	public JsonResp isVaildUserName(AuthedJsonReq req) throws Exception {
+		JsonResp resp = new JsonResp(RetStat.OK);
+		return resp;
 	}
-	/**
-	 * 更新用户昵称
-	 * 
-	 * @param token
-	 * <blockquote>
-     * 		类型：String<br/>
-     * 		描述：token<br/>
-     * 		必需：YES
-     * </blockquote>
-	 */
-	@ApiGateway.ApiMethod(protocol = AuthedJsonProtocol.class)
-	public JsonResp updateNickName(AuthedJsonReq req) throws Exception {
-		return null;
-	}
-	/**
-	 * 更新密码
-	 * 
-	 * @param token
-	 * <blockquote>
-     * 		类型：String<br/>
-     * 		描述：token<br/>
-     * 		必需：YES
-     * </blockquote>
-	 */
-	@ApiGateway.ApiMethod(protocol = AuthedJsonProtocol.class)
-	public JsonResp updatePassword(AuthedJsonReq req) throws Exception {
-		return null;
-	}
-	/**
-	 * 找回密码
-	 * 
-	 * @param token
-	 * <blockquote>
-     * 		类型：String<br/>
-     * 		描述：token<br/>
-     * 		必需：YES
-     * </blockquote>
-	 */
-	@ApiGateway.ApiMethod(protocol = AuthedJsonProtocol.class)
-	public JsonResp retrievePassword(AuthedJsonReq req) throws Exception {
-		return null;
-	}
-	/**
-	 * 添加用户收货地址
-	 * 
-	 * @param token
-	 * <blockquote>
-     * 		类型：String<br/>
-     * 		描述：token<br/>
-     * 		必需：YES
-     * </blockquote>
-	 */
-	@ApiGateway.ApiMethod(protocol = AuthedJsonProtocol.class)
-	public JsonResp addDeliveryAddress(AuthedJsonReq req) throws Exception {
-		return null;
-	}
-	/**
-	 * 修改用户收货地址
-	 * 
-	 * @param token
-	 * <blockquote>
-     * 		类型：String<br/>
-     * 		描述：token<br/>
-     * 		必需：YES
-     * </blockquote>
-	 */
-	@ApiGateway.ApiMethod(protocol = AuthedJsonProtocol.class)
-	public JsonResp updateDeliveryAddress(AuthedJsonReq req) throws Exception {
-		return null;
-	}
-	/**
-	 * 获取用户收货地址
-	 * 
-	 * @param token
-	 * <blockquote>
-     * 		类型：String<br/>
-     * 		描述：token<br/>
-     * 		必需：YES
-     * </blockquote>
-	 */
-	@ApiGateway.ApiMethod(protocol = AuthedJsonProtocol.class)
-	public JsonResp getDeliveryAddress(AuthedJsonReq req) throws Exception {
-		return null;
-	}
+	
+//	/**
+//	 * 设置用户信息
+//	 * 
+//	 * @param token
+//	 * <blockquote>
+//     * 		类型：String<br/>
+//     * 		描述：token<br/>
+//     * 		必需：YES
+//     * </blockquote>
+//	 */
+//	@ApiGateway.ApiMethod(protocol = AuthedJsonProtocol.class)
+//	public JsonResp setUserInfo(AuthedJsonReq req) throws Exception {
+//		return null;
+//	}
+	
+//	/**
+//	 * 更新用户昵称
+//	 * 
+//	 * @param token
+//	 * <blockquote>
+//     * 		类型：String<br/>
+//     * 		描述：token<br/>
+//     * 		必需：YES
+//     * </blockquote>
+//	 */
+//	@ApiGateway.ApiMethod(protocol = AuthedJsonProtocol.class)
+//	public JsonResp updateNickName(AuthedJsonReq req) throws Exception {
+//		return null;
+//	}
+	
+//	/**
+//	 * 更新密码
+//	 * 
+//	 * @param token
+//	 * <blockquote>
+//     * 		类型：String<br/>
+//     * 		描述：token<br/>
+//     * 		必需：YES
+//     * </blockquote>
+//	 */
+//	@ApiGateway.ApiMethod(protocol = AuthedJsonProtocol.class)
+//	public JsonResp updatePassword(AuthedJsonReq req) throws Exception {
+//		return null;
+//	}
+	
+//	/**
+//	 * 找回密码
+//	 * 
+//	 * @param token
+//	 * <blockquote>
+//     * 		类型：String<br/>
+//     * 		描述：token<br/>
+//     * 		必需：YES
+//     * </blockquote>
+//	 */
+//	@ApiGateway.ApiMethod(protocol = AuthedJsonProtocol.class)
+//	public JsonResp retrievePassword(AuthedJsonReq req) throws Exception {
+//		return null;
+//	}
+	
+//	/**
+//	 * 添加用户收货地址
+//	 * 
+//	 * @param token
+//	 * <blockquote>
+//     * 		类型：String<br/>
+//     * 		描述：token<br/>
+//     * 		必需：YES
+//     * </blockquote>
+//	 */
+//	@ApiGateway.ApiMethod(protocol = AuthedJsonProtocol.class)
+//	public JsonResp addDeliveryAddress(AuthedJsonReq req) throws Exception {
+//		return null;
+//	}
+	
+//	/**
+//	 * 修改用户收货地址
+//	 * 
+//	 * @param token
+//	 * <blockquote>
+//     * 		类型：String<br/>
+//     * 		描述：token<br/>
+//     * 		必需：YES
+//     * </blockquote>
+//	 */
+//	@ApiGateway.ApiMethod(protocol = AuthedJsonProtocol.class)
+//	public JsonResp updateDeliveryAddress(AuthedJsonReq req) throws Exception {
+//		return null;
+//	}
+	
+//	/**
+//	 * 获取用户收货地址
+//	 * 
+//	 * @param token
+//	 * <blockquote>
+//     * 		类型：String<br/>
+//     * 		描述：token<br/>
+//     * 		必需：YES
+//     * </blockquote>
+//	 */
+//	@ApiGateway.ApiMethod(protocol = AuthedJsonProtocol.class)
+//	public JsonResp getDeliveryAddress(AuthedJsonReq req) throws Exception {
+//		return null;
+//	}
 	
 //	/**
 //	 * 设置用户头像，上传用户头像数据
@@ -254,7 +279,7 @@ public class UserHttpApi {
 //	public JsonResp setUserImage(AuthedJsonReq req) throws Exception {
 //		return null;
 //	}
-//	
+
 //	/**
 //	 * 裁减用户头像
 //	 */
@@ -262,7 +287,7 @@ public class UserHttpApi {
 //	public JsonResp cutUserImage(AuthedJsonReq req) throws Exception {
 //		return null;
 //	}
-//	
+
 //	/**
 //	 * 获取用户头像数据
 //	 */
