@@ -84,28 +84,6 @@ input[type="tel" i], input[type="url" i], input[type="text" i] {
     padding: 1px 0px;
 }
 
-button, input, select, textarea {
-    outline: 0;
-}
-
-.form-item-valid .i-status {
-    display: block;
-    background-position: 0 -117px;
-}
-
-.form-item .i-status {
-    position: absolute;
-    display: none;
-    width: 16px;
-    height: 16px;
-    top: 20px;
-    right: 20px;
-}
-
-.i-status {
-    background: url(../images/icon.png) no-repeat;
-}
-
 em, i, u {
     font-style: normal;
 }
@@ -149,3 +127,38 @@ em, i, u {
     padding-left: 90px;
     border-left: solid 1px #e6e6e6;
 }
+
+/* icon */
+.input-tip span i {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    vertical-align: text-top;
+    margin-right: 8px;
+}
+
+.form-item .i-ok {
+    position: absolute;
+    display: none;
+    width: 18px;
+    height: 18px;
+    top: 20px;
+    right: 20px;
+}
+
+.i-ok, .i-def, .i-error {
+    background: url(../images/icon.png) no-repeat;
+}
+
+
+.i-ok {
+    display: block;
+    background-position: -61px -33px;
+}
+
+/* 灰色感叹号 */
+.i-def {
+    background-position: -61px -5px;
+}
+
+

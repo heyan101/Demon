@@ -90,10 +90,9 @@ public class UserHttpApi {
      * 		必需：NO
      * </blockquote> 
 	 * @return UserInfo
-	 * @exception ERR_ADD_LOGIN_ID_FAILED
 	 */
 	@ApiGateway.ApiMethod(protocol = JsonProtocol.class)
-	public JsonResp userRegister(AuthedJsonReq req) throws Exception {
+	public JsonResp userRegister(JsonReq req) throws Exception {
 		String name = req.paramGetString("name", false);
 		String email = req.paramGetString("eamil", false);
 		String phone = req.paramGetString("phone", false);
@@ -129,7 +128,6 @@ public class UserHttpApi {
      * 		描述：用户 uid<br/>
      * 		必需：YES
      * </blockquote> 
-     * @exception ERR_USER_NOT_FOUND,ERR_ACL_NOT_GET_USERINFO
 	 */
 	@ApiGateway.ApiMethod(protocol = AuthedJsonProtocol.class)
 	public JsonResp getUserInfo(AuthedJsonReq req) throws Exception {
@@ -162,8 +160,21 @@ public class UserHttpApi {
 	 * @throws Exception
 	 */
 	@ApiGateway.ApiMethod(protocol = JsonProtocol.class)
-	public JsonResp isVaildUserName(AuthedJsonReq req) throws Exception {
+	public JsonResp isVaildUsername(JsonReq req) throws Exception {
+		String userName = req.paramGetString("username", true);
+		if (userName == null || userName.length() < 1) {
+			throw new LogicalException(RetStat.ERR_BAD_PARAMS, "uid == null || uid < 1");
+		}
 		JsonResp resp = new JsonResp(RetStat.OK);
+		
+		boolean isVaild = this.userApi.isVaildUsername(req.env, userName);
+		if (isVaild) {
+			return resp;
+		} else {
+			resp.stat = "ERR_ACCOUNT_EXIST";
+			resp.resultMap.put("errMsg", UserRetStat.getMsgByStat(UserRetStat.ERR_ACCOUNT_EXIST, userName));
+		}
+		
 		return resp;
 	}
 	

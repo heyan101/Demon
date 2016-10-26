@@ -165,4 +165,15 @@ public class UserApi implements IUserApi {
             setUserAttr(env, user.uid, UserConfig.USER_ATTR_STATUS, UserConfig.STATUS_NORMAL);
         }
     }
+
+    /**
+	 * 判断用户名是否有效及是否已被注册
+	 * @param username 已存在用户名或者将要注册用户名
+	 * @return true(用户名未被注册),false(用户名已被注册)
+     * @throws SQLException 
+	 */
+	public boolean isVaildUsername(Env env, String userName) throws SQLException {
+		UserInfo userInfo = this.userModel.findUser(userName, null, null);
+		return userInfo == null ? true : false;
+	}
 }

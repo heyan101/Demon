@@ -12,9 +12,8 @@ import demon.utils.SSHA;
 import demon.utils.XCodeUtil;
 
 public class AuthUtils {
-
-	private AuthUtils() {
-	}
+	
+	private AuthUtils() {}
 	
 	/**
      * 检查登录账号
@@ -43,12 +42,10 @@ public class AuthUtils {
     }
     
     /**
-     * 检查用户密码
+     * 验证用户密码
      * 
-     * @param user
-     *            用户信息
-     * @param password
-     *            密码
+     * @param user 用户信息
+     * @param password 密码
      * @return
      * @throws LogicalException
      * @throws NoSuchAlgorithmException
@@ -58,7 +55,6 @@ public class AuthUtils {
     public static boolean checkPassword(UserInfo user, String password)
             throws LogicalException, NoSuchAlgorithmException,
             UnsupportedEncodingException, ParseException {
-
         if (null == user || password == null) {
             throw new IllegalArgumentException();
         }
@@ -67,8 +63,7 @@ public class AuthUtils {
 
         if (psw == null || psw.length() == 0) {
             throw new LogicalException(AuthRetStat.ERR_USER_INFO_BROKEN,
-                    AuthRetStat.getMsgByStat(AuthRetStat.ERR_USER_INFO_BROKEN,
-                            user.uid));
+                    AuthRetStat.getMsgByStat(AuthRetStat.ERR_USER_INFO_BROKEN, user.uid));
         }
 
         String format = "'{'{0}'}'{1}";
@@ -84,7 +79,6 @@ public class AuthUtils {
                 return true;
             }
         } else if (AuthConfig.ALG_SSHA.equals(algorithm)) {
-
             return SSHA.verifySaltedPassword(password.getBytes(), psw);
         }
 

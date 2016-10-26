@@ -36,3 +36,7 @@ img {
     border: 0;
     vertical-align: middle;
 }
+
+button, input, select, textarea {
+    outline: 0;
+}
