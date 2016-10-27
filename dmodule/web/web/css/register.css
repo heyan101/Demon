@@ -88,7 +88,7 @@ em, i, u {
     font-style: normal;
 }
 
-.form-item .img-code {
+.form-item .image-code {
     position: absolute;
     right: 3px;
     top: 3px;
@@ -149,7 +149,6 @@ em, i, u {
 .i-ok, .i-def, .i-error {
     background: url(../images/icon.png) no-repeat;
 }
-
 
 .i-ok {
     display: block;

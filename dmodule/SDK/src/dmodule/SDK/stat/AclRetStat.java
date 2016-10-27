@@ -2,13 +2,9 @@ package dmodule.SDK.stat;
 
 public class AclRetStat {
 	
-	/**
-     * 没有查看用户信息权限
-     */
+	/** 没有查看用户信息权限 */
     public static final String ERR_ACL_NOT_GET_USERINFO = "ERR_ACL_NOT_GET_USERINFO";
-    /**
-     * 没有删除用户权限
-     */
+    /** 没有删除用户权限 */
     public static final String ERR_ACL_NOT_DELETE_USER = "ERR_ACL_NOT_DELETE_USER";
     
     public static String getMsgByStat(String stat, Object... params) {

@@ -6,93 +6,50 @@ import java.util.Map;
 
 public class UserInfo {
 
-	/**
-	 * 用户 Id
-	 */
+	/** 用户 Id */
 	public Long uid;
-	/**
-	 * 用户名,网页端注册的账号,同时会绑定邮箱
-	 */
+	/** 用户名,网页端注册的账号,同时会绑定邮箱 */
 	public String name;
-	/**
-	 * 手机号
-	 */
+	/** 手机号 */
 	public String phone;
-	/**
-	 * 昵称
-	 */
+	/** 昵称 */
 	public String nick;
-	/**
-	 * 密码
-	 */
+	/** 密码 */
 	public String password;
-	/**
-	 * 邮箱
-	 */
+	/** 邮箱 */
 	public String email;
-	/**
-	 * QQ 号
-	 */
+	/** QQ 号 */
 	public String qq;
-	/**
-	 * 用户状态:1-正常,2-锁定,3-删除,4-未实名
-	 */
+	/** 用户状态:1-正常,2-锁定,3-删除,4-未实名 */
 	public int status;
-	/**
-	 * 用户类型:1-客户,2-超级管理员
-	 */
+	/** 用户类型:1-客户,2-超级管理员 */
 	public int type;
-	/**
-	 * 扩展属性集合
-	 */
+	/** 扩展属性集合 */
 	public Map<String, Object> exattr;
-	/**
-     * 创建时间
-     */
+	/** 创建时间 */
     public Timestamp ctime;
-    /**
-     * 修改时间
-     */
+    /** 修改时间 */
     public Timestamp mtime;
-    /**
-     * 最后一次登录时间
-     */
+    /** 最后一次登录时间 */
     public Timestamp load_time;
-    /**
-	 * 年龄 [1-100]
-	 */
+    /** 年龄 [1-100] */
 	public int age;
-	/**
-	 * 性别:1-男,2-女
-	 */
+	/** 性别:1-男,2-女 */
 	public int sex;
-	/**
-	 * 所在城市
-	 */
+	/** 所在城市 */
     public String city;
-    /**
-     * 邮政编码
-     */
+    /** 邮政编码 */
     public int postcode;
-    /**
-     * 真实姓名
-     */
+    /** 真实姓名 */
     public String true_name;
-    /**
-     * 身份证号
-     */
+    /** 身份证号 */
     public String card_code;
-    /**
-     * 身份证正面照保存路径
-     */
+    /** 身份证正面照保存路径 */
     public String card_positive_img;
-    /**
-     * 身份证背面照保存路径
-     */
+    /** 身份证背面照保存路径 */
     public String card_back_img;
     
-    public UserInfo() {
-    }
+    public UserInfo() {}
 	
 	/**
 	 * 用户基本信息
@@ -168,6 +125,7 @@ public class UserInfo {
 	    }
 	    exattr.put(key, value);
     }
+    
     /**
      * 删除未知属性集合中的某个属性
      */
@@ -177,6 +135,7 @@ public class UserInfo {
         }
         return exattr.remove(key);
     }
+    
     /**
      * 得到未知属性集合中的某个属性
      */
@@ -187,13 +146,15 @@ public class UserInfo {
         return exattr.get(key);
     }
 
+    /**
+     * 获取用户名
+     * @return 格式：昵称(用户名)
+     */
     public String getAccount() {
         String account = this.name;
         if (account == null) {
             account = this.email;
         }
-        
         return String.format("%s(%s)", this.nick, account);
     }
-	
 }
