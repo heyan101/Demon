@@ -1,7 +1,5 @@
 package demon.service.db;
 
-//@javadoc
-
 /**
  * 数据库连接信息
  * @author Demon

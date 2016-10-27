@@ -16,6 +16,12 @@ public class ImageCodeHttpApi {
         this.utilsApi = utilsApi;
     }    
     
+    /**
+     * 
+     * @param req
+     * @return
+     * @throws Exception
+     */
     @ApiGateway.ApiMethod(protocol = JsonProtocol.class, option = JsonProtocol.BIN_OPTION)
     public JsonResp getQRCodeImg(JsonReq req) throws Exception {
         
