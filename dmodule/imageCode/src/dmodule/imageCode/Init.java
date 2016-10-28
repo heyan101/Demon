@@ -8,6 +8,7 @@ public class Init {
 
     public static void init(String moduleDir) throws Exception {
         ImageCodeApi.init();
+        
         SdkCenter.getInst().registHttpApi(MODULE_NAME, new ImageCodeHttpApi(ImageCodeApi.getInst()));
     }
 }

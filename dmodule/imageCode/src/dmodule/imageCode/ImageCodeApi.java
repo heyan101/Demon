@@ -61,7 +61,7 @@ public class ImageCodeApi {
         String host = env.request.getServerName();
         int port = env.request.getServerPort();
         
-        String url = String.format("%s://%s:%s/utils/api/getValidateCodeImg?imageId=%s", schema, host, port, imageId);
+        String url = String.format("%s://%s:%s/%s/api/getValidateCodeImage?imageId=%s", schema, host, port, Init.MODULE_NAME, imageId);
         
         map.put("url", url);
         return map;

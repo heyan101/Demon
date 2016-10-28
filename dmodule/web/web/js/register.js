@@ -1,11 +1,15 @@
-// register.js
+/* register.js */
 $(function() {
-    // 用户名输入框失去焦点，向服务端发送请求判断用户名是否合法
+
+    var imageCodeInfo = '';
+
+    /* 用户名输入框失去焦点，向服务端发送请求判断用户名是否合法 */
     $("#form-account").blur(function() {
         var name = $("#form-account").val();
         name = trim(name);
         console.log(name.length);
         if (name.length < 1) return false;
+
         $.getJSON(
             '/user/api/isVaildUsername',
             {
@@ -31,11 +35,41 @@ $(function() {
 
     $('.field').blur(function(event) {
         $('.input-tip span').empty();
-        // $('.i-def').remove();
     });
 
     /* 工具,以后会抽出去做成一个单独的工具类 */
     function trim(str){ //删除左右两端的空格
 　　     return str.replace(/(^\s*)|(\s*$)/g, "");
-　　 }
+　　}
+
+    /* 获取验证码信息 */
+    function getImageCodeInfo () {
+        var data;
+        $.getJSON(
+            '/imageCode/api/getValidateCodeInfo',
+            function(json) {
+                if (json['stat'] == 'OK') {
+                    data = json;
+                } else {
+                    alert(json['stat']);
+                    return None;
+                }
+        });
+        return data;
+    };
+
+    /* 显示图片验证码 */
+    function showImageCode() {
+        imageCodeInfo = getImageCodeInfo();
+        console.log(imageCodeInfo);
+        $('.image-code').src = imageCodeInfo['url'];
+    };
+
+    /* 页面加载完，首先调用一次showImageCode 显示图片验证码 */
+    showImageCode();
+
+    /* 点击图片验证码，刷新验证码 */
+    $('.image-code').click(function(event) {
+        showImageCode();
+    });
 });
