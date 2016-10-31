@@ -18,5 +18,5 @@ public class Init {
 		InitUser.initUser(env, properties, beans);
 	}
     
-
+	
 }
