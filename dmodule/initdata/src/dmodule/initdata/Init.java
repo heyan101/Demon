@@ -15,7 +15,10 @@ public class Init {
 		Env env = new Env(Init.MODULE_NAME);
 		IBeans beans = (IBeans) SdkCenter.getInst().queryInterface(IBeans.name, "demon1.0InnerKeyP@ssw0rd");
 		
+		// 初始化用户
 		InitUser.initUser(env, properties, beans);
+		// 初始化商品分类
+		InitClassed.initClassed(env, properties, beans, moduleDir);
 	}
     
 	
