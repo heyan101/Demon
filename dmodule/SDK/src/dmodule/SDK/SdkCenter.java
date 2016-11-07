@@ -11,6 +11,7 @@ import dmodule.SDK.event.EventType;
 import dmodule.SDK.event.IListener;
 import dmodule.SDK.inner.IAuthApi;
 import dmodule.SDK.inner.IBeans;
+import dmodule.SDK.inner.IClassedApi;
 import dmodule.SDK.inner.IEventHub;
 import dmodule.SDK.inner.IUserApi;
 import demon.exception.LogicalException;
@@ -133,6 +134,14 @@ class Beans implements IBeans {
     		this.authApi = (IAuthApi) SdkCenter.getInst().queryInterface(IAuthApi.name, SecurityKey.innerKey);
     	}
     	return this.authApi;
+    }
+    
+    private IClassedApi classedApi = null;
+    public IClassedApi getClassedApi() throws LogicalException {
+    	if (null == this.classedApi) {
+    		this.classedApi = (IClassedApi) SdkCenter.getInst().queryInterface(IClassedApi.name, SecurityKey.innerKey);
+    	}
+    	return this.classedApi;
     }
 }
 

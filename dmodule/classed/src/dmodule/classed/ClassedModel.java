@@ -4,8 +4,9 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 import demon.service.db.MySql;
+import dmodule.SDK.inner.IClassedApi.IClassedModel;
 
-public class ClassedModel {
+public class ClassedModel implements IClassedModel{
 
 	private MySql mysql;
 	
@@ -74,4 +75,20 @@ public class ClassedModel {
             }
         }
     }
+
+	@Override
+	public Long updateClassed(String classedName, Long parentId) throws SQLException {
+		if (classedName == null || classedName.length() < 1) {
+			throw new IllegalArgumentException();
+		}
+		Connection conn = this.mysql.getConnection();
+		try {
+			
+		} finally {
+            if (conn != null) {
+                conn.close();
+            }
+        }
+		return null;
+	}
 }
