@@ -27,7 +27,6 @@ public class UserModel implements IUserApi.IUserModel{
 	
 	public UserModel(MySql mysql) throws SQLException {
 		this.mysql = mysql;
-		
 		initTable();
 	}
 	
@@ -228,7 +227,6 @@ public class UserModel implements IUserApi.IUserModel{
             pstmt.setObject(1, value);
             pstmt.setTimestamp(2, new Timestamp(System.currentTimeMillis()));
             pstmt.setLong(3, uid);
-            
             return pstmt.executeUpdate() == 1 ? true : false;
         } finally {
             if (conn != null) {

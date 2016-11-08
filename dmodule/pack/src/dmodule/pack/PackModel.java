@@ -13,8 +13,8 @@ public class PackModel {
     private static final String TABLE_PACK = "pack";
     private static final String TABLE_PACK_CHILD = "pack_child";
 	
-	public PackModel() throws Exception {
-		this.mysql = MySql.getInst(Init.MODULE_NAME);
+	public PackModel(MySql mysql) throws Exception {
+		this.mysql = mysql;
 		initTable();
 	}
 	
@@ -30,9 +30,9 @@ public class PackModel {
 			    + "`type` tinyint(1) NOT NULL DEFAULT '0',"
 			    + "`is_brand` tinyint NOT NULL DEFAULT '0',"
 			    + "`ctime` datetime NOT NULL,"
-			    + "PRIMARY KEY (`pack_id`),"
+			    + "PRIMARY KEY (`pack_id`)"
 			    + ") ENGINE=InnoDB DEFAULT CHARSET=utf8;";
-			conn.createStatement().executeQuery(sqlPack);
+			conn.createStatement().executeUpdate(sqlPack);
 			
 			String sqlPackChild = "CREATE TABLE IF NOT EXISTS `" + TABLE_PACK_CHILD + "` ("
 			    + "`pack_child_id` bigint(20) NOT NULL AUTO_INCREMENT,"
@@ -41,9 +41,9 @@ public class PackModel {
 			    + "`num` int(8) NOT NULL,"
 			    + "`price` decimal(10,4) NOT NULL,"
 			    + "`ctime` datetime NOT NULL,"
-			    + "PRIMARY KEY (`pack_child_id`),"
+			    + "PRIMARY KEY (`pack_child_id`)"
 			    + ") ENGINE=InnoDB DEFAULT CHARSET=utf8;";
-			conn.createStatement().executeQuery(sqlPackChild);
+			conn.createStatement().executeUpdate(sqlPackChild);
         } catch (SQLException e) {
             throw new SQLException("SQL create failed...");
         } finally {
@@ -52,5 +52,4 @@ public class PackModel {
             }
         }
     }
-
 }

@@ -12,8 +12,8 @@ public class BrandModel {
 	// 品牌
     private static final String TABLE_BRAND = "brand";
 	
-	public BrandModel() throws Exception {
-		this.mysql = MySql.getInst(Init.MODULE_NAME);
+	public BrandModel(MySql mysql) throws Exception {
+		this.mysql = mysql;
 		initTable();
 	}
 	
@@ -33,9 +33,9 @@ public class BrandModel {
                 + "`describe` varchar(1024) DEFAULT NULL,"
                 + "`offical_address` varchar(128) DEFAULT NULL,"
                 + "`ctime` datetime NOT NULL,"
-                + "PRIMARY KEY (`brand_id`),"
+                + "PRIMARY KEY (`brand_id`)"
                 + ") ENGINE=InnoDB DEFAULT CHARSET=utf8;";
-            conn.createStatement().executeQuery(sqlBrand);
+            conn.createStatement().executeUpdate(sqlBrand);
         } catch (SQLException e) {
             throw new SQLException("SQL create failed...");
         } finally {

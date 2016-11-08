@@ -1,7 +1,11 @@
 package dmodule.classed;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.List;
 
 import demon.service.db.MySql;
 import dmodule.SDK.inner.IClassedApi.IClassedModel;
@@ -16,8 +20,8 @@ public class ClassedModel implements IClassedModel{
     private static final String TABLE_SKU = "sku";
     private static final String TABLE_SKU_OPTION = "sku_option";
 	
-	public ClassedModel() throws Exception {
-		this.mysql = MySql.getInst(Init.MODULE_NAME);
+	public ClassedModel(MySql mysql) throws Exception {
+		this.mysql = mysql;
 		initTable();
 	}
 	
@@ -32,10 +36,10 @@ public class ClassedModel implements IClassedModel{
                 + "`classed_id` bigint(20) NOT NULL AUTO_INCREMENT,"
                 + "`parent_id` bigint(20) NOT NULL,"
                 + "`name` varchar(32) NOT NULL,"
-                + "`sort` int(3) NOT NULL,"
-                + "PRIMARY KEY (`classed_id`),"
+                + "`sort` int(3) NOT NULL DEFAULT '0',"
+                + "PRIMARY KEY (`classed_id`)"
                 + ") ENGINE=InnoDB DEFAULT CHARSET=utf8;";
-            conn.createStatement().executeQuery(sqlClass);
+            conn.createStatement().executeUpdate(sqlClass);
 
             String sqlSKU = "CREATE TABLE IF NOT EXISTS `" + TABLE_SKU + "` ("
                 + "`sku_id` bigint(20) NOT NULL AUTO_INCREMENT,"
@@ -52,9 +56,9 @@ public class ClassedModel implements IClassedModel{
                 + "`status` tinyint(1) NOT NULL DEFAULT '0',"
                 + "`sort` int(3) NOT NULL DEFAULT '0',"
                 + "`ctime` datetime NOT NULL,"
-                + "PRIMARY KEY (`sku_id`),"
+                + "PRIMARY KEY (`sku_id`)"
                 + ") ENGINE=InnoDB DEFAULT CHARSET=utf8;";
-            conn.createStatement().executeQuery(sqlSKU);
+            conn.createStatement().executeUpdate(sqlSKU);
                 
 			String sqlSkuOption = "CREATE TABLE IF NOT EXISTS `" + TABLE_SKU_OPTION + "` ("
 			    + "`sku_option_id` bigint(20) NOT NULL AUTO_INCREMENT,"
@@ -64,9 +68,9 @@ public class ClassedModel implements IClassedModel{
 			    + "`status` tinyint(1) NOT NULL DEFAULT '0',"
 			    + "`sort` int(3) NOT NULL DEFAULT '0',"
 			    + "`ctime` datetime NOT NULL,"
-			    + "PRIMARY KEY (`sku_option_id`),"
+			    + "PRIMARY KEY (`sku_option_id`)"
 			    + ") ENGINE=InnoDB DEFAULT CHARSET=utf8;";
-			conn.createStatement().executeQuery(sqlSkuOption);
+			conn.createStatement().executeUpdate(sqlSkuOption);
         } catch (SQLException e) {
             throw new SQLException("SQL create failed...");
         } finally {
@@ -77,18 +81,52 @@ public class ClassedModel implements IClassedModel{
     }
 
 	@Override
-	public Long updateClassed(String classedName, Long parentId) throws SQLException {
+	public Long insertClassed(String classedName, Long parentId) throws SQLException {
 		if (classedName == null || classedName.length() < 1) {
 			throw new IllegalArgumentException();
 		}
 		Connection conn = this.mysql.getConnection();
 		try {
-			
+			// TODO 这里希望返回要插入数据的生成的ID，目前还在测试...
+			String sql = "INSERT INTO `" + TABLE_CLASSED + "` (`name`,parent_id) values (?,?)";
+			PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			pstmt.setString(1, classedName);
+			pstmt.setLong(2, parentId);
+			pstmt.executeUpdate();
+			ResultSet result = pstmt.getGeneratedKeys();
+			if (result.next()) {
+				return result.getLong(1);
+			}
+			return 0L;
 		} finally {
             if (conn != null) {
                 conn.close();
             }
         }
-		return null;
+	}
+
+	@Override
+	public void insertClasseds(List<String> classedNames, Long parentId) throws SQLException {
+		if (null == classedNames || classedNames.size() < 1) {
+			throw new IllegalArgumentException();
+		}
+		Connection conn = this.mysql.getConnection();
+		conn.setAutoCommit(false); 
+		try {
+			// TODO 这里希望返回要插入数据的生成的ID，目前还在测试...
+			String sql = "INSERT INTO `" + TABLE_CLASSED + "` (`name`,parent_id) values (?,?)";
+			PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			pstmt.clearBatch();
+			for (String name : classedNames) {
+				pstmt.setString(1, name);
+				pstmt.setLong(2, parentId);
+				pstmt.addBatch();
+			}
+			pstmt.executeBatch();
+		} finally {
+            if (conn != null) {
+                conn.close();
+            }
+        }
 	}
 }

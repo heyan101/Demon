@@ -1,5 +1,6 @@
 package dmodule.goods;
 
+import demon.service.db.MySql;
 
 public class Init {
 	
@@ -8,7 +9,8 @@ public class Init {
 	public static void init(String moduleDir) throws Exception {
 //		XProperties properties = new XProperties(MODULE_NAME, moduleDir);
 //		
-//		GoodsModel model = new GoodsModel();
+		MySql mysql = MySql.getInst(MODULE_NAME);
+		GoodsModel model = new GoodsModel(mysql);
 		
 	}
 

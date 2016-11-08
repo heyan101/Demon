@@ -44,7 +44,6 @@ public class InitUser {
             user.type = (int) attrs.get("type");
             if (null == uid) {
                 user = beans.getUserApi().userRegister(env, user);
-                uid = user.uid;
             } else {
                 Object status = attrs.get("status");
                 if (status != null) {

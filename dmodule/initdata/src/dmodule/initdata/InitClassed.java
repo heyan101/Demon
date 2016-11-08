@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -14,6 +15,7 @@ import java.util.Set;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
+import demon.exception.LogicalException;
 import demon.service.http.Env;
 import demon.utils.XProperties;
 import dmodule.SDK.inner.IBeans;
@@ -26,18 +28,20 @@ import dmodule.SDK.inner.IBeans;
  */
 public class InitClassed {
 	
-	public static void initClassed(Env env, XProperties properties, IBeans beans, String moduleDir) {
+	public static void initClassed(Env env, XProperties properties, IBeans beans, String moduleDir) throws SQLException, LogicalException {
 		String data = readJSONFile(moduleDir, "classed_name.json");
 		JSONObject json = JSONObject.parseObject(data);
 		Set<String> keys = json.keySet();
 		// classed_one:一级分类，classed_two:二级分类
 		for (String classed_one : keys) {
-			Long parentId = beans.getClassedApi().getClassedModel().updateClassed(classed_one);
-			JSONArray name = json.getJSONArray(classed_one);
+			Long parentId = beans.getClassedApi().getClassedModel().insertClassed(classed_one, 0L);
+			JSONArray names = json.getJSONArray(classed_one);
 			List<String> classed_two = new ArrayList<>();
-			for (int i = 0; i < name.size(); ++i) {
-				classed_two.add(name.getString(i));
+			for (int i = 0; i < names.size(); ++i) {
+				beans.getClassedApi().getClassedModel().insertClassed(names.getString(i), parentId);
+//				classed_two.add(names.getString(i));
 			}
+//			beans.getClassedApi().getClassedModel().insertClasseds(classed_two, parentId);
 		}
 	}
 	
@@ -70,7 +74,7 @@ public class InitClassed {
 		return data;
 	}
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws SQLException, LogicalException {
 		initClassed(null, null, null, "H:\\Demon-Goods\\Demon\\dmodule\\initdata");
 	}
 }

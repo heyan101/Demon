@@ -16,8 +16,8 @@ public class GoodsModel {
     
     private static final String TABLE_GOODS_RECYCLE = "goods_recycle";
 
-    public GoodsModel() throws Exception{
-    	this.mysql = MySql.getInst(Init.MODULE_NAME);
+    public GoodsModel(MySql mysql) throws Exception{
+    	this.mysql = mysql;
         initTable();
     }
 
@@ -42,7 +42,7 @@ public class GoodsModel {
 			    + "`mtime` datetime NOT NULL,"
 			    + "PRIMARY KEY (`goods_id`)"
 			    + ") ENGINE=InnoDB DEFAULT CHARSET=utf8;";
-            conn.createStatement().execute(sqlGoods);
+            conn.createStatement().executeUpdate(sqlGoods);
 			
 			String sqlGoodsImage = "CREATE TABLE IF NOT EXISTS `" + TABLE_GOODS_IMAGE + "` ("
 			    + "`goods_id` bigint(20) NOT NULL,"
@@ -51,7 +51,7 @@ public class GoodsModel {
 			    + "`image_is_first` tinyint(1) NOT NULL DEFAULT '0',"
 			    + "`image_ctime` datetime NOT NULL"
 			    + ") ENGINE=InnoDB DEFAULT CHARSET=utf8;";
-			conn.createStatement().execute(sqlGoodsImage);
+			conn.createStatement().executeUpdate(sqlGoodsImage);
 			
 			String sqlGoodsInfo = "CREATE TABLE IF NOT EXISTS `" + TABLE_GOODS_INFO + "` ("
 			    + "`goods_info_id` bigint(20) NOT NULL AUTO_INCREMENT,"
@@ -62,7 +62,7 @@ public class GoodsModel {
 			    + "`goods_sku_id` bigint(20) NOT NULL,"
 			    + "PRIMARY KEY (`goods_info_id`)"
 			    + ") ENGINE=InnoDB DEFAULT CHARSET=utf8;";
-			conn.createStatement().execute(sqlGoodsInfo);
+			conn.createStatement().executeUpdate(sqlGoodsInfo);
 			
 			String sqlGoodsSku = "CREATE TABLE IF NOT EXISTS `" + TABLE_GOODS_SKU + "` ("
 			    + "`goods_sku_id` bigint(20) NOT NULL AUTO_INCREMENT,"
@@ -73,7 +73,7 @@ public class GoodsModel {
 			    + "`sku_ctime` datetime NOT NULL,"
 			    + "PRIMARY KEY (`goods_sku_id`)"
 			    + ") ENGINE=InnoDB DEFAULT CHARSET=utf8;";
-			conn.createStatement().execute(sqlGoodsSku);
+			conn.createStatement().executeUpdate(sqlGoodsSku);
 			
 			String sqlGoodsRecycle = "CREATE TABLE IF NOT EXISTS `" + TABLE_GOODS_RECYCLE + "` ("
 			    + "`goods_id` bigint(20) NOT NULL AUTO_INCREMENT,"
@@ -89,7 +89,7 @@ public class GoodsModel {
 			    + "`mtime` datetime NOT NULL,"
 			    + "PRIMARY KEY (`goods_id`)"
 			    + ") ENGINE=InnoDB DEFAULT CHARSET=utf8;";
-			conn.createStatement().execute(sqlGoodsRecycle);
+			conn.createStatement().executeUpdate(sqlGoodsRecycle);
         } catch (SQLException e) {
             e.printStackTrace();
             throw new SQLException("SQL create failed...");

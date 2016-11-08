@@ -12,13 +12,11 @@ import demon.service.db.MySql;
 public class AuthModel implements IAuthApi.IAuthModel {
 	
 	private MySql mysql;
-	
 	private static final String TABLE_LOGIN_ID = "login_id";
 	private static final String TABLE_TOKEN = "token";
 	
 	public AuthModel(MySql mysql) throws SQLException {
 		this.mysql = mysql;
-		
 		initTable();
 	}
 	
